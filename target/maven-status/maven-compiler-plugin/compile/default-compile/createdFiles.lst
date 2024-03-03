@@ -1,2 +1,1 @@
-br\com\adega\Config\ConnectionPoolConfig.class
-br\com\adega\Servlet\Login.class
+br/com/adega/DAO/UsuarioDAO.class
