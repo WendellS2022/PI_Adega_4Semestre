@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Estilização do Cabeçalho do Site */
+#cabecalho-site {
+    background-color: blue;
+    padding: 20px 0;
+    width: 100%;
+}
+
+#identificacao-site {
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilização do Corpo do Site! */
+body {
+    background-color: white;
+}
+
+/* Estilização do Caixa da Lista de Usuário */
+#area-lista-usuario {
+     margin-top: 100px;
+     display: flex;
+     justify-content: center;
+}
+
+#caixa-lista-usuario {
+    background-color: white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    padding:30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 1200px; /* Largura máxima da caixa */
+    width: 100%; /* Ocupa a largura máxima da caixa*/
+}
+
+#cabecalho-lista-usuario {
+    background-color: blue;
+    color: white;
+    padding: 10px 0;
+}
+
+#info-selecoes {
+    margin-top: 40px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#nome-pesquisa {
+    width: 500px;
+    padding: 3px 0px 0px 5px;
+}
+
+#btn-procurar {
+    color: white;
+    background-color: blue;
+    font-weight: bold;
+    width: 100px;
+    margin-left: 10px;
+    padding: 2px 0px 0px;
+    border: none;
+    border-radius: 5px;
+}
+
+#btn-cadastrar {
+    color: white;
+    background-color: blue;
+    font-weight: bold;
+    width: 100px;
+    margin-left: 200px;
+    padding: 2px 0px 0px;
+    border: none;
+    border-radius: 5px;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-color: white;
+}
+
+#tabela-usuario {
+    margin-top: 20px;
+    width: 100%; /* Ocupa a largura máxima da caixa*/
+}
+
+#cabecalho-tabela-usuario {
+    background-color: blue;
+    color: white;
+}
+
+/* odd -> aplicado a todos os elementos impares*/
+#detalhe-tabela-usuario tr:nth-child(odd) {
+    background-color: rgb(239, 239, 239);
+}
+
+/* even -> aplicado a todos os elementos pares*/
+#detalhe-tabela-usuario tr:nth-child(even) {
+    background-color: rgb(219, 219, 219);
+}
+
+.nome-usuario {
+    text-align: left;
+    width: 40%;
+    padding: 5px 8px;
+}
+
+.email-usuario {
+    text-align: left;
+    width: 26%;
+    padding: 5px 8px;
+}
+
+.grupo-usuario {
+    text-align: left;
+    width: 8%;
+    padding: 5px 8px;
+}
+
+.situacao-usuario {
+    width: 8%;
+}
+
+.acao-usuario {
+    width: 18%;
+}
+
+.alterar-dados-usuario {
+    font-weight: bold;
+}
+
+.alterar-situacao-usuario {
+    font-weight: bold;
+}

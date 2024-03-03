@@ -1,0 +1,136 @@
+@charset "UTF-8";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Estilização do Cabeçalho do Site */
+#cabecalho-site {
+    background-color: blue;
+    padding: 20px 0;
+    width: 100%;
+}
+
+#identificacao-site {
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilização do Corpo do Site! */
+body {
+    background-color: white;
+}
+
+/* Estilização do Caixa da Lista de Usuário */
+#area-usuario {
+     margin-top: 100px;
+     display: flex;
+     justify-content: center;
+}
+
+#caixa-usuario {
+    background-color: white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    padding:30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 500px; /* Largura máxima da caixa */
+    width: 100%; /* Ocupa a largura máxima da caixa*/
+}
+
+#cabecalho-usuario {
+    background-color: blue;
+    color: white;
+    padding: 10px 0;
+}
+
+#info-usuarios {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+#info-titulos {
+    width: 168px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.titulo-campo {
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+#info-campos {
+    width: 375px;
+    display: flex;
+    flex-direction: column;
+}
+
+#email-usuario {
+    width: 250px;
+    height: 20px;
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+#nome-usuario {
+    height: 20px;
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+#cpf-usuario {
+    width: 80px;
+    height: 20px;
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+#grupo-usuario {
+    width: 90px;
+    height: 20px;
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+.senha-usuario {
+    width: 100px;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+#botoes {
+    margin-top: 30px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#btn-confirmar{
+    color: white;
+    background-color: blue;
+    font-weight: bold;
+    width: 100px;
+    padding: 2px 0px 0px;
+    border: none;
+    border-radius: 5px;
+}
+
+#btn-cancelar{
+    color: white;
+    background-color: blue;
+    font-weight: bold;
+    width: 100px;
+    padding: 2px 0px 0px;
+    border: none;
+    border-radius: 5px;
+}
