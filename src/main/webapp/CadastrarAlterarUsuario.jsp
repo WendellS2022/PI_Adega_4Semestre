@@ -20,31 +20,32 @@
         <header id="cabecalho-usuario">
             <h2>Cadastrar ou Alterar Usuário</h2>
         </header>
-        <form id="info-usuarios" action="/cadastrar_usuario" method="post">
-            <div id="info-titulos">
-                <label for="email" class="titulo-campo">E-mail:</label>
-                <label for="nome" class="titulo-campo">Nome:</label>
-                <label for="cpf" class="titulo-campo">CPF:</label>
-                <label for="grupo" class="titulo-campo">Grupo:</label>
-                <label for="senha" class="titulo-campo">Senha:</label>
-                <label for="senha-2" class="titulo-campo">Confirmar Senha:</label>
-            </div>
-            <div id="info-campos">
-                <input type="email" th:field="*{email}" id="email-usuario" placeholder="E-mail do usuário" required>
-                <input type="text" th:field="*{nome}" id="nome-usuario" placeholder="Nome do usuário" required>
-                <input type="text" th:field="*{cpf}" id="cpf-usuario" placeholder="CPF do usuário" required>
-                <select th:field="*{grupo}" id="grupo-usuario" required>
-                    <option>Administrador</option>
-                    <option>Estoquista</option>
-                </select>
-                <input type="password" th:field="*{senha}" class="senha-usuario" required>
-                <input type="password" th:field="*{senha-2}" class="senha-usuario" required>
-            </div>
+       <form action="/cadastrar" method="POST">
+           <div id="info-titulos">
+               <label for="email" class="titulo-campo">E-mail:</label>
+               <label for="nome" class="titulo-campo">Nome:</label>
+               <label for="cpf" class="titulo-campo">CPF:</label>
+               <label for="grupo" class="titulo-campo">Grupo:</label>
+               <label for="senha" class="titulo-campo">Senha:</label>
+               <label for="senha-2" class="titulo-campo">Confirmar Senha:</label>
+           </div>
+           <div id="info-campos">
+               <input type="email" name="email" id="email-usuario" placeholder="E-mail do usuário" required>
+               <input type="text" name="nome" id="nome-usuario" placeholder="Nome do usuário" required>
+               <input type="text" name="cpf" id="cpf-usuario" placeholder="CPF do usuário" required>
+               <select name="grupo" id="grupo-usuario" required>
+                   <option value="1">Administrador</option>
+                   <option value="2">Estoquista</option>
+               </select>
+               <input type="password" name="senha" class="senha-usuario" required>
+               <input type="password" name="senha-2" class="senha-usuario" required>
+           </div>
             <div id="botoes">
-                <button type="submit" id="btn-confirmar">Confirmar</button>
-                <button id="btn-cancelar">Cancelar</button>
+
+                  <button type="submit" id="btn-confirmar">Confirmar</button>
+                </form>
+                <button type="reset" id="btn-cancelar">Cancelar</button>
             </div>
-        </form>
     </section>
 </article>
 </body>
