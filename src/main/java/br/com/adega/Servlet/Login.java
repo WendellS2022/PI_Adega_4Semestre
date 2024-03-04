@@ -28,7 +28,7 @@ public class Login extends HttpServlet {
 
         usuario = UsuarioDAO.verificarCredenciais(email, senha);
 
-        if (usuario != null) {
+        if (usuario.getUserId() != 0) {
             if(usuario.getGrupo() == 1){
 
             }
