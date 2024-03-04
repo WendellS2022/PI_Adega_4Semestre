@@ -11,9 +11,15 @@
 </head>
 <body>
 <div class="options-container">
+    <%
+        int grupo = ((Integer) request.getAttribute("grupo")).intValue();
+        if (grupo == 1) {
+    %>
     <button onclick="window.location.href='/listar_usuarios'" id="lista">Listar Usuários</button>
     <button onclick="window.location.href='/cadastrar_usuario'" id="produto">Listar Produtos</button>
+    <% } else if (grupo == 2) { %>
     <button onclick="window.location.href='/estoque'" id="estoque">Estoque</button>
+    <% } %>
 </div>
 </body>
 </html>

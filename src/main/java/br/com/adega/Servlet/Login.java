@@ -21,7 +21,7 @@ public class Login extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User usuario = new User();
+        User usuario;
 
         String email = request.getParameter("email");
         String senha = request.getParameter("password");
@@ -29,10 +29,12 @@ public class Login extends HttpServlet {
         usuario = UsuarioDAO.verificarCredenciais(email, senha);
 
         if (usuario.getUserId() != 0) {
-            if(usuario.getGrupo() == 1){
+            // Adiciona o atributo "grupo" à requisição para usar na página Card.jsp
+            request.setAttribute("grupo", usuario.getGrupo());
 
-            }
-            response.sendRedirect("Card.jsp");
+            // Redireciona para a página Card.jsp
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Card.jsp");
+            dispatcher.forward(request, response);
         } else {
             // Adiciona mensagem de credenciais inválidas à requisição
             request.setAttribute("mensagem", "Credenciais inválidas");
