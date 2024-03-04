@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{CadastrarAlterarUsuario.css}">
+    <link rel="stylesheet" href="CadastrarAlterarUsuario.css">
 
     <title>Cadastrar ou Alterar Usuário</title>
 </head>
@@ -20,7 +20,7 @@
         <header id="cabecalho-usuario">
             <h2>Cadastrar ou Alterar Usuário</h2>
         </header>
-        <form id="info-usuarios">
+        <form id="info-usuarios" action="/cadastrar_usuario" method="post">
             <div id="info-titulos">
                 <label for="email" class="titulo-campo">E-mail:</label>
                 <label for="nome" class="titulo-campo">Nome:</label>
@@ -40,11 +40,11 @@
                 <input type="password" th:field="*{senha}" class="senha-usuario" required>
                 <input type="password" th:field="*{senha-2}" class="senha-usuario" required>
             </div>
+            <div id="botoes">
+                <button type="submit" id="btn-confirmar">Confirmar</button>
+                <button id="btn-cancelar">Cancelar</button>
+            </div>
         </form>
-        <div id="botoes">
-            <button id="btn-confirmar">Confirmar</button>
-            <button id="btn-cancelar">Cancelar</button>
-        </div>
     </section>
 </article>
 </body>

@@ -29,11 +29,11 @@ public class Login extends HttpServlet {
         usuario = UsuarioDAO.verificarCredenciais(email, senha);
 
         if (usuario.getUserId() != 0) {
-            // Adiciona o atributo "grupo" à requisição para usar na página Card.jsp
+            // Adiciona o atributo "grupo" à requisição para usar na página Home.jsp
             request.setAttribute("grupo", usuario.getGrupo());
 
-            // Redireciona para a página Card.jsp
-            RequestDispatcher dispatcher = request.getRequestDispatcher("Card.jsp");
+            // Redireciona para a página Home.jsp
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Home.jsp");
             dispatcher.forward(request, response);
         } else {
             // Adiciona mensagem de credenciais inválidas à requisição

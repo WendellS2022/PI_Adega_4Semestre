@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/card")
-public class Card extends HttpServlet {
+public class Home extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Card.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Home.jsp");
         dispatcher.forward(request, response);
     }
 }

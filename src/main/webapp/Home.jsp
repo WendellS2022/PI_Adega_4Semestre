@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Card.css">
+    <link rel="stylesheet" href="Home.css">
     <title>Document</title>
-</head>
-<body>
 </head>
 <body>
 <div class="options-container">
@@ -15,14 +13,18 @@
         int grupo = ((Integer) request.getAttribute("grupo")).intValue();
         if (grupo == 1) {
     %>
-    <button onclick="window.location.href='/listar_usuarios'" id="lista">Listar Usuários</button>
-    <button onclick="window.location.href='/cadastrar_usuario'" id="produto">Listar Produtos</button>
+    <form action="/listar" method="get">
+        <button type="submit" id="lista">Listar Usuários</button>
+    </form>
+    <form action="/cadastrar_usuario" method="get">
+        <button type="submit" id="produto">Cadastrar Usuário</button>
+    </form>
     <% } else if (grupo == 2) { %>
-    <button onclick="window.location.href='/estoque'" id="estoque">Estoque</button>
+    <form action="/estoque" method="get">
+        <button type="submit" id="estoque">Estoque</button>
+    </form>
     <% } %>
 </div>
 
-</body>
-</html>
 </body>
 </html>

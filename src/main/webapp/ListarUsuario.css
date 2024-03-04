@@ -7,7 +7,7 @@
 
 /* Estilização do Cabeçalho do Site */
 #cabecalho-site {
-    background-color: blue;
+    background-color: #0070c9;
     padding: 20px 0;
     width: 100%;
 }
@@ -41,7 +41,7 @@ body {
 }
 
 #cabecalho-lista-usuario {
-    background-color: blue;
+    background-color: #0070c9;
     color: white;
     padding: 10px 0;
 }
@@ -61,7 +61,7 @@ body {
 
 #btn-procurar {
     color: white;
-    background-color: blue;
+    background-color: #0070c9;
     font-weight: bold;
     width: 100px;
     margin-left: 10px;
@@ -72,7 +72,7 @@ body {
 
 #btn-cadastrar {
     color: white;
-    background-color: blue;
+    background-color: #0070c9;
     font-weight: bold;
     width: 100px;
     margin-left: 200px;
@@ -92,7 +92,7 @@ table, th, td {
 }
 
 #cabecalho-tabela-usuario {
-    background-color: blue;
+    background-color: #0070c9;
     color: white;
 }
 

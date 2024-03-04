@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <head>
-    <meta charset="UTF-8">
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="ListarUsuario.css">
 
@@ -20,12 +19,14 @@
             <header id="cabecalho-lista-usuario">
                 <h2>Lista de Usuário</h2>
             </header>
-            <form id="info-usuarios">
-                <div id="info-selecoes">
-                    <input type="text" placeholder="Nome do Usuário" id="nome-pesquisa">
-                    <button id="btn-procurar">Procurar</button>
-                    <button id="btn-cadastrar">Novo Usuário</button>
-                </div>
+
+               <div id="info-selecoes">
+                   <input type="text" placeholder="Nome do Usuário" id="nome-pesquisa">
+                   <button id="btn-procurar">Procurar</button>
+                   <form action="/cadastrar" method="Get">
+                       <button type="submit" id="btn-cadastrar">Novo Usuário</button>
+                   </form>
+               </div>
                 <table id="tabela-usuario">
                     <thead id="cabecalho-tabela-usuario">
                     <tr>
@@ -51,7 +52,7 @@
                     </tr>
                     </tbody>
                 </table>
-            </form>
+
         </section>
     </article>
 </body>
