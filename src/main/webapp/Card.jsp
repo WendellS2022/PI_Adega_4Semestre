@@ -21,6 +21,7 @@
     <button onclick="window.location.href='/estoque'" id="estoque">Estoque</button>
     <% } %>
 </div>
+
 </body>
 </html>
 </body>
