@@ -27,9 +27,10 @@ public class Login extends HttpServlet {
 
         if(resultado){
 
-            System.out.println("Deu bom");
+            response.sendRedirect("Card.jsp");
+        } else {
+            System.out.println("Deu ruim");
         }
-        System.out.println("Deu ruim");
 
     }
 

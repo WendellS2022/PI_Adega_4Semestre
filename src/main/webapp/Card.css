@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.options-container {
+    text-align: center;
+
+}
+
+.options-container button {
+    padding: 10px 20px;
+    width: 300px;
+    margin: 10px;
+    font-size: 16px;
+    background-color: #0070c9;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+}
+
+.options-container button:hover {
+    background-color: #005fba;
+}

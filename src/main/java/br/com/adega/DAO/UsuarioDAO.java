@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 public class UsuarioDAO {
 
     public static boolean verificarCredenciais(String email, String senha) {
-        String SQL = "SELECT COUNT(*) FROM Users WHERE Email = ? AND Senha = ?";
+
+        String SQL = "SELECT COUNT(*) FROM USERS WHERE EMAIL = ? AND SENHA = ?";
+
 
         try {
             Connection connection = ConnectionPoolConfig.getConnection();

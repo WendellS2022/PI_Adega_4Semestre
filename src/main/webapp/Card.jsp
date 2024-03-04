@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Card.css">
+    <title>Document</title>
+</head>
+<body>
+</head>
+<body>
+<div class="options-container">
+    <button onclick="window.location.href='/listar_usuarios'">Listar Usuários</button>
+    <button onclick="window.location.href='/cadastrar_usuario'">Listar Produtos</button>
+    <button onclick="window.location.href='/estoque'">Estoque</button>
+</div>
+</body>
+</html>
+</body>
+</html>
