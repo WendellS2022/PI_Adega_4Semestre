@@ -1,6 +1,8 @@
 package br.com.adega.DAO;
 
 import br.com.adega.Config.ConnectionPoolConfig;
+import br.com.adega.Model.User;
+import br.com.adega.Model.User; // Importe a classe Usuario
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,10 +10,10 @@ import java.sql.ResultSet;
 
 public class UsuarioDAO {
 
-    public static boolean verificarCredenciais(String email, String senha) {
+    public static User verificarCredenciais(String email, String senha) {
+        User usuario = new User();
 
-        String SQL = "SELECT COUNT(*) FROM USERS WHERE EMAIL = ? AND SENHA = ?";
-
+        String SQL = "SELECT * FROM USERS WHERE EMAIL = ? AND SENHA = ?";
 
         try {
             Connection connection = ConnectionPoolConfig.getConnection();
@@ -21,19 +23,24 @@ public class UsuarioDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            // Se houver pelo menos uma linha no ResultSet, as credenciais são válidas
             if (resultSet.next()) {
-                int count = resultSet.getInt(1);
-                return count > 0;
+                // Crie um objeto Usuario com os dados do ResultSet
+
+                usuario.setUserId(resultSet.getInt("UsersId"));
+                usuario.setNome(resultSet.getString("Nome"));
+                usuario.setEmail(resultSet.getString("Email"));
+                usuario.setSenha(resultSet.getString("Senha"));
+                usuario.setCPF(resultSet.getString("CPF"));
+                usuario.setSituacao(resultSet.getBoolean("Situacao"));
+                usuario.setGrupo(resultSet.getInt("Grupo"));
             }
 
             connection.close();
         } catch (Exception e) {
             e.printStackTrace();
-
         }
 
-        return false;
+        return usuario; // Retorne o objeto Usuario
     }
-
 }
-

@@ -13,6 +13,13 @@
     <input type="password" name="password" placeholder="SENHA" required><br> <!-- Alterado para name="password" -->
     <button type="submit" class="btn">Entrar</button>
     <button type="reset" class="btn">Cancelar</button>
+
+    <!-- Bloco para exibir mensagem de credenciais inválidas -->
+    <% String mensagem = (String) request.getAttribute("mensagem");
+       if (mensagem != null) { %>
+          <p><%= mensagem %></p>
+    <% } %>
+    <!-- Fim do bloco de mensagem -->
 </form>
 
 </body>
