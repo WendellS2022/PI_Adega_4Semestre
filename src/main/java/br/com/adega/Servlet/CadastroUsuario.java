@@ -1,5 +1,6 @@
 package br.com.adega.Servlet;
 
+import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.User;
 
 import java.io.IOException;
@@ -26,10 +27,12 @@ public class CadastroUsuario extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        String email = request.getParameter("email");
-        String nome = request.getParameter("nome");
-        String cpf = request.getParameter("cpf");
-        int grupo = Integer.parseInt(request.getParameter("grupo"));
+        User usuario = new User();
+
+        usuario.setEmail(request.getParameter("email"));
+        usuario.setNome(request.getParameter("nome"));
+        usuario.setCPF(request.getParameter("cpf"));
+        usuario.setGrupo(Integer.parseInt(request.getParameter("grupo")));
         String senha = request.getParameter("senha");
         String senhaConfirmacao = request.getParameter("senha-2");
 
@@ -37,7 +40,14 @@ public class CadastroUsuario extends HttpServlet {
             request.setAttribute("mensagem", "Senhas não correspondem");
         } else {
             String senhaCriptografada = encoder.encode(senha);
+            usuario.setSituacao(true);
+            usuario.setSenha(senhaCriptografada);
+
+            boolean result = UsuarioDAO.cadastrarUsuario(usuario);
+
+
             System.out.println(senhaCriptografada);
+
 
             String senhaDesincrptogrfada = String.valueOf(encoder.matches(senha, senhaCriptografada));
             System.out.println(senhaDesincrptogrfada);

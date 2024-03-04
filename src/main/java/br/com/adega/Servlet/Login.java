@@ -2,6 +2,7 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
 
@@ -22,13 +23,17 @@ public class Login extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User usuario;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         String email = request.getParameter("email");
         String senha = request.getParameter("password");
 
-        usuario = UsuarioDAO.verificarCredenciais(email, senha);
 
-        if (usuario.getUserId() != 0) {
+        usuario = UsuarioDAO.verificarCredenciais(email);
+
+        boolean senhaDesincrptografada = Boolean.parseBoolean(String.valueOf(encoder.matches(senha, usuario.getSenha())));
+
+        if (usuario.getUserId() != 0 && senhaDesincrptografada == true){
             // Adiciona o atributo "grupo" à requisição para usar na página Home.jsp
             request.setAttribute("grupo", usuario.getGrupo());
 
@@ -41,6 +46,7 @@ public class Login extends HttpServlet {
             // Limpa os campos para uma nova inserção
             request.setAttribute("email", "");
             request.setAttribute("password", "");
+
             // Redireciona de volta para a página de login
             RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
             dispatcher.forward(request, response);
