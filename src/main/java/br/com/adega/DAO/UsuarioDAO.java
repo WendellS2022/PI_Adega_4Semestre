@@ -74,7 +74,7 @@ public class UsuarioDAO {
     }
 
     public static List<User> ObterUsuarios() {
-        List<User> usuarios = new ArrayList();
+        List<User> usuarios = new ArrayList<>();
         String SQL = "SELECT * FROM USERS";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
@@ -82,16 +82,12 @@ public class UsuarioDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
+                User usuario = new User();
 
-                int userId = resultSet.getInt("usersId");
-                String nome = resultSet.getString("nome");
-                String email = resultSet.getString("email");
-                String senha = resultSet.getString("senha");
-                String CPF = resultSet.getString("CPF");
-                boolean situacao = resultSet.getBoolean("situacao");
-                int grupo = resultSet.getInt("grupo");
+                usuario.setNome(resultSet.getString("Nome"));
+                usuario.setEmail(resultSet.getString("Email"));
+                usuario.setGrupo(resultSet.getInt("Grupo"));
 
-                User usuario = new User(userId, nome, email, senha, CPF, situacao, grupo);
                 usuarios.add(usuario);
             }
         } catch (Exception e) {

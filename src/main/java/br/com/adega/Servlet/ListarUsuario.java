@@ -17,10 +17,10 @@ import java.util.List;
 @WebServlet("/listar")
 public class ListarUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List <User> usuario = UsuarioDAO.ObterUsuarios();
+        List <User> usuarios = UsuarioDAO.ObterUsuarios();
 
 
-        request.setAttribute("usuario", usuario);
+        request.setAttribute("usuario", usuarios);
 
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarUsuario.jsp");
