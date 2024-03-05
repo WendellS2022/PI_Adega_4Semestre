@@ -38,22 +38,16 @@ public class CadastrarUsuario extends HttpServlet {
 
         if (!senha.equals(senhaConfirmacao)) {
             request.setAttribute("mensagem", "Senhas não correspondem");
-        } else {
-            String senhaCriptografada = encoder.encode(senha);
-            usuario.setSituacao(true);
-            usuario.setSenha(senhaCriptografada);
+        } else  {
+            boolean isUser = UsuarioDAO.verificarUsuario(usuario.getEmail());
+            if (!isUser) {
+                String senhaCriptografada = encoder.encode(senha);
+                usuario.setSituacao(true);
+                usuario.setSenha(senhaCriptografada);
 
-            boolean result = UsuarioDAO.cadastrarUsuario(usuario);
-
-
-            System.out.println(senhaCriptografada);
-
-
-            String senhaDesincrptogrfada = String.valueOf(encoder.matches(senha, senhaCriptografada));
-            System.out.println(senhaDesincrptogrfada);
+                boolean sucesso = UsuarioDAO.cadastrarUsuario(usuario);
+            }
         }
-
-
     }
 }
 

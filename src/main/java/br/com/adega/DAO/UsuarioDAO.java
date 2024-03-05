@@ -55,7 +55,7 @@ public class UsuarioDAO {
             preparedStatement.setString(2, usuario.getNome());
             preparedStatement.setString(3, usuario.getCPF());
             preparedStatement.setInt(4, usuario.getGrupo());
-            preparedStatement.setBoolean(5, true); // Definindo situacao como verdadeiro (true)
+            preparedStatement.setBoolean(5, usuario.isSituacao()); // Definindo situacao como verdadeiro (true)
             preparedStatement.setString(6, usuario.getSenha());
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -96,4 +96,31 @@ public class UsuarioDAO {
 
         return usuarios;
     }
+
+    public static boolean verificarUsuario(String email) {
+        boolean usuarioExiste = false;
+
+        String SQL = "SELECT COUNT(*) FROM USERS WHERE EMAIL = ?";
+
+        try {
+            Connection connection = ConnectionPoolConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setString(1, email);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Se houver pelo menos uma linha no ResultSet, significa que o usuário existe
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                usuarioExiste = count > 0;
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return usuarioExiste;
+    }
+
 }
