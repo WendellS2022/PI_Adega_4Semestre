@@ -55,7 +55,7 @@ public class UsuarioDAO {
             preparedStatement.setString(2, usuario.getNome());
             preparedStatement.setString(3, usuario.getCPF());
             preparedStatement.setInt(4, usuario.getGrupo());
-            preparedStatement.setBoolean(5, true); // Definindo situacao como verdadeiro (true)
+            preparedStatement.setBoolean(5, usuario.isSituacao()); // Definindo situacao como verdadeiro (true)
             preparedStatement.setString(6, usuario.getSenha());
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -74,7 +74,7 @@ public class UsuarioDAO {
     }
 
     public static List<User> ObterUsuarios() {
-        List<User> usuarios = new ArrayList();
+        List<User> usuarios = new ArrayList<>();
         String SQL = "SELECT * FROM USERS";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
@@ -82,16 +82,12 @@ public class UsuarioDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
+                User usuario = new User();
 
-                int userId = resultSet.getInt("usersId");
-                String nome = resultSet.getString("nome");
-                String email = resultSet.getString("email");
-                String senha = resultSet.getString("senha");
-                String CPF = resultSet.getString("CPF");
-                boolean situacao = resultSet.getBoolean("situacao");
-                int grupo = resultSet.getInt("grupo");
+                usuario.setNome(resultSet.getString("Nome"));
+                usuario.setEmail(resultSet.getString("Email"));
+                usuario.setGrupo(resultSet.getInt("Grupo"));
 
-                User usuario = new User(userId, nome, email, senha, CPF, situacao, grupo);
                 usuarios.add(usuario);
             }
         } catch (Exception e) {
@@ -100,4 +96,31 @@ public class UsuarioDAO {
 
         return usuarios;
     }
+
+    public static boolean verificarUsuario(String email) {
+        boolean usuarioExiste = false;
+
+        String SQL = "SELECT COUNT(*) FROM USERS WHERE EMAIL = ?";
+
+        try {
+            Connection connection = ConnectionPoolConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setString(1, email);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Se houver pelo menos uma linha no ResultSet, significa que o usuário existe
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                usuarioExiste = count > 0;
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return usuarioExiste;
+    }
+
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="br.com.adega.Model.User" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,23 +32,17 @@
             <table>
                 <thead>
                     <tr>
-                        <th>User ID</th>
                         <th>Nome</th>
                         <th>Email</th>
-                        <th>CPF</th>
-                        <th>Situação</th>
                         <th>Grupo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${usuarios}" var="usuarios">
+                  <c:forEach var="itens" items="${usuario}" >
                         <tr>
-                            <td>${usuarios.getUserId}</td>
-                            <td>${usuarios.Nome}</td>
-                            <td>${usuarios.Email}</td>
-                            <td>${usuarios.CPF}</td>
-                            <td>${usuarios.Situacao}</td>
-                            <td>${usuarios.Grupo}</td>
+                            <td>${itens.nome}</td>
+                            <td>${itens.email}</td>
+                            <td>${itens.grupo}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
