@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @WebServlet("/cadastrar")
-public class CadastroUsuario extends HttpServlet {
+public class CadastrarUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User usuario = new User();
 

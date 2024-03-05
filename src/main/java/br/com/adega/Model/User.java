@@ -13,14 +13,15 @@ public class User {
     }
 
     public User(int userId, String nome, String email, String senha, String CPF, boolean situacao, int grupo) {
-        UserId = userId;
-        Nome = nome;
-        Email = email;
-        Senha = senha;
+        this.UserId = userId;
+        this.Nome = nome;
+        this.Email = email;
+        this.Senha = senha;
         this.CPF = CPF;
-        Situacao = situacao;
-        Grupo = grupo;
+        this.Situacao = situacao;
+        this.Grupo = grupo;
     }
+
 
     public int getUserId() {
         return UserId;
@@ -77,4 +78,7 @@ public class User {
     public void setGrupo(int grupo) {
         Grupo = grupo;
     }
+
+
+
 }

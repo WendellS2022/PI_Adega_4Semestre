@@ -1,11 +1,9 @@
 package br.com.adega.Servlet;
 
-import br.com.adega.DAO.UsuarioDAO;
+import br.com.adega.Autenticacao.AutenticacaoService;
 import br.com.adega.Model.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import br.com.adega.Autenticacao.AutenticacaoService;
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,22 +20,17 @@ public class Login extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User usuario;
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        User autenticacao;
+        AutenticacaoService autenticacaoService = new AutenticacaoService();
 
         String email = request.getParameter("email");
         String senha = request.getParameter("password");
 
+        autenticacao = autenticacaoService.autenticarUsuario(email, senha);
 
-        usuario = UsuarioDAO.verificarCredenciais(email);
+        if (autenticacao != null) {
+            request.setAttribute("grupo", autenticacao.getGrupo());
 
-        boolean senhaDesincrptografada = Boolean.parseBoolean(String.valueOf(encoder.matches(senha, usuario.getSenha())));
-
-        if (usuario.getUserId() != 0 && senhaDesincrptografada == true){
-            // Adiciona o atributo "grupo" à requisição para usar na página Home.jsp
-            request.setAttribute("grupo", usuario.getGrupo());
-
-            // Redireciona para a página Home.jsp
             RequestDispatcher dispatcher = request.getRequestDispatcher("Home.jsp");
             dispatcher.forward(request, response);
         } else {

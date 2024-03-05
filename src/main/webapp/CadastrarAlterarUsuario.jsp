@@ -12,7 +12,7 @@
 <!-- Aqui fica o cabeçalho! -->
 <body>
 <header id="cabecalho-site">
-    <h1 id="identificacao-site">e-Commerce - Vamos Bebemorar!!!</h1>
+    <h1 id="identificacao-site">e-Commerce e-Devs</h1>
 </header>
 
 <article id="area-usuario">

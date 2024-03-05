@@ -1,7 +1,9 @@
 C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\UsuarioDAO.java
 C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Login.java
 C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Config\ConnectionPoolConfig.java
+C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\CadastrarUsuario.java
 C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ListarUsuario.java
-C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\CadastroUsuario.java
+C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AlterarUsuario.java
+C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Autenticacao\AutenticacaoService.java
 C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Home.java
 C:\SenacDisciplinas\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\User.java

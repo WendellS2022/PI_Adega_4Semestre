@@ -6,6 +6,8 @@ import br.com.adega.Model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDAO {
 
@@ -69,5 +71,33 @@ public class UsuarioDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static List<User> ObterUsuarios() {
+        List<User> usuarios = new ArrayList();
+        String SQL = "SELECT * FROM USERS";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+
+                int userId = resultSet.getInt("usersId");
+                String nome = resultSet.getString("nome");
+                String email = resultSet.getString("email");
+                String senha = resultSet.getString("senha");
+                String CPF = resultSet.getString("CPF");
+                boolean situacao = resultSet.getBoolean("situacao");
+                int grupo = resultSet.getInt("grupo");
+
+                User usuario = new User(userId, nome, email, senha, CPF, situacao, grupo);
+                usuarios.add(usuario);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return usuarios;
     }
 }
