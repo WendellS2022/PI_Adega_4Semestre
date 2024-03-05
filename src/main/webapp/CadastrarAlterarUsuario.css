@@ -25,7 +25,7 @@ input[type="text"],
 input[type="password"],
 select {
     width: calc(100% - 10px);
-    padding: 10px;
+    padding: 11px;
     margin: 5px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
