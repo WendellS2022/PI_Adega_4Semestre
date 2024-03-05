@@ -1,136 +1,72 @@
-@charset "UTF-8";
-
-*{
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Estilização do Cabeçalho do Site */
-#cabecalho-site {
-    background-color: blue;
-    padding: 20px 0;
+form {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-top:7%;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"],
+select {
+    width: calc(100% - 10px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+select {
     width: 100%;
 }
 
-#identificacao-site {
+button[type="submit"],
+button[type="reset"] {
+    width: 48%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4CAF50;
     color: white;
-    display: flex;
-    justify-content: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-/* Estilização do Corpo do Site! */
-body {
-    background-color: white;
+button[type="reset"] {
+    background-color: #f44336;
 }
 
-/* Estilização do Caixa da Lista de Usuário */
-#area-usuario {
-     margin-top: 100px;
-     display: flex;
-     justify-content: center;
-}
-
-#caixa-usuario {
-    background-color: white;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-    padding:30px;
-    border-radius: 10px;
-    text-align: center;
-    max-width: 500px; /* Largura máxima da caixa */
-    width: 100%; /* Ocupa a largura máxima da caixa*/
-}
-
-#cabecalho-usuario {
-    background-color: blue;
-    color: white;
-    padding: 10px 0;
-}
-
-#info-usuarios {
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
+button[type="submit"]:hover,
+button[type="reset"]:hover {
+    background-color: #45a049;
 }
 
 #info-titulos {
-    width: 168px;
-    font-weight: bold;
     display: flex;
-    flex-direction: column;
-    text-align: right;
-    margin-right: 5px;
+    flex-wrap: wrap;
 }
 
 .titulo-campo {
-    height: 20px;
-    margin-bottom: 10px;
-}
-
-#info-campos {
-    width: 375px;
-    display: flex;
-    flex-direction: column;
-}
-
-#email-usuario {
-    width: 250px;
-    height: 20px;
-    font-size: 10px;
-    margin-bottom: 10px;
-}
-
-#nome-usuario {
-    height: 20px;
-    font-size: 10px;
-    margin-bottom: 10px;
-}
-
-#cpf-usuario {
-    width: 80px;
-    height: 20px;
-    font-size: 10px;
-    margin-bottom: 10px;
-}
-
-#grupo-usuario {
-    width: 90px;
-    height: 20px;
-    font-size: 10px;
-    margin-bottom: 10px;
-}
-
-.senha-usuario {
     width: 100px;
-    height: 20px;
+    margin-right: 20px;
     margin-bottom: 10px;
-}
+    color: #666;
 
-#botoes {
-    margin-top: 30px;
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-#btn-confirmar{
-    color: white;
-    background-color: blue;
-    font-weight: bold;
-    width: 100px;
-    padding: 2px 0px 0px;
-    border: none;
-    border-radius: 5px;
-}
-
-#btn-cancelar{
-    color: white;
-    background-color: blue;
-    font-weight: bold;
-    width: 100px;
-    padding: 2px 0px 0px;
-    border: none;
-    border-radius: 5px;
 }

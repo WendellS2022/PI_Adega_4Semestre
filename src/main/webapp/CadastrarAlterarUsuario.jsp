@@ -10,43 +10,31 @@
 </head>
 
 <!-- Aqui fica o cabeçalho! -->
+
 <body>
-<header id="cabecalho-site">
-    <h1 id="identificacao-site">e-Commerce e-Devs</h1>
-</header>
+    <form action="/cadastrar" method="POST">
 
-<article id="area-usuario">
-    <section id="caixa-usuario">
-        <header id="cabecalho-usuario">
-            <h2>Cadastrar ou Alterar Usuário</h2>
-        </header>
-       <form action="/cadastrar" method="POST">
-           <div id="info-titulos">
-               <label for="email" class="titulo-campo">E-mail:</label>
-               <label for="nome" class="titulo-campo">Nome:</label>
-               <label for="cpf" class="titulo-campo">CPF:</label>
-               <label for="grupo" class="titulo-campo">Grupo:</label>
-               <label for="senha" class="titulo-campo">Senha:</label>
-               <label for="senha-2" class="titulo-campo">Confirmar Senha:</label>
-           </div>
-           <div id="info-campos">
-               <input type="email" name="email" id="email-usuario" placeholder="E-mail do usuário" required>
-               <input type="text" name="nome" id="nome-usuario" placeholder="Nome do usuário" required>
-               <input type="text" name="cpf" id="cpf-usuario" placeholder="CPF do usuário" required>
-               <select name="grupo" id="grupo-usuario" required>
-                   <option value="1">Administrador</option>
-                   <option value="2">Estoquista</option>
-               </select>
-               <input type="password" name="senha" class="senha-usuario" required>
-               <input type="password" name="senha-2" class="senha-usuario" required>
-           </div>
-            <div id="botoes">
-
-                  <button type="submit" id="btn-confirmar">Confirmar</button>
-                </form>
-                <button type="reset" id="btn-cancelar">Cancelar</button>
-            </div>
-    </section>
-</article>
+        <div id="info-campos">
+        <label for="email" class="titulo-campo">E-mail:</label>
+            <input type="email" name="email" id="email-usuario" placeholder="E-mail do usuário" required>
+        <label for="email" class="titulo-campo">Nome:</label>
+            <input type="text" name="nome" id="nome-usuario" placeholder="Nome do usuário" required>
+        <label for="email" class="titulo-campo">CPF:</label>
+            <input type="text" name="cpf" id="cpf-usuario" placeholder="CPF do usuário" required>
+        <label for="email" class="titulo-campo">Grupo:</label>
+            <select name="grupo" id="grupo-usuario" required>
+                <option value="1">Administrador</option>
+                <option value="2">Estoquista</option>
+            </select>
+            <label for="email" class="titulo-campo">Senha:</label>
+            <input type="password" name="senha" class="senha-usuario" required>
+            <label for="email" class="titulo-campo">Confirme a senha:</label>
+            <input type="password" name="senha-2" class="senha-usuario" required>
+        </div>
+        <div id="botoes">
+            <button type="submit" id="btn-confirmar">Confirmar</button>
+            <button type="reset" id="btn-cancelar">Cancelar</button>
+        </div>
+    </form>
 </body>
 </html>
