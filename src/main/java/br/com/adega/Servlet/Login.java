@@ -52,7 +52,7 @@ public class Login extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
             // Se as credenciais estiverem incorretas, redireciona de volta para a página de login
-            response.sendRedirect("login.jsp?erro=1");
+            response.sendRedirect("TelaLogin.jsp");
         }
     }
 }

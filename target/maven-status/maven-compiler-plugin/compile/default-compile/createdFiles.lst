@@ -1,5 +1,4 @@
 br\com\adega\Servlet\ListarUsuario.class
-br\com\adega\Servlet\AlterarUsuario$AlterarUsuarioServlet.class
 br\com\adega\Servlet\Home.class
 br\com\adega\Servlet\Login.class
 br\com\adega\Servlet\AlterarUsuario.class

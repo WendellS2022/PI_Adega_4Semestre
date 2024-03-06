@@ -29,22 +29,34 @@
                 </form>
             </div>
 
-            <table>
-                <thead>
+            <table id="tabela-usuario">
+                <thead id="cabecalho-tabela-usuario">
                     <tr>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Grupo</th>
+                        <th class="nome-usuario">Nome</th>
+                        <th class="email-usuario">E-mail</th>
+                        <th class="grupo-usuario">Grupo</th>
+                        <th class="situacao-usuario">Status</th>
+                        <th class="acao-usuario" colspan="2">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
-                  <c:forEach var="itens" items="${usuario}" >
-                        <tr>
-                            <td>${itens.nome}</td>
-                            <td>${itens.email}</td>
-                            <td>${itens.grupo}</td>
-                        </tr>
-                    </c:forEach>
+                   <c:forEach var="itens" items="${usuarios}">
+                       <tr>
+                           <td value=${itens.userId}>${itens.nome}</td>
+                           <td>${itens.email}</td>
+                           <td>${itens.grupo == 1 ? 'Administrador' : itens.grupo == 2 ? 'Estoquista' : ''}</td>
+                           <td>${itens.situacao ? 'Ativo' : 'Inativo'}</td>
+                          <td class="alterar-dados-usuario">
+                              <form action="/alterarUsuario" method="post">
+                                  <input type="hidden" name="userId" value="${itens.userId}">
+                                  <button type="submit">Alterar</button>
+                              </form>
+                          </td>
+                           <td class="alterar-situacao-usuario">
+                               <a href="yyyyyyyyyyyyyyyyyyyyy">${itens.situacao ? 'Inativar' : 'Ativar'}</a>
+                           </td>
+                       </tr>
+                   </c:forEach>
                 </tbody>
             </table>
         </section>

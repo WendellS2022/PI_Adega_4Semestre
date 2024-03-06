@@ -84,9 +84,11 @@ public class UsuarioDAO {
             while (resultSet.next()) {
                 User usuario = new User();
 
+                usuario.setUserId(resultSet.getInt("usersId"));
                 usuario.setNome(resultSet.getString("Nome"));
                 usuario.setEmail(resultSet.getString("Email"));
                 usuario.setGrupo(resultSet.getInt("Grupo"));
+                usuario.setSituacao(resultSet.getBoolean("situacao"));
 
                 usuarios.add(usuario);
             }
@@ -122,5 +124,33 @@ public class UsuarioDAO {
 
         return usuarioExiste;
     }
+
+    public static User ObterUsuarioPorId(int userId) {
+        User usuario = new User();
+        String SQL = "SELECT * FROM USERS WHERE USERSID = ?";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setInt(1, userId); // Define o parâmetro do ID do usuário
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    usuario.setUserId(resultSet.getInt("usersId"));
+                    usuario.setNome(resultSet.getString("Nome"));
+                    usuario.setEmail(resultSet.getString("email"));
+                    usuario.setCPF(resultSet.getString("CPF"));
+                    usuario.setSenha(resultSet.getString("senha"));
+                    usuario.setGrupo(resultSet.getInt("grupo"));
+                    usuario.setSituacao(resultSet.getBoolean("situacao"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return usuario;
+    }
+
 
 }
