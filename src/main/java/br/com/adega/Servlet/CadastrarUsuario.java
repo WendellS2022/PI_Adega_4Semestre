@@ -29,6 +29,7 @@ public class CadastrarUsuario extends HttpServlet {
 
         User usuario = new User();
 
+
         usuario.setEmail(request.getParameter("email"));
         usuario.setNome(request.getParameter("nome"));
         usuario.setCPF(request.getParameter("cpf"));
@@ -38,14 +39,27 @@ public class CadastrarUsuario extends HttpServlet {
 
         if (!senha.equals(senhaConfirmacao)) {
             request.setAttribute("mensagem", "Senhas não correspondem");
-        } else  {
+        } else {
             boolean isUser = UsuarioDAO.verificarUsuario(usuario.getEmail());
+            String senhaCriptografada = encoder.encode(senha);
             if (!isUser) {
-                String senhaCriptografada = encoder.encode(senha);
                 usuario.setSituacao(true);
                 usuario.setSenha(senhaCriptografada);
 
-                boolean sucesso = UsuarioDAO.cadastrarUsuario(usuario);
+                boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
+                request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                usuario.setSituacao(true);
+                usuario.setSenha(senhaCriptografada);
+
+                boolean updateUser = UsuarioDAO.AlterarUsuario(usuario);
+                request.setAttribute("mensagem", "Usuário alterado com sucesso!");
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
+                dispatcher.forward(request, response);
             }
         }
     }

@@ -45,7 +45,7 @@ public class UsuarioDAO {
         return usuario; // Retorne o objeto Usuario
     }
 
-    public static boolean cadastrarUsuario(User usuario) {
+    public static boolean CadastrarUsuario(User usuario) {
         String SQL = "INSERT INTO USERS (email, nome, cpf, grupo, situacao, senha) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
@@ -152,5 +152,37 @@ public class UsuarioDAO {
         return usuario;
     }
 
+    public static boolean AlterarUsuario(User usuario) {
+        boolean sucesso = false;
 
+        String SQL = "UPDATE USERS SET NOME = ?, SENHA = ?, CPF = ?, SITUACAO = ?, GRUPO = ? WHERE EMAIL = ?";
+
+        try {
+            Connection connection = ConnectionPoolConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+
+            // Preenche os parâmetros da query com os valores do objeto User
+            preparedStatement.setString(1, usuario.getNome());
+            preparedStatement.setString(2, usuario.getSenha());
+            preparedStatement.setString(3, usuario.getCPF());
+            preparedStatement.setBoolean(4, usuario.isSituacao());
+            preparedStatement.setInt(5, usuario.getGrupo());
+            preparedStatement.setString(6, usuario.getEmail());
+
+            int linhasAfetadas = preparedStatement.executeUpdate();
+
+            // Verifica se o update foi bem-sucedido
+            if (linhasAfetadas > 0) {
+                sucesso = true;
+            }
+
+            // Fecha a conexão
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sucesso;
+    }
 }
