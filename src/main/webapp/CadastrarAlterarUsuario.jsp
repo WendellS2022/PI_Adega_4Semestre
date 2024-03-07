@@ -12,23 +12,21 @@
     <form action="/cadastrar" method="POST">
         <div id="info-campos">
             <label for="email" class="titulo-campo">E-mail:</label>
-            <input type="email" name="email" id="email-usuario" placeholder="E-mail do usuário" required
-                value="${user != null ? user.email : ''}" ${user != null ? 'readonly' : ''}> <!-- Verifica se há um objeto User presente e preenche o campo de email -->
+            <input type="email" name="email" id="email-usuario" placeholder="E-mail do usuário" required>
             <label for="email" class="titulo-campo">Nome:</label>
-            <input type="text" name="nome" id="nome-usuario" placeholder="Nome do usuário" required
-                value="${user != null ? user.nome : ''}"> <!-- Verifica se há um objeto User presente e preenche o campo de nome -->
+            <input type="text" name="nome" id="nome-usuario" placeholder="Nome do usuário" required>
             <label for="email" class="titulo-campo">CPF:</label>
-            <input type="text" name="cpf" id="cpf-usuario" placeholder="CPF do usuário" required
-                value="${user != null ? user.CPF : ''}"> <!-- Verifica se há um objeto User presente e preenche o campo de CPF -->
+            <input type="text" name="cpf" id="cpf-usuario" placeholder="CPF do usuário" required>
             <label for="email" class="titulo-campo">Grupo:</label>
             <select name="grupo" id="grupo-usuario" required>
-                <option value="1" ${user != null && user.grupo == 1 ? 'selected' : ''}>Administrador</option> <!-- Verifica se há um objeto User presente e seleciona o grupo Administrador se corresponder -->
-                <option value="2" ${user != null && user.grupo == 2 ? 'selected' : ''}>Estoquista</option> <!-- Verifica se há um objeto User presente e seleciona o grupo Estoquista se corresponder -->
+                <option value="1">Administrador</option>
+                <option value="2">Estoquista</option>
             </select>
-            <label for="email" class="titulo-campo">Senha:</label>
-            <input type="password" name="senha" class="senha-usuario" required>
-            <label for="email" class="titulo-campo">Confirme a senha:</label>
-            <input type="password" name="senha-2" class="senha-usuario" required>
+            <label for="senha" class="titulo-campo">Senha:</label>
+            <input type="password" name="senha" id="senha-usuario" class="senha-usuario" required>
+            <label for="senha-2" class="titulo-campo">Confirme a senha:</label>
+            <input type="password" name="senha-2" id="senha-usuario-confirmacao" class="senha-usuario" required>
+            <div id="mensagem-erro-senha" style="color: red;"></div>
         </div>
         <div id="botoes">
             <button type="submit" id="btn-confirmar">Confirmar</button>
@@ -36,4 +34,6 @@
         </div>
     </form>
 </body>
+<script src="ValidaCPF.js" type="text/javascript"></script>
+<script src="ValidaSenha.js" type="text/javascript"></script>
 </html>

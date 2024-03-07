@@ -38,7 +38,8 @@ public class Login extends HttpServlet {
             // Verifica se o email já está associado a uma sessão ativa
             if (emailToSessionMap.containsKey(email)) {
                 // Se sim, impede o novo login e redireciona para a página de erro
-                response.sendRedirect("login.jsp?erro=2");
+                response.sendRedirect("TelaLogin.jsp?mensagem=Você já está logado. Por favor, faça logout antes de tentar novamente.");
+
                 return; // Encerra o método
             }
 
@@ -51,8 +52,9 @@ public class Login extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("Home.jsp");
             dispatcher.forward(request, response);
         } else {
-            // Se as credenciais estiverem incorretas, redireciona de volta para a página de login
-            response.sendRedirect("TelaLogin.jsp");
+            // Se as credenciais estiverem incorretas, redireciona de volta para a página de login com mensagem de erro
+            response.sendRedirect("TelaLogin.jsp?mensagem=Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
         }
     }
 }
+

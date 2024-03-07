@@ -14,12 +14,10 @@
     <button type="submit" class="btn">Entrar</button>
     <button type="reset" class="btn">Cancelar</button>
 
-    <!-- Bloco para exibir mensagem de credenciais inválidas -->
-    <% String mensagem = (String) request.getAttribute("mensagem");
-       if (mensagem != null) { %>
-          <p><%= mensagem %></p>
-    <% } %>
-    <!-- Fim do bloco de mensagem -->
+    <% String mensagem = request.getParameter("mensagem");
+           if (mensagem != null) { %>
+              <p><%= mensagem %></p>
+        <% } %>
 </form>
 
 </body>
