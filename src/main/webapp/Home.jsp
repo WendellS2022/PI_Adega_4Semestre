@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Home.css">
-    <title>Document</title>
+    <title>Home</title>
 </head>
+<header id="cabecalho-site">
+    <h1 id="identificacao-site">${usuarioLogado}</h1>
+</header>
 <body>
+
 <div class="options-container">
     <%
         int grupo = ((Integer) request.getAttribute("grupo")).intValue();

@@ -46,6 +46,10 @@ public class UsuarioDAO {
     }
 
     public static boolean CadastrarUsuario(User usuario) {
+        if (verificarEmailExistente(usuario.getEmail())) {
+            return false;
+        }
+
         String SQL = "INSERT INTO USERS (email, nome, cpf, grupo, situacao, senha) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
@@ -73,6 +77,25 @@ public class UsuarioDAO {
         }
     }
 
+    private static boolean verificarEmailExistente(String email) {
+        String SQL = "SELECT COUNT(*) FROM USERS WHERE email = ?";
+
+        try {
+            Connection connection = ConnectionPoolConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0; // Retorna true se o email já existir no banco de dados
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static List<User> ObterUsuarios() {
         List<User> usuarios = new ArrayList<>();
         String SQL = "SELECT * FROM USERS";
@@ -97,32 +120,6 @@ public class UsuarioDAO {
         }
 
         return usuarios;
-    }
-
-    public static boolean verificarUsuario(String email) {
-        boolean usuarioExiste = false;
-
-        String SQL = "SELECT COUNT(*) FROM USERS WHERE EMAIL = ?";
-
-        try {
-            Connection connection = ConnectionPoolConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setString(1, email);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            // Se houver pelo menos uma linha no ResultSet, significa que o usuário existe
-            if (resultSet.next()) {
-                int count = resultSet.getInt(1);
-                usuarioExiste = count > 0;
-            }
-
-            connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return usuarioExiste;
     }
 
     public static User ObterUsuarioPorId(int userId) {
@@ -184,5 +181,73 @@ public class UsuarioDAO {
         }
 
         return sucesso;
+    }
+
+    public static List<User> ObterUsuarioPorNome(String nome) {
+        List<User> usuarios = new ArrayList<>();
+
+        String SQL = "SELECT * FROM USERS WHERE NOME LIKE ? ";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setString(1, "%" + nome + "%");
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    User usuario = new User();
+                    usuario.setUserId(resultSet.getInt("usersId"));
+                    usuario.setNome(resultSet.getString("Nome"));
+                    usuario.setEmail(resultSet.getString("email"));
+                    usuario.setCPF(resultSet.getString("CPF"));
+                    usuario.setGrupo(resultSet.getInt("grupo"));
+                    usuario.setSituacao(resultSet.getBoolean("situacao"));
+
+                    usuarios.add(usuario);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return usuarios;
+    }
+
+
+    public static boolean AtualizarStatus(String userId) {
+
+        User usuario = ObterUsuarioPorId(Integer.parseInt(userId));
+
+
+        String SQL = "UPDATE USERS SET SITUACAO = ? WHERE USERSID = ?";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            // Inverta o status do usuário
+            boolean novoStatus = !usuario.isSituacao();
+
+            // Defina os parâmetros da consulta SQL
+            preparedStatement.setBoolean(1, novoStatus);
+            preparedStatement.setInt(2, usuario.getUserId());
+
+            // Execute a atualização do status
+            int linhasAfetadas = preparedStatement.executeUpdate();
+
+            // Verifique se a atualização foi bem-sucedida
+            if (linhasAfetadas > 0) {
+                // Atualize o objeto de usuário com o novo status
+                usuario.setSituacao(novoStatus);
+                return usuario.isSituacao();
+            } else {
+                // Se nenhuma linha foi afetada, retorne null ou lance uma exceção, conforme necessário
+                return false;
+            }
+
+        } catch (Exception e) {
+            // Lide com exceções de SQL
+            e.printStackTrace();
+            return false;
+        }
     }
 }

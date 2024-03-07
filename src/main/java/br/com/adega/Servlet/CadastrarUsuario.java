@@ -32,7 +32,8 @@ public class CadastrarUsuario extends HttpServlet {
 
         usuario.setEmail(request.getParameter("email"));
         usuario.setNome(request.getParameter("nome"));
-        usuario.setCPF(request.getParameter("cpf"));
+        String cpf = request.getParameter("cpf");
+        usuario.setCPF(limparCPF(cpf));
         usuario.setGrupo(Integer.parseInt(request.getParameter("grupo")));
         String senha = request.getParameter("senha");
         String senhaConfirmacao = request.getParameter("senha-2");
@@ -40,14 +41,20 @@ public class CadastrarUsuario extends HttpServlet {
         if (!senha.equals(senhaConfirmacao)) {
             request.setAttribute("mensagem", "Senhas não correspondem");
         } else {
-            boolean isUser = UsuarioDAO.verificarUsuario(usuario.getEmail());
             String senhaCriptografada = encoder.encode(senha);
-            if (!isUser) {
+//            boolean isUser = UsuarioDAO.verificarUsuario(usuario.getEmail());
+            String alteracao = (String) request.getParameter("userId");
+            if (alteracao.isEmpty()) {
+//            if (!isUser) {
                 usuario.setSituacao(true);
                 usuario.setSenha(senhaCriptografada);
 
                 boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
-                request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
+                if (sucesso) {
+                    request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
+                } else {
+                    request.setAttribute("mensagem", "Usuário já cadastrado!");
+                }
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
                 dispatcher.forward(request, response);
@@ -56,12 +63,23 @@ public class CadastrarUsuario extends HttpServlet {
                 usuario.setSenha(senhaCriptografada);
 
                 boolean updateUser = UsuarioDAO.AlterarUsuario(usuario);
-                request.setAttribute("mensagem", "Usuário alterado com sucesso!");
+                if (updateUser) {
+                    request.setAttribute("mensagem", "Usuário alterado com sucesso!");
+                } else {
+                    request.setAttribute("mensagem", "Falha ao alterar usuário!");
+                }
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
                 dispatcher.forward(request, response);
+
             }
+
         }
     }
-}
 
+    public String limparCPF(String cpf) {
+        // Remove todos os caracteres que não são números
+        cpf = cpf.replaceAll("[^0-9]", "");
+        return cpf;
+    }
+}

@@ -4,14 +4,30 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
 }
 
-.options-container {
-    text-align: center;
+#cabecalho-site {
+    background-color: #0070c9;
+    padding: 20px 0;
+    width: 100%;
+    position: fixed;
+    top: 0;
+}
 
+#identificacao-site {
+    color: white;
+    text-align: center;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Isso fará com que o contêiner ocupe toda a altura da tela */
 }
 
 .options-container button {
