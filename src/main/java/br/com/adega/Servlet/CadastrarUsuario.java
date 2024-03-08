@@ -32,9 +32,14 @@ public class CadastrarUsuario extends HttpServlet {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User usuario = new User();
 
+
         boolean senhasCorrespondem;
+        String userIdParam = request.getParameter("userId");
         do {
-            usuario.setUserId(Integer.parseInt(request.getParameter("userId")));
+            if (!userIdParam.isBlank()) {
+                usuario.setUserId(Integer.parseInt(userIdParam));
+            }
+
             usuario.setEmail(request.getParameter("email"));
             usuario.setNome(request.getParameter("nome"));
             String cpf = request.getParameter("cpf");
@@ -71,8 +76,7 @@ public class CadastrarUsuario extends HttpServlet {
             }
         } while (!senhasCorrespondem);
 
-        String alteracao = request.getParameter("userId");
-        if (alteracao.isEmpty()) {
+        if (userIdParam.isBlank()) {
             usuario.setSituacao(true);
             boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
             if (sucesso) {
