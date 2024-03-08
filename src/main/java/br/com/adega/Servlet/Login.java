@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
 
         autenticacao = autenticacaoService.autenticarUsuario(email, senha);
 
-        if (autenticacao != null) {
+        if (autenticacao.getUserId() > 0) {
             // Verifica se o email já está associado a uma sessão ativa
             if (emailToSessionMap.containsKey(email)) {
                 // Se sim, impede o novo login e redireciona para a página de erro

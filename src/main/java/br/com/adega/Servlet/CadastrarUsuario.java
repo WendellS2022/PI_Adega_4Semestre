@@ -28,12 +28,12 @@ public class CadastrarUsuario extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String isSession = (String) session.getAttribute("usuarioLogado");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User usuario = new User();
 
+        String isSession = (String) session.getAttribute("usuarioLogado");
+        boolean senhasCorrespondem = false;
 
-        boolean senhasCorrespondem;
         String userIdParam = request.getParameter("userId");
         do {
             if (!userIdParam.isBlank()) {
@@ -76,26 +76,37 @@ public class CadastrarUsuario extends HttpServlet {
             }
         } while (!senhasCorrespondem);
 
-        if (userIdParam.isBlank()) {
-            usuario.setSituacao(true);
-            boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
-            if (sucesso) {
-                request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
+        //if (isSession != null) {
+            if (userIdParam.isBlank()) {
+                usuario.setSituacao(true);
+                boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
+                if (sucesso) {
+                    request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
+                } else {
+                    request.setAttribute("mensagem", "Usuário já cadastrado!");
+                }
             } else {
-                request.setAttribute("mensagem", "Usuário já cadastrado!");
+                usuario.setSituacao(true);
+                boolean updateUser = UsuarioDAO.AlterarUsuario(usuario);
+                if (updateUser) {
+                    request.setAttribute("mensagem", "Usuário alterado com sucesso!");
+                } else {
+                    request.setAttribute("mensagem", "Falha ao alterar usuário!");
+                }
             }
-        } else {
-            usuario.setSituacao(true);
-            boolean updateUser = UsuarioDAO.AlterarUsuario(usuario);
-            if (updateUser) {
-                request.setAttribute("mensagem", "Usuário alterado com sucesso!");
-            } else {
-                request.setAttribute("mensagem", "Falha ao alterar usuário!");
-            }
-        }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
-        dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
+            dispatcher.forward(request, response);
+        //}
+//        else {
+//            request.setAttribute("user", usuario);
+//
+//            request.setAttribute("mensagem", "Favor efetuar Login!");
+//
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
+//            dispatcher.forward(request, response);
+//        }
     }
+
 
     public String limparCPF(String cpf) {
         cpf = cpf.replaceAll("[^0-9]", "");

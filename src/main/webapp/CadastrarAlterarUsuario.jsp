@@ -44,9 +44,9 @@
             }
             %>
         </div>
-        <div id="botoes">
           <button type="submit" id="btn-confirmar">Confirmar</button>
         </form>
+        <div id="botoes">
              <form action="/listar" method="GET">
                 <button type="submit" id="btn-cancelar">Cancelar</button>
              </form>
