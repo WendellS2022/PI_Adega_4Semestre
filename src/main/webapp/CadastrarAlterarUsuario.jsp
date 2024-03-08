@@ -25,10 +25,11 @@
                 value="${user != null ? user.CPF : ''}"> <!-- Verifica se há um objeto User presente e preenche o campo de CPF -->
             <label for="email" class="titulo-campo">Grupo:</label>
            <!-- Verifica se o campo "isSession" tem valor -->
-      <select name="grupo" id="grupo-usuario" ${not empty isSession ? 'disabled' : ''}>
-          <option value="1" ${user != null && user.grupo == 1 ? 'selected' : ''}>Administrador</option>
-          <option value="2" ${user != null && user.grupo == 2 ? 'selected' : ''}>Estoquista</option>
-      </select>
+     <select name="grupo" id="grupo-usuario" ${not empty isSession ? 'disabled' : ''}>
+         <option value="1" ${user != null && user.grupo == 1 ? 'selected' : ''}>Administrador</option>
+         <option value="2" ${user != null && user.grupo == 2 ? 'selected' : ''}>Estoquista</option>
+     </select>
+
             <label for="senha" class="titulo-campo">Senha:</label>
             <input type="password" name="senha" id="senha-usuario" class="senha-usuario" required>
             <label for="senha-2" class="titulo-campo">Confirme a senha:</label>
@@ -38,12 +39,7 @@
             String mensagem = (String) request.getAttribute("mensagem");
             if (mensagem != null) {
             %>
-                <p><%= mensagem %></p>
-                <script>
-                    setTimeout(function() {
-                        window.location.href = "/listar";
-                    }, 3000); // Redireciona após 3 segundos (3000 milissegundos)
-                </script>
+               <p><%= mensagem %></p>
             <%
             }
             %>
@@ -64,4 +60,16 @@
 </body>
 <script src="ValidaCPF.js" type="text/javascript"></script>
 <script src="ValidaSenha.js" type="text/javascript"></script>
+<script>
+    var selectedIndex = document.getElementById('grupo-usuario').selectedIndex;
+
+    // Impede que o valor seja alterado se o campo estiver desabilitado
+    document.getElementById('grupo-usuario').addEventListener('change', function() {
+        if (this.disabled) {
+            this.selectedIndex = selectedIndex;
+        } else {
+            selectedIndex = this.selectedIndex;
+        }
+    });
+</script>
 </html>

@@ -18,33 +18,34 @@ public class AlterarUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String isSession = (String) session.getAttribute("usuarioLogado");
-        String userIdParam = request.getParameter("userId");
+        int userIdParam = Integer.parseInt(request.getParameter("userId"));
 
-        if (userIdParam != null && !userIdParam.isEmpty()) {
-            // Ação de alterar usuário
-            int userId = Integer.parseInt(userIdParam);
-            User user = UsuarioDAO.ObterUsuarioPorId(userId);
 
-            if(isSession.equals(user.getEmail())) {
-                request.setAttribute("isSession", isSession);
-            }
-            // Define os atributos do usuário como atributos da requisição para serem acessíveis no JSP
+        User user = UsuarioDAO.ObterUsuarioPorId(userIdParam);
+
+        if (isSession.equals(user.getEmail())) {
+            request.setAttribute("isSession", isSession);
+
             request.setAttribute("user", user);
 
             request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp").forward(request, response);
         } else {
-            // Ação de cadastrar novo usuário
+            request.setAttribute("user", user);
+
             request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp").forward(request, response);
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String isSession = (String) session.getAttribute("usuarioLogado");
         String userId = request.getParameter("userId");
 
         boolean isSucess = UsuarioDAO.AtualizarStatus(userId);
 
         List<User> usuarios = UsuarioDAO.ObterUsuarios();
 
+        request.setAttribute("isSession", isSession);
         request.setAttribute("usuarios", usuarios);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarUsuario.jsp");

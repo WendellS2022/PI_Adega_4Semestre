@@ -15,6 +15,7 @@
 </header>
 
 <body>
+<input type="hidden" name="isSession" value="${isSession}">
     <article id="area-lista-usuario">
         <section id="caixa-lista-usuario">
             <div id="cabecalho-lista-usuario">
@@ -41,23 +42,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                   <c:forEach var="itens" items="${usuarios}">
-                       <tr>
-                           <td value=${itens.userId}>${itens.nome}</td>
-                           <td>${itens.email}</td>
-                           <td>${itens.grupo == 1 ? 'Administrador' : itens.grupo == 2 ? 'Estoquista' : ''}</td>
-                           <td>${itens.situacao ? 'Ativo' : 'Inativo'}</td>
-                          <td class="alterar-dados-usuario">
-                              <form action="/alterarUsuario" method="GET">
-                                  <input type="hidden" name="userId" value="${itens.userId}">
-                                  <button type="submit">Alterar</button>
-                              </form>
+                <c:forEach var="itens" items="${usuarios}">
+                    <tr>
+                        <td value="${itens.userId}">${itens.nome}</td>
+                        <td>${itens.email}</td>
+                        <td>${itens.grupo == 1 ? 'Administrador' : itens.grupo == 2 ? 'Estoquista' : ''}</td>
+                        <td>${itens.situacao ? 'Ativo' : 'Inativo'}</td>
+                        <td class="alterar-dados-usuario">
+                            <a href="/alterarUsuario?userId=${itens.userId}">Alterar</a>
+                        </td>
+                        <td class="alterar-situacao-usuario">
+                            <c:choose>
+                                <c:when test="${isSession == itens.email}">
+                                     <a href="#" onclick="return false;">${itens.situacao ? 'Inativar' : 'Ativar'}</a>
+                                 </c:when>
+                                <c:when test="${isSession && itens.grupo == 1}">
+                                    <!-- Remova esta linha -->
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="#" onclick="confirmarAlteracao(${itens.userId})">${itens.situacao ? 'Inativar' : 'Ativar'}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
                           </td>
-                           <<td class="alterar-situacao-usuario">
-                                <a href="#" onclick="confirmarAlteracao(${itens.userId})">${itens.situacao ? 'Inativar' : 'Ativar'}</a>
-                            </td>
-                       </tr>
-                   </c:forEach>
+                      </tr>
                 </tbody>
             </table>
         </section>
@@ -89,7 +99,7 @@
 
               setTimeout(function() {
                                       window.location.href = "/listar";
-                                  }, 1000); // Redireciona após 1 segundos (1000 milissegundos)
+              }, 1000); // Redireciona após 1 segundos (1000 milissegundos)
           }
       }
 

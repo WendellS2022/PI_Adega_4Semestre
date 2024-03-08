@@ -4,12 +4,14 @@ import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.User;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -25,60 +27,73 @@ public class CadastrarUsuario extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String isSession = (String) session.getAttribute("usuarioLogado");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
         User usuario = new User();
 
+        boolean senhasCorrespondem;
+        do {
+            usuario.setUserId(Integer.parseInt(request.getParameter("userId")));
+            usuario.setEmail(request.getParameter("email"));
+            usuario.setNome(request.getParameter("nome"));
+            String cpf = request.getParameter("cpf");
+            usuario.setCPF(limparCPF(cpf));
 
-        usuario.setEmail(request.getParameter("email"));
-        usuario.setNome(request.getParameter("nome"));
-        String cpf = request.getParameter("cpf");
-        usuario.setCPF(limparCPF(cpf));
-        usuario.setGrupo(Integer.parseInt(request.getParameter("grupo")));
-        String senha = request.getParameter("senha");
-        String senhaConfirmacao = request.getParameter("senha-2");
-
-        if (!senha.equals(senhaConfirmacao)) {
-            request.setAttribute("mensagem", "Senhas não correspondem");
-        } else {
-            String senhaCriptografada = encoder.encode(senha);
-//            boolean isUser = UsuarioDAO.verificarUsuario(usuario.getEmail());
-            String alteracao = (String) request.getParameter("userId");
-            if (alteracao.isEmpty()) {
-//            if (!isUser) {
-                usuario.setSituacao(true);
-                usuario.setSenha(senhaCriptografada);
-
-                boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
-                if (sucesso) {
-                    request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
-                } else {
-                    request.setAttribute("mensagem", "Usuário já cadastrado!");
-                }
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
-                dispatcher.forward(request, response);
-            } else {
-                usuario.setSituacao(true);
-                usuario.setSenha(senhaCriptografada);
-
-                boolean updateUser = UsuarioDAO.AlterarUsuario(usuario);
-                if (updateUser) {
-                    request.setAttribute("mensagem", "Usuário alterado com sucesso!");
-                } else {
-                    request.setAttribute("mensagem", "Falha ao alterar usuário!");
-                }
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
-                dispatcher.forward(request, response);
-
+            try {
+                int grupo = Integer.parseInt(request.getParameter("grupo"));
+                if (grupo != 0)
+                    usuario.setGrupo(grupo);
+            } catch (NumberFormatException e) {
+                int grupoBanco = UsuarioDAO.ObterGrupo(usuario.getEmail());
+                usuario.setGrupo(grupoBanco);
             }
 
+            String senha = request.getParameter("senha");
+            String senhaConfirmacao = request.getParameter("senha-2");
+
+            if (!senha.equals(senhaConfirmacao)) {
+                request.setAttribute("mensagem", "Senhas não correspondem");
+
+
+                usuario.setSenha("");
+                request.setAttribute("user", usuario);
+                request.setAttribute("isSession", isSession);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
+                dispatcher.forward(request, response);
+
+                return;
+            } else {
+                senhasCorrespondem = true;
+                String senhaCriptografada = encoder.encode(senha);
+                usuario.setSenha(senhaCriptografada);
+            }
+        } while (!senhasCorrespondem);
+
+        String alteracao = request.getParameter("userId");
+        if (alteracao.isEmpty()) {
+            usuario.setSituacao(true);
+            boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
+            if (sucesso) {
+                request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
+            } else {
+                request.setAttribute("mensagem", "Usuário já cadastrado!");
+            }
+        } else {
+            usuario.setSituacao(true);
+            boolean updateUser = UsuarioDAO.AlterarUsuario(usuario);
+            if (updateUser) {
+                request.setAttribute("mensagem", "Usuário alterado com sucesso!");
+            } else {
+                request.setAttribute("mensagem", "Falha ao alterar usuário!");
+            }
         }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
+        dispatcher.forward(request, response);
     }
 
     public String limparCPF(String cpf) {
-        // Remove todos os caracteres que não são números
         cpf = cpf.replaceAll("[^0-9]", "");
         return cpf;
     }

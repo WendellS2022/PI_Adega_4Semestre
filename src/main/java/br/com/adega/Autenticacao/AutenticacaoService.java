@@ -13,7 +13,9 @@ public class AutenticacaoService {
 
     public User autenticarUsuario(String email, String senha) {
         User usuario = UsuarioDAO.verificarCredenciais(email);
-        if (usuario != null && encoder.matches(senha, usuario.getSenha())) {
+        if (!usuario.isSituacao()) {
+            return usuario;
+        } else if(usuario != null && encoder.matches(senha, usuario.getSenha())) {
             return usuario;
         } else {
             return null;

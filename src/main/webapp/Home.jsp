@@ -18,14 +18,14 @@
         if (grupo == 1) {
     %>
     <form action="/listar" method="get">
-        <button type="submit" id="lista">Listar Usuários</button>
+        <button type="submit" id="lista">Listar usuários</button>
     </form>
-    <form action="/cadastrar_usuario" method="get">
-        <button type="submit" id="produto">Cadastrar Usuário</button>
+    <form action="/" method="get">
+        <button type="submit" id="produto">Listar produtos</button>
     </form>
     <% } else if (grupo == 2) { %>
-    <form action="/estoque" method="get">
-        <button type="submit" id="estoque">Estoque</button>
+    <form action="/" method="get">
+        <button type="submit" id="estoque">Listar pedidos</button>
     </form>
     <% } %>
 </div>

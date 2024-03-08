@@ -43,6 +43,12 @@ public class Login extends HttpServlet {
                 return; // Encerra o método
             }
 
+            if(!autenticacao.isSituacao()){
+                response.sendRedirect("TelaLogin.jsp?mensagem=Usuário inativo!");
+
+                return;
+            }
+
             HttpSession session = request.getSession(true); // Cria uma nova sessão ou retorna a sessão existente
             session.setAttribute("usuarioLogado", email);
             emailToSessionMap.put(email, session); // Registra a nova sessão para o email

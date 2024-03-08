@@ -250,4 +250,27 @@ public class UsuarioDAO {
             return false;
         }
     }
+
+    public static int ObterGrupo(String email) {
+        int grupo = 0;
+
+        String SQL = "SELECT GRUPO FROM USERS WHERE EMAIL = ?";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setString(1, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    grupo = resultSet.getInt("GRUPO");
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Trate ou registre qualquer exceção que possa ocorrer
+        }
+
+        return grupo;
+    }
 }
