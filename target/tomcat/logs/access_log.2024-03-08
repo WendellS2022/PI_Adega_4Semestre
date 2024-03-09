@@ -1,0 +1,5 @@
+0:0:0:0:0:0:0:1 - - [08/Mar/2024:21:53:29 -0300] "GET /cadastrar HTTP/1.1" 200 691 http-bio-8080-exec-1 1065
+0:0:0:0:0:0:0:1 - - [08/Mar/2024:21:53:29 -0300] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-8080-exec-4 0
+0:0:0:0:0:0:0:1 - - [08/Mar/2024:21:53:35 -0300] "POST /login HTTP/1.1" 200 648 http-bio-8080-exec-5 512
+0:0:0:0:0:0:0:1 - - [08/Mar/2024:22:16:31 -0300] "GET /listar? HTTP/1.1" 200 4698 http-bio-8080-exec-7 306
+0:0:0:0:0:0:0:1 - - [08/Mar/2024:22:16:31 -0300] "GET /ListarUsuario.css HTTP/1.1" 304 - http-bio-8080-exec-9 3
