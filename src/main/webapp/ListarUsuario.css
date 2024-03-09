@@ -57,6 +57,7 @@ body {
 #nome-pesquisa {
     width: 500px;
     padding: 3px 0px 0px 5px;
+height: 30px;
 }
 
 #btn-procurar {
@@ -68,6 +69,7 @@ body {
     padding: 2px 0px 0px;
     border: none;
     border-radius: 5px;
+        height: 30px;
 }
 
 #btn-cadastrar {
@@ -79,6 +81,7 @@ body {
     padding: 2px 0px 0px;
     border: none;
     border-radius: 5px;
+    height: 30px;
 }
 
 table, th, td {

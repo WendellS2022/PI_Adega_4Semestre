@@ -23,20 +23,25 @@ public class ListarUsuario extends HttpServlet {
         String nomePesquisa = request.getParameter("nome-pesquisa");
         List<User> usuarios;
 
-        if (nomePesquisa != null && !nomePesquisa.isEmpty()) {
-            usuarios = UsuarioDAO.ObterUsuarioPorNome(nomePesquisa);
+        if (isSession != null) {
+            if (nomePesquisa != null && !nomePesquisa.isEmpty()) {
+                usuarios = UsuarioDAO.ObterUsuarioPorNome(nomePesquisa);
 
+            } else {
+                usuarios = UsuarioDAO.ObterUsuarios();
+            }
+
+            request.setAttribute("isSession", isSession);
+            request.setAttribute("usuarios", usuarios);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarUsuario.jsp");
+            dispatcher.forward(request, response);
         } else {
-            usuarios = UsuarioDAO.ObterUsuarios();
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+            dispatcher.forward(request, response);
         }
 
-        request.setAttribute("isSession", isSession);
-        request.setAttribute("usuarios", usuarios);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarUsuario.jsp");
-        dispatcher.forward(request, response);
     }
-
 }
 
 

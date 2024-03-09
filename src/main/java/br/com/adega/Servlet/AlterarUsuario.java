@@ -18,21 +18,27 @@ public class AlterarUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String isSession = (String) session.getAttribute("usuarioLogado");
-        int userIdParam = Integer.parseInt(request.getParameter("userId"));
+
+        if (isSession != null) {
+            int userIdParam = Integer.parseInt(request.getParameter("userId"));
 
 
-        User user = UsuarioDAO.ObterUsuarioPorId(userIdParam);
+            User user = UsuarioDAO.ObterUsuarioPorId(userIdParam);
 
-        if (isSession.equals(user.getEmail())) {
-            request.setAttribute("isSession", isSession);
+            if (isSession.equals(user.getEmail())) {
+                request.setAttribute("isSession", isSession);
 
-            request.setAttribute("user", user);
+                request.setAttribute("user", user);
 
-            request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp").forward(request, response);
-        } else {
-            request.setAttribute("user", user);
+                request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp").forward(request, response);
+            } else {
+                request.setAttribute("user", user);
 
-            request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp").forward(request, response);
+                request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp").forward(request, response);
+            }
+        }else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+            dispatcher.forward(request, response);
         }
     }
 
@@ -40,6 +46,7 @@ public class AlterarUsuario extends HttpServlet {
         HttpSession session = request.getSession();
         String isSession = (String) session.getAttribute("usuarioLogado");
         String userId = request.getParameter("userId");
+
 
         boolean isSucess = UsuarioDAO.AtualizarStatus(userId);
 

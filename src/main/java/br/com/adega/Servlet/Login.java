@@ -2,6 +2,7 @@ package br.com.adega.Servlet;
 
 import br.com.adega.Autenticacao.AutenticacaoService;
 import br.com.adega.Model.User;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,32 +34,30 @@ public class Login extends HttpServlet {
         String senha = request.getParameter("password");
 
         autenticacao = autenticacaoService.autenticarUsuario(email, senha);
+        try {
+            if (autenticacao.getUserId() > 0) {
+                if (emailToSessionMap.containsKey(email)) {
+                    response.sendRedirect("TelaLogin.jsp?mensagem=Você já está logado. Por favor, faça logout antes de tentar novamente.");
+                    return;
+                }
 
-        if (autenticacao.getUserId() > 0) {
-            // Verifica se o email já está associado a uma sessão ativa
-            if (emailToSessionMap.containsKey(email)) {
-                // Se sim, impede o novo login e redireciona para a página de erro
-                response.sendRedirect("TelaLogin.jsp?mensagem=Você já está logado. Por favor, faça logout antes de tentar novamente.");
+                if (!autenticacao.isSituacao()) {
+                    response.sendRedirect("TelaLogin.jsp?mensagem=Usuário inativo!");
+                    return;
+                }
 
-                return; // Encerra o método
+                HttpSession session = request.getSession(true);
+                session.setAttribute("usuarioLogado", email);
+                emailToSessionMap.put(email, session);
+                request.setAttribute("grupo", autenticacao.getGrupo());
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("Home.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                response.sendRedirect("TelaLogin.jsp?mensagem=Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
             }
-
-            if(!autenticacao.isSituacao()){
-                response.sendRedirect("TelaLogin.jsp?mensagem=Usuário inativo!");
-
-                return;
-            }
-
-            HttpSession session = request.getSession(true); // Cria uma nova sessão ou retorna a sessão existente
-            session.setAttribute("usuarioLogado", email);
-            emailToSessionMap.put(email, session); // Registra a nova sessão para o email
-            request.setAttribute("grupo", autenticacao.getGrupo());
-
-            // Redireciona para a página inicial
-            RequestDispatcher dispatcher = request.getRequestDispatcher("Home.jsp");
-            dispatcher.forward(request, response);
-        } else {
-            // Se as credenciais estiverem incorretas, redireciona de volta para a página de login com mensagem de erro
+        } catch (Exception e) {
+            e.printStackTrace();
             response.sendRedirect("TelaLogin.jsp?mensagem=Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
         }
     }

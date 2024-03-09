@@ -19,11 +19,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @WebServlet("/cadastrar")
 public class CadastrarUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String isSession = (String) session.getAttribute("usuarioLogado");
 
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
-        dispatcher.forward(request, response);
-
+        if (isSession != null) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
+            dispatcher.forward(request, response);
+        }else{
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -76,7 +81,7 @@ public class CadastrarUsuario extends HttpServlet {
             }
         } while (!senhasCorrespondem);
 
-        //if (isSession != null) {
+        if (isSession != null) {
             if (userIdParam.isBlank()) {
                 usuario.setSituacao(true);
                 boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
@@ -96,17 +101,12 @@ public class CadastrarUsuario extends HttpServlet {
             }
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
             dispatcher.forward(request, response);
-        //}
-//        else {
-//            request.setAttribute("user", usuario);
-//
-//            request.setAttribute("mensagem", "Favor efetuar Login!");
-//
-//            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
-//            dispatcher.forward(request, response);
-//        }
+        }
+        else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+            dispatcher.forward(request, response);
+        }
     }
-
 
     public String limparCPF(String cpf) {
         cpf = cpf.replaceAll("[^0-9]", "");
