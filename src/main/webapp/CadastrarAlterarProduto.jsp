@@ -86,7 +86,7 @@
             </table>
 
             <div id="botoes">
-                <form action="/cadastrar-produto" method="POST">
+                <form action="/cadastrarProduto" method="POST">
                     <button type="submit" id="btn-salvar">Salvar</button>
                 </form>
                 <form action="/listar-produto" method="GET">

@@ -26,7 +26,7 @@ public class CadastrarProduto extends HttpServlet {
         }
 
         // Encaminha para a página de cadastro/edição de produtos
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEditarProduto.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -74,7 +74,7 @@ public class CadastrarProduto extends HttpServlet {
         }
 
         // Encaminha de volta para a página de cadastro/edição
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEditarProduto.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
         dispatcher.forward(request, response);
     }
 }

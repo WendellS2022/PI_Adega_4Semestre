@@ -11,13 +11,13 @@ Situacao bit,
 Grupo smallint not null
 );
 
-create table Produtos(
+create table Products(
 ProdutoID int primary key auto_increment,
 Nome varchar(50), 
 Quantidade int not null,
 Avaliacao smallint not null,
 Descricao varchar (2000),
-Preco decimal (20, 2),
+Valor decimal (20, 2),
 Situacao bit 
 );
 
@@ -25,8 +25,9 @@ Situacao bit
 create table Imagens(
 ImagemID int primary key auto_increment,
 ProdutoId int not null,
-foreign key (ProdutoId) references Produtos(ProdutoID),
+foreign key (ProdutoId) references Products(ProdutoID),
 Diretorio varchar(100),
 Nome varchar(100),
+Qualificacao bit,
 Extensao varchar(10)
 );
