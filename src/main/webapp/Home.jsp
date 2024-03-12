@@ -20,7 +20,7 @@
     <form action="/listar" method="get">
         <button type="submit" id="lista">Listar usuários</button>
     </form>
-    <form action="/" method="get">
+    <form action="/listarProdutos" method="get">
         <button type="submit" id="produto">Listar produtos</button>
     </form>
     <% } else if (grupo == 2) { %>

@@ -14,44 +14,7 @@
     <!-- Adiciona jQuery para AJAX -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script>
-            $(document).ready(function() {
-                function confirmarAlteracao(codProduto, situacaoProduto) {
-                    var confirmacao = confirm("Deseja realmente " + (situacaoProduto === "inativar" ? "inativar" : "reativar") + " o produto?");
-                    if (confirmacao) {
-                        alterarStatusProduto(codProduto, situacaoProduto);
-                    }
-                }
 
-                function alterarStatusProduto(codProduto, situacaoProduto) {
-                    $.ajax({
-                        type: "POST",
-                        url: "AlterarProduto",
-                        data: {
-                            "COD_PRODUTO": codProduto,
-                            "COD_SITUACAO": situacaoProduto
-                        },
-                        success: function(response) {
-                            alert("Status alterado com sucesso!");
-                            // Atualizar a tabela ou realizar outras ações necessárias após a alteração
-                            // Pode ser necessário recarregar a página ou atualizar apenas a linha afetada
-                            // Isso depende da estrutura da sua aplicação
-                        },
-                        error: function(error) {
-                            alert("Erro ao alterar o status do produto. Verifique o console para mais informações.");
-                            console.error(error);
-                        }
-                    });
-                }
-
-                $(".alterar-situacao-produto a").click(function(e) {
-                    e.preventDefault();
-                    var codProduto = $(this).data("codproduto");
-                    var situacaoProduto = $(this).data("situacaoProduto");
-                    confirmarAlteracao(codProduto, situacaoProduto);
-                });
-            });
-        </script>
 </head>
 
 <body>
@@ -64,51 +27,47 @@
             <header id="cabecalho-lista-produto">
                 <h2>Lista de Produto</h2>
             </header>
-            <form id="info-produtos" action="/listarProdutos" method="GET">
+            <div class="info-produtos">
                 <div id="info-selecoes">
                     <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="search">
                     <button id="btn-procurar" type="submit">Procurar</button>
-                    <a href="CadastrarEditarProduto.jsp" id="btn-cadastrar">Novo Produto</a>
+                    <a href="CadastrarAlterarProduto.jsp" id="btn-cadastrar">Novo Produto</a>
                 </div>
                 <table id="tabela-produto">
-                    <thead id="cabecalho-tabela-produto">
-                        <tr>
-                            <th class="codigo-produto">Código do Produto</th>
-                            <th class="nome-produto">Nome do Produto</th>
-                            <th class="estoque-produto">Quantidade em Estoque</th>
-                            <th class="preco-produto">Preço de Venda</th>
-                            <th class="situacao-produto">Situação</th>
-                            <th class="acao-produto" colspan="3">Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody id="detalhe-tabela-produto">
-                        <c:forEach var="produto" items="${produtos}">
-                            <tr>
-                                <td class="codigo-produto">${produto.codProduto}</td>
-                                <td class="nome-produto">${produto.nomeProduto}</td>
-                                <td class="estoque-produto">${produto.qtdEstoque}</td>
-                                <td class="preco-produto">${produto.vlrVendaProduto}</td>
-                                <td class="situacao-produto">${produto.situacaoProduto ? 'Ativo' : 'Inativo'}</td>
-                                <td class="alterar-dados-produto">
-                                    <a href="alterarProduto?id=${produto.codProduto}">Alterar</a>
-                                </td>
+                     <thead id="cabecalho-tabela-produto">
+                         <tr>
+                             <th class="codigo-produto">Código do Produto</th>
+                             <th class="nome-produto">Nome do Produto</th>
+                             <th class="estoque-produto">Quantidade em Estoque</th>
+                             <th class="preco-produto">Preço de Venda</th>
+                             <th class="situacao-produto">Situação</th>
+                             <th class="acao-produto" colspan="3">Ação</th>
+                         </tr>
+                     </thead>
+                     <tbody id="detalhe-tabela-produto">
+                         <c:forEach var="produto" items="${produtos}">
+                             <tr>
+                                 <td class="codigo-produto" value="${produto.codProduto}">${produto.codProduto}</td>
+                                 <td class="nome-produto">${produto.nomeProduto}</td>
+                                 <td class="estoque-produto">${produto.qtdEstoque}</td>
+                                 <td class="preco-produto">${produto.vlrVendaProduto}</td>
+                                 <td class="situacao-produto">${produto.situacaoProduto ? 'Ativo' : 'Inativo'}</td>
+                                 <td class="alterar-dados-produto">
+                                     <a href="/alterarProduto?id=${produto.codProduto}">Alterar</a>
+                                 </td>
                                 <td class="alterar-situacao-produto">
-                                    <c:choose>
-                                        <c:when test="${produto.situacaoProduto}">
-                                            <a href="alterarProduto?id=${produto.codProduto}&acao=inativar">Inativar</a>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <a href="alterarProduto?id=${produto.codProduto}&acao=reativar">Reativar</a>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <a href="#" onclick="confirmarAlteracao('${produto.codProduto}', '${produto.situacaoProduto ? 'Inativar' : 'Reativar'}')">
+                                        ${produto.situacaoProduto ? 'Inativar' : 'Reativar'}
+                                    </a>
                                 </td>
-                                <td class="visualizar-produto">
-                                    <a href="visualizarProduto?id=${produto.codProduto}">Visualizar</a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                                 <td class="visualizar-produto">
+                                     <a href="visualizarProduto?id=${produto.codProduto}">Visualizar</a>
+                                 </td>
+                             </tr>
+                         </c:forEach>
+                     </tbody>
+                 </table>
+
                 <section id="controle-paginacao">
                     <div class="paginacao">
                         <div class="primeira-pagina">&lt&lt</div>
@@ -120,8 +79,37 @@
                         <div class="ultima-pagina">&gt&gt</div>
                     </div>
                 </section>
-            </form>
+            </div>
         </section>
     </article>
+    <script>
+ function confirmarAlteracao(codProduto, acao) {
+     var confirmacao = confirm(`Deseja realmente ${acao} o produto?`);
+     if (confirmacao) {
+         var form = document.createElement('form');
+         form.method = 'POST';
+         form.action = '/alterarProduto';
+
+         var codProdutoInput = document.createElement('input');
+         codProdutoInput.type = 'hidden';
+         codProdutoInput.name = 'codProduto';
+         codProdutoInput.value = codProduto;
+
+         var acaoInput = document.createElement('input');
+         acaoInput.type = 'hidden';
+         acaoInput.name = 'acao';
+         acaoInput.value = acao;
+
+         form.appendChild(codProdutoInput);
+         form.appendChild(acaoInput);
+         document.body.appendChild(form);
+         form.submit();
+
+         setTimeout(function() {
+             window.location.href = "/listarProdutos"; // Redireciona após 1 segundo (1000 milissegundos)
+         }, 1000);
+     }
+ }
+</script>
 </body>
 </html>
