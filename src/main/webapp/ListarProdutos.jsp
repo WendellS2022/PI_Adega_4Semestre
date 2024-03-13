@@ -47,7 +47,7 @@
                      <tbody id="detalhe-tabela-produto">
                          <c:forEach var="produto" items="${produtos}">
                              <tr>
-                                 <td class="codigo-produto" value="${produto.codProduto}">${produto.codProduto}</td>
+                                 <td class="codigo-produto">${produto.codProduto}</td>
                                  <td class="nome-produto">${produto.nomeProduto}</td>
                                  <td class="estoque-produto">${produto.qtdEstoque}</td>
                                  <td class="preco-produto">${produto.vlrVendaProduto}</td>
