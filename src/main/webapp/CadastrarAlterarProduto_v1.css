@@ -172,12 +172,6 @@ td {
     height: 154px;
 }
 
-.nome {
-    margin-top: 3px;
-    border: none;
-    display: flex;
-}
-
 .selecao-qualificacao {
     margin-top: 3px;
     display: flex;
