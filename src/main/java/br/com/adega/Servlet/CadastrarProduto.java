@@ -21,7 +21,7 @@ public class CadastrarProduto extends HttpServlet {
         if (codProdutoParam != null && !codProdutoParam.isEmpty()) {
             // Se o ID do produto está presente, é uma edição
             int codProduto = Integer.parseInt(codProdutoParam);
-            Produto produto = ProdutoDAO.obterProdutoPorId(codProduto);
+            Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
             request.setAttribute("produto", produto);
         }
 
@@ -40,19 +40,36 @@ public class CadastrarProduto extends HttpServlet {
             produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
             produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
             produto.setVlrVendaProduto(Double.parseDouble(request.getParameter("vlrVendaProduto")));
-            ;
             produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
 
-            boolean updateProduto = ProdutoDAO.atualizarProduto(produto);
+            boolean updateProduto = ProdutoDAO.AtualizarProduto(produto);
 
             if (updateProduto) {
                 request.setAttribute("mensagem", "Produto alterado com sucesso!");
             } else {
                 request.setAttribute("mensagem", "Falha ao alterar produto!");
             }
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            produto.setNomeProduto(request.getParameter("nomeProduto"));
+            produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
+            produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
+            produto.setVlrVendaProduto(Double.parseDouble(request.getParameter("vlrVendaProduto")));
+            produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
+            produto.setSituacaoProduto(true);
+
+            boolean createProduto = ProdutoDAO.AdicionarProduto(produto);
+
+            if (createProduto) {
+                request.setAttribute("mensagem", "Produto adcionado com sucesso!");
+            } else {
+                request.setAttribute("mensagem", "Falha ao adcionar produto!");
+            }
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+            dispatcher.forward(request, response);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
-        dispatcher.forward(request, response);
 //        Converte os parâmetros para os tipos adequados
 //        int codProduto = 0;  // Inicializa com valor padrão
 //        if (codProduto != null && !codProdutoParam.isEmpty()) {

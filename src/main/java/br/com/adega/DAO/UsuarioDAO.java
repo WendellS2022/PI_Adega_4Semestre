@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UsuarioDAO {
 
-    public static User verificarCredenciais(String email) {
+    public static User VerificarCredenciais(String email) {
         User usuario = new User();
 
         String SQL = "SELECT * FROM USERS WHERE EMAIL = ?";
@@ -46,7 +46,7 @@ public class UsuarioDAO {
     }
 
     public static boolean CadastrarUsuario(User usuario) {
-        if (verificarEmailExistente(usuario.getEmail())) {
+        if (VerificarEmailExistente(usuario.getEmail())) {
             return false;
         }
 
@@ -77,7 +77,7 @@ public class UsuarioDAO {
         }
     }
 
-    private static boolean verificarEmailExistente(String email) {
+    private static boolean VerificarEmailExistente(String email) {
         String SQL = "SELECT COUNT(*) FROM USERS WHERE email = ?";
 
         try {

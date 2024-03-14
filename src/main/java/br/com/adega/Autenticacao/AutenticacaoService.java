@@ -12,7 +12,7 @@ public class AutenticacaoService {
     }
 
     public User autenticarUsuario(String email, String senha) {
-        User usuario = UsuarioDAO.verificarCredenciais(email);
+        User usuario = UsuarioDAO.VerificarCredenciais(email);
         if (!usuario.isSituacao()) {
             return usuario;
         } else if(usuario != null && encoder.matches(senha, usuario.getSenha())) {
