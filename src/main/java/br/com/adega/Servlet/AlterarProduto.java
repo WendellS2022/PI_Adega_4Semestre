@@ -1,9 +1,7 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
-import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Produto;
-import br.com.adega.Model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,13 +17,15 @@ public class AlterarProduto extends HttpServlet {
         String codProdutoParam = request.getParameter("id");
 
 
-        Produto produtos = ProdutoDAO.obterProdutoPorId(Integer.parseInt(codProdutoParam));
 
+        Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
         request.setAttribute("produto", produtos);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
         dispatcher.forward(request, response);
+
+
     }
 
 
@@ -82,7 +82,7 @@ public class AlterarProduto extends HttpServlet {
 
             boolean isSucess = ProdutoDAO.AtualizarStatus(codProdutoParam);
 
-            List<Produto> produtos = ProdutoDAO.obterTodosOsProdutos();
+            List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
 
             Collection<Part> parts = request.getParts();
 

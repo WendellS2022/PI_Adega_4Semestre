@@ -36,7 +36,7 @@ public class ListarProdutos extends HttpServlet {
 
         if (search != null && !search.isEmpty()) {
             // Se houver um parâmetro de pesquisa, chama o método de pesquisa por nome
-            produtos = ProdutoDAO.pesquisarProdutosPorNome(search);
+            produtos = ProdutoDAO.PesquisarProdutosPorNome(search);
         } else {
             // Caso contrário, obtém a primeira página de produtos (máximo 10 por página)
             produtos = ProdutoDAO.obterPaginaDeProdutos(1, 10);

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ProdutoDAO {
 
-    public static List<Produto> obterTodosOsProdutos(){
+    public static List<Produto> ObterTodosOsProdutos(){
         List<Produto> produtos = new ArrayList<>();
 
         String SQL = "SELECT * FROM PRODUCTS ORDER BY PRODUTOID DESC";
@@ -40,7 +40,7 @@ public class ProdutoDAO {
         return produtos;
     }
 
-    public static Produto obterProdutoPorId(int codProduto) {
+    public static Produto ObterProdutoPorId(int codProduto) {
         Produto produto = new Produto();
 
         String SQL = "SELECT * FROM PRODUCTS WHERE PRODUTOID = ?";
@@ -68,7 +68,7 @@ public class ProdutoDAO {
         return produto;
     }
 
-    public static boolean adicionarProduto(Produto produto) {
+    public static boolean AdicionarProduto(Produto produto) {
         String SQL = "INSERT INTO PRODUCTS (Nome, Descricao, Avaliacao, Quantidade, Valor, Situacao) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
@@ -89,7 +89,7 @@ public class ProdutoDAO {
             return false;
         }
     }
-    public static boolean atualizarProduto(Produto produto) {
+    public static boolean AtualizarProduto(Produto produto) {
         boolean sucesso = false;
 
         String SQL = "UPDATE PRODUCTS SET Nome = ?, Descricao = ?, Avaliacao = ?, Quantidade = ?, Valor = ?, Situacao = ? WHERE ProdutoID = ?";
@@ -124,7 +124,7 @@ public class ProdutoDAO {
         return sucesso;
     }
 
-    public static boolean obterSituacaoProduto(int codProduto) {
+    public static boolean ObterSituacaoProduto(int codProduto) {
         String SQL = "SELECT Situacao FROM PRODUCTS WHERE ProdutoID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
@@ -146,7 +146,7 @@ public class ProdutoDAO {
     }
 
     public static boolean AtualizarStatus(String codProduto) {
-        Produto produto = obterProdutoPorId(Integer.parseInt(codProduto));
+        Produto produto = ObterProdutoPorId(Integer.parseInt(codProduto));
 
         // Inverte o status do produto
         boolean novoStatus = !produto.isSituacaoProduto();
@@ -179,7 +179,7 @@ public class ProdutoDAO {
 
 
 
-    public static List<Produto> pesquisarProdutosPorNome(String nomeProduto) {
+    public static List<Produto> PesquisarProdutosPorNome(String nomeProduto) {
         List<Produto> produtos = new ArrayList<>();
 
         String SQL = "SELECT * FROM PRODUCTS WHERE LOWER(Nome) LIKE LOWER(?) ORDER BY ProdutoID DESC";
