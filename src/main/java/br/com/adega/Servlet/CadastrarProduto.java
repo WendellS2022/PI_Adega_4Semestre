@@ -41,6 +41,7 @@ public class CadastrarProduto extends HttpServlet {
             produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
             produto.setVlrVendaProduto(Double.parseDouble(request.getParameter("vlrVendaProduto")));
             produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
+            produto.setSituacaoProduto(Boolean.parseBoolean(request.getParameter("situacao")));
 
             boolean updateProduto = ProdutoDAO.AtualizarProduto(produto);
 
