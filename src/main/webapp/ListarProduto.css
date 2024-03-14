@@ -180,3 +180,8 @@ table, th, td {
 #controle-paginacao .paginacao div.numero-pagina div.active {
     color: #0070c9;
 }
+
+.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+}

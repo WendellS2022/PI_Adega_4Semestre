@@ -79,27 +79,25 @@ public class AlterarProduto extends HttpServlet {
         String codProdutoParam = request.getParameter("codProduto");
 
         if (codProdutoParam != null) {
+            boolean isSuccess = ProdutoDAO.AtualizarStatus(codProdutoParam);
 
-            boolean isSucess = ProdutoDAO.AtualizarStatus(codProdutoParam);
-
-            List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
-
-            Collection<Part> parts = request.getParts();
-
-            for (Part part : parts) {
-                // Verifique se é um campo de arquivo
-                if (part.getContentType() != null) {
-                    // Lide com o upload do arquivo aqui
-                    String fileName = extractFileName(part);
-                    // Salve o arquivo no sistema de arquivos ou armazene-o em um banco de dados
-                }
+            // Obtém os parâmetros de página da requisição
+            int page = 1; // Página padrão é a primeira
+            String pageParam = request.getParameter("page");
+            if (pageParam != null && !pageParam.isEmpty()) {
+                page = Integer.parseInt(pageParam);
             }
 
-            request.setAttribute("produtos", produtos);
+            // Obtém os produtos da página atual
+            List<Produto> produtos = ProdutoDAO.obterPaginaDeProdutos(page, 10);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
-            dispatcher.forward(request, response);
+            // Lógica de upload de arquivos aqui, se necessário
+
+            request.setAttribute("produtos", produtos);
+            request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
         }
+    }
+
 
 
 //        String codProdutoParam = request.getParameter("COD_PRODUTO");
@@ -137,7 +135,7 @@ public class AlterarProduto extends HttpServlet {
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEditarProduto.jsp");
 //        dispatcher.forward(request, response);
 //    }
-    }
+
 
     private String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");

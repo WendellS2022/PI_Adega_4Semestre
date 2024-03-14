@@ -16,19 +16,21 @@
 
 
 </head>
-
-<body>
-    <header id="cabecalho-site">
+  <header id="cabecalho-site">
         <h1 id="identificacao-site">e-Commerce e-Devs - Área de BackOffice</h1>
     </header>
+<body>
+
 
     <article id="area-lista-produto">
+
         <section id="caixa-lista-produto">
             <header id="cabecalho-lista-produto">
                 <h2>Lista de Produto</h2>
             </header>
             <div class="info-produtos">
                 <div id="info-selecoes">
+
                     <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="search">
                     <button id="btn-procurar" type="submit">Procurar</button>
                     <a href="CadastrarAlterarProduto.jsp" id="btn-cadastrar">Novo Produto</a>
@@ -68,17 +70,36 @@
                      </tbody>
                  </table>
 
-                <section id="controle-paginacao">
-                    <div class="paginacao">
-                        <div class="primeira-pagina">&lt&lt</div>
-                        <div class="proxima-pagina">&lt</div>
-                        <div class="numero-pagina">
-                            <div>${currentPage}</div>
-                        </div>
-                        <div class="pagina-anterior">&gt</div>
-                        <div class="ultima-pagina">&gt&gt</div>
-                    </div>
-                </section>
+        <section id="controle-paginacao">
+            <div class="paginacao">
+                <div class="primeira-pagina">
+                    <form action="listarProdutos" method="get">
+                        <button type="submit" name="action" value="firstPage">&lt;&lt;</button>
+                    </form>
+                </div>
+                <div class="pagina-anterior">
+                    <form action="listarProdutos" method="get">
+                         <input type="hidden" name="page" value="${page}">
+                        <button type="submit" name="action" value="prevPage">&lt;</button>
+                    </form>
+                </div>
+                <div class="numero-pagina">
+                    <div>${page}</div>
+                </div>
+                <div class="proxima-pagina">
+                    <form action="listarProdutos" method="GET">
+                        <input type="hidden" name="page" value="${page}">
+                        <button type="submit" name="action" value="nextPage">&gt;</button>
+                    </form>
+                </div>
+                <div class="ultima-pagina">
+                    <form action="listarProdutos" method="get">
+                        <button type="submit" name="action" value="lastPage">&gt;&gt;</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
             </div>
         </section>
     </article>
