@@ -31,51 +31,65 @@ public class CadastrarProduto extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtém os dados do formulário
-        String codProdutoParam = request.getParameter("COD_PRODUTO");
-        String nomeProduto = request.getParameter("DSC_NOME");
-        String dscDetalhadaProduto = request.getParameter("DSC_DETALHADA");
-        String avaliacaoProdutoParam = request.getParameter("COD_AVALIACAO");
-        String qtdEstoqueParam = request.getParameter("QTD_ESTOQUE");
-        String vlrVendaProdutoParam = request.getParameter("VLR_VENDA");
+        Produto produto = new Produto();
+        String codProduto = request.getParameter("id");
 
-        // Converte os parâmetros para os tipos adequados
-        int codProduto = 0;  // Inicializa com valor padrão
-        if (codProdutoParam != null && !codProdutoParam.isEmpty()) {
-            codProduto = Integer.parseInt(codProdutoParam);
-        }
-        int qtdEstoque = (qtdEstoqueParam != null && !qtdEstoqueParam.isEmpty()) ? Integer.parseInt(qtdEstoqueParam) : 0;
-        double vlrVendaProduto = (vlrVendaProdutoParam != null && !vlrVendaProdutoParam.isEmpty()) ? Double.parseDouble(vlrVendaProdutoParam) : 0.0;
-        int avaliacaoProduto = (avaliacaoProdutoParam != null && !avaliacaoProdutoParam.isEmpty()) ? Integer.parseInt(avaliacaoProdutoParam) : 0;
+        if (!codProduto.isEmpty()) {
+            produto.setCodProduto(Integer.parseInt(codProduto));
+            produto.setNomeProduto(request.getParameter("nomeProduto"));
+            produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
+            produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
+            produto.setVlrVendaProduto(Double.parseDouble(request.getParameter("vlrVendaProduto")));
+            ;
+            produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
 
-        // Cria um objeto Product com os dados do formulário
-        Produto produto = new Produto(codProduto, nomeProduto, dscDetalhadaProduto, avaliacaoProduto, qtdEstoque, vlrVendaProduto, true);
+            boolean updateProduto = ProdutoDAO.atualizarProduto(produto);
 
-        // Verifica se é uma operação de cadastro ou edição
-        if (codProduto == 0) {
-            // Cadastro de novo produto
-            boolean success = ProdutoDAO.adicionarProduto(produto);
-
-            if (success) {
-                request.setAttribute("mensagem", "Produto cadastrado com sucesso!");
+            if (updateProduto) {
+                request.setAttribute("mensagem", "Produto alterado com sucesso!");
             } else {
-                request.setAttribute("mensagem", "Falha ao cadastrar o produto. Verifique os dados e tente novamente.");
-            }
-        } else {
-
-            // Edição de produto existente
-            boolean success = ProdutoDAO.atualizarProduto(produto);
-
-            if (success) {
-                request.setAttribute("mensagem", "Produto atualizado com sucesso!");
-            } else {
-                request.setAttribute("mensagem", "Falha ao atualizar o produto. Verifique os dados e tente novamente.");
+                request.setAttribute("mensagem", "Falha ao alterar produto!");
             }
         }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
+        dispatcher.forward(request, response);
+//        Converte os parâmetros para os tipos adequados
+//        int codProduto = 0;  // Inicializa com valor padrão
+//        if (codProduto != null && !codProdutoParam.isEmpty()) {
+//            codProduto = Integer.parseInt(codProdutoParam);
+//        }
+//        int qtdEstoque = (qtdEstoqueParam != null && !qtdEstoqueParam.isEmpty()) ? Integer.parseInt(qtdEstoqueParam) : 0;
+//        double vlrVendaProduto = (vlrVendaProdutoParam != null && !vlrVendaProdutoParam.isEmpty()) ? Double.parseDouble(vlrVendaProdutoParam) : 0.0;
+//        int avaliacaoProduto = (avaliacaoProdutoParam != null && !avaliacaoProdutoParam.isEmpty()) ? Integer.parseInt(avaliacaoProdutoParam) : 0;
+//
+//        // Cria um objeto Product com os dados do formulário
+//        Produto produto = new Produto(codProduto, nomeProduto, dscDetalhadaProduto, avaliacaoProduto, qtdEstoque, vlrVendaProduto, true);
+//
+//        // Verifica se é uma operação de cadastro ou edição
+//        if (codProduto == 0) {
+//            // Cadastro de novo produto
+//            boolean success = ProdutoDAO.adicionarProduto(produto);
+//
+//            if (success) {
+//                request.setAttribute("mensagem", "Produto cadastrado com sucesso!");
+//            } else {
+//                request.setAttribute("mensagem", "Falha ao cadastrar o produto. Verifique os dados e tente novamente.");
+//            }
+//        } else {
+//
+//            // Edição de produto existente
+//            boolean success = ProdutoDAO.atualizarProduto(produto);
+//
+//            if (success) {
+//                request.setAttribute("mensagem", "Produto atualizado com sucesso!");
+//            } else {
+//                request.setAttribute("mensagem", "Falha ao atualizar o produto. Verifique os dados e tente novamente.");
+//            }
+//        }
 
         // Encaminha de volta para a página de cadastro/edição
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-        dispatcher.forward(request, response);
+
     }
 }
+
 

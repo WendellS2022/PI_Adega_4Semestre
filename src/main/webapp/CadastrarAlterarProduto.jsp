@@ -4,8 +4,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="CadastrarAlterarProduto.css" rel="stylesheet">
     <title>Cadastrar ou Alterar Produto</title>
 </head>
@@ -29,67 +27,54 @@
             <p><%= mensagem %></p>
             <% } %>
 
-            <form action="/CadastrarProduto" method="POST">
-                <div id="informacao-produto">
-                    <input type="hidden" name="codProduto" value="${produto.codProduto}">
 
-                    <label for="nomeProduto" class="titulo-campo">Nome do Produto:</label>
-                    <input type="text" name="nomeProduto" id="nome-produto" placeholder="Nome do produto" required
-                        value="${produto != null ? produto.nomeProduto : ''}">
+                <form action="/cadastrarProduto?id=${produto.codProduto}" method="POST">
+                    <div id="informacao-produto">
+                        <input type="hidden" name="codProduto" value="${produto != null ? produto.codProduto : ''}">
 
-                    <label for="dscDetalhadaProduto" class="titulo-campo">Descrição Detalhada do Produto:</label>
-                    <input type="text" name="dscDetalhadaProduto" id="descricao-produto" placeholder="Descrição detalhada do produto" required
-                        value="${produto != null ? produto.dscDetalhadaProduto : ''}">
+                        <label for="nomeProduto" class="titulo-campo">Nome do Produto:</label>
+                        <input type="text" name="nomeProduto" id="nome-Produto" placeholder="Nome do produto" required
+                            value="${produto != null ? produto.nomeProduto : ''}">
 
-                    <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto:</label>
-                    <input type="number" name="avaliacaoProduto" id="avaliacao-produto" required
-                        value="${produto != null ? produto.avaliacaoProduto : ''}">
+                        <label for="dscDetalhadaProduto" class="titulo-campo">Descrição Detalhada do Produto:</label>
+                        <input type="text" name="dscDetalhadaProduto" id="dsc-Produto" placeholder="Descrição detalhada do produto" required
+                            value="${produto != null ? produto.dscDetalhadaProduto : ''}">
 
-                    <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto:</label>
-                    <input type="text" name="vlrVendaProduto" id="preco-produto" required
-                        value="${produto != null ? produto.vlrVendaProduto : ''}">
+                        <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto:</label>
+                        <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" required
+                            value="${produto != null ? produto.avaliacaoProduto : ''}">
 
-                    <label for="qtdEstoque" class="titulo-campo">Quantidade em Estoque:</label>
-                    <input type="number" name="qtdEstoque" id="estoque-produto" required
-                        value="${produto != null ? produto.qtdEstoque : ''}">
-                </div>
-            </form>
+                        <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto:</label>
+                        <input type="text" name="vlrVendaProduto" id="vlr-VendaProduto" required
+                            value="${produto != null ? produto.vlrVendaProduto : ''}">
 
-            <div id="imagens-produto">
-                <label for="selImagem" class="titulo-campo">Seleção de Imagem do Produto:</label>
-                <input type="file" name="selImagem" id="selecao-imagem" required>
-                <header id="cabecalho-imagem">
-                    <h5>Imagem(ns) do Produto</h5>
-                </header>
-            </div>
+                        <label for="qtdEstoque" class="titulo-campo">Quantidade em Estoque:</label>
+                        <input type="number" name="qtdEstoque" id="qtd-Estoque" required
+                            value="${produto != null ? produto.qtdEstoque : ''}">
+                    </div>
 
-            <table id="tabela-imagem">
-                <tbody>
-                    <c:forEach var="imagem" items="${imagens}">
-                        <tr>
-                            <td>
-                                <div class="informação-imagem">
-                                    <form action="/excluir-imagem" method="DELETE">
-                                        <button type="submit" id="btn-excluir">X</button>
-                                    </form>
-                                    ${imagem.figura}
-                                    ${imagem.dscNome}
-                                    <input type="checkbox" name="codQualificacao" id="qualificacao-produto" placeholder="Nome do produto" required
-                                     value="${imagem.codQualificacao}">
-                                </div>
-                            </td>
-                            <!-- Adicione mais colunas se necessário -->
-                        </tr>
-                        <!-- Adicione mais linhas se necessário -->
-                    </c:forEach>
-                </tbody>
-            </table>
+                    <input value="Enviar">
 
-            <div id="botoes">
-                <form action="/cadastrarProduto" method="POST">
+
+
+       <div id="imagens-produto">
+           <label for="selImagem" class="titulo-campo">Seleção de Imagem do Produto:</label>
+           <input type="file" name="selImagem" id="selecao-imagem" required multiple>
+           <header id="cabecalho-imagem">
+               <h5>Imagem(ns) do Produto</h5>
+           </header>
+       </div>
+
+       <p id="total-imagens">Total de imagens anexadas: 0</p>
+
+       <table id="tabela-imagem">
+           <tbody id="lista-imagens">
+               <!-- Esta parte será preenchida dinamicamente com JavaScript -->
+           </tbody>
+       </table>
                     <button type="submit" id="btn-salvar">Salvar</button>
                 </form>
-                <form action="/listar-produto" method="GET">
+                <form action="/listarProdutos" method="GET">
                     <button type="submit" id="btn-cancelar">Cancelar</button>
                 </form>
             </div>
@@ -109,5 +94,34 @@
         }
     }
     );
+
+    document.getElementById('selecao-imagem').addEventListener('change', function(event) {
+           var imagens = event.target.files;
+           var listaImagens = document.getElementById('lista-imagens');
+
+           // Adiciona as novas imagens à lista existente
+           for (var i = 0; i < imagens.length; i++) {
+               var imagem = imagens[i];
+               var tr = document.createElement('tr');
+               var td = document.createElement('td');
+               var div = document.createElement('div');
+               div.className = 'informacao-imagem';
+               div.innerHTML = `
+                   <form action="/excluir-imagem" method="DELETE">
+                       <button type="submit" class="btn-excluir">X</button>
+                   </form>
+                   <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto">
+                   <input type="checkbox" name="codQualificacao" class="qualificacao-produto" placeholder="Nome do produto" required>
+               `;
+               td.appendChild(div);
+               tr.appendChild(td);
+               listaImagens.appendChild(tr);
+           }
+
+           // Atualiza o total de imagens anexadas
+           var totalAtual = parseInt(document.getElementById('total-imagens').textContent.split(' ')[4]); // Extrai o número atual de imagens anexadas
+           var novoTotal = totalAtual + imagens.length;
+           document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + novoTotal;
+       });
 </script>
 </html>

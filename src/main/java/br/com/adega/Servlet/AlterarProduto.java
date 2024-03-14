@@ -8,11 +8,9 @@ import br.com.adega.Model.User;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 @WebServlet("/alterarProduto")
@@ -86,6 +84,17 @@ public class AlterarProduto extends HttpServlet {
 
             List<Produto> produtos = ProdutoDAO.obterTodosOsProdutos();
 
+            Collection<Part> parts = request.getParts();
+
+            for (Part part : parts) {
+                // Verifique se é um campo de arquivo
+                if (part.getContentType() != null) {
+                    // Lide com o upload do arquivo aqui
+                    String fileName = extractFileName(part);
+                    // Salve o arquivo no sistema de arquivos ou armazene-o em um banco de dados
+                }
+            }
+
             request.setAttribute("produtos", produtos);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
@@ -128,5 +137,16 @@ public class AlterarProduto extends HttpServlet {
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEditarProduto.jsp");
 //        dispatcher.forward(request, response);
 //    }
+    }
+
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] tokens = contentDisp.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf("=") + 2, token.length() - 1);
+            }
+        }
+        return "";
     }
 }
