@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -25,15 +25,15 @@ body {
 
 /* Estilização da Caixa de Cadastrar ou Alterar Produto */
 #area-produto {
-     margin-top: 100px;
-     display: flex;
-     justify-content: center;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
 }
 
 #caixa-produto {
     background-color: white;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-    padding:30px;
+    padding: 30px;
     border-radius: 10px;
     text-align: center;
     max-width: 600px; /* Largura máxima da caixa */
@@ -47,12 +47,12 @@ body {
 }
 
 #mensagem-erro {
-    margin-top:3%;
+    margin-top: 3%;
 }
 
 form {
     max-width: 100%;
-    margin-top:3%;
+    margin-top: 3%;
 }
 
 .titulo-campo {
@@ -64,57 +64,14 @@ form {
 }
 
 input[type="text"],
+input[type="number"],
+input[type="file"],
 select {
     width: 98%;
     padding: 11px;
     margin: 5px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
-}
-
-#avaliacao-produto {
-    width: 10%;
-    padding: 8px;
-    margin: 5px 0;
-    margin-left: 1%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    display: flex;
-    text-align: left;
-}
-
-#preco-produto {
-    width: 18%;
-    padding: 8px;
-    margin: 5px 0;
-    margin-left: 1%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    display: flex;
-    text-align: left;
-}
-
-#estoque-produto {
-    width: 14%;
-    padding: 8px;
-    margin: 5px 0;
-    margin-left: 1%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    display: flex;
-    text-align: left;
-}
-
-input[type="file"],
-select {
-    width: 98%;
-    padding: 10px;
-    margin: 5px 0;
-    margin-left: 1%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    display: flex;
-    text-align: left;
 }
 
 #cabecalho-imagem {
@@ -138,39 +95,47 @@ td {
     max-width: 175px; /* Largura máxima da caixa */
 }
 
-.informação-imagem {
-    padding: 5px;
+.informacao-imagem {
+    padding: 10px; /* Alteração no padding para aumentar o espaço do card */
     border: 1px solid #ddd;
+    width: 200px; /* Tamanho padrão para o card */
+    height: 250px; /* Altura padrão para o card */
+    margin-bottom: 10px; /* Espaçamento inferior entre os cards */
+    text-align: center;
 }
 
-#btn-excluir {
-    color: red;
-    background-color:black;
-    font-weight: bold;
-    width: 15px;
-    height: 20px;
-    padding: 2px 2.5px;
+.informacao-imagem img {
+    max-width: 100%;
+    max-height: 150px; /* Altura máxima para a imagem dentro do card */
+    display: block;
+    margin: 0 auto;
+}
+
+.informacao-imagem button {
+    background-color: red;
+    color: white;
     border: none;
+    cursor: pointer;
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+#lista-imagens {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #botoes {
     margin-top: 3px;
     display: flex;
     flex-direction: row;
-    justify-content: space-around
+    justify-content: space-around;
 }
 
-#btn-salvar {
-    color: white;
-    background-color: #0070c9;
-    font-weight: bold;
-    width: 100px;
-    height: 30px;
-    padding: 2px 0px 0px;
-    border: none;
-    border-radius: 5px;
-}
-
+#btn-salvar,
 #btn-cancelar {
     color: white;
     background-color: #0070c9;
@@ -180,4 +145,5 @@ td {
     padding: 2px 0px 0px;
     border: none;
     border-radius: 5px;
+     margin-top: 3px;
 }
