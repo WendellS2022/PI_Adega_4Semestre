@@ -27,6 +27,9 @@
     <form action="/" method="get">
         <button type="submit" id="estoque">Listar pedidos</button>
     </form>
+    <form action="/listarProdutos" method="get">
+            <button type="submit" id="produto">Listar produtos</button>
+        </form>
     <% } %>
 </div>
 

@@ -1,7 +1,9 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
+import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Produto;
+import br.com.adega.Model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,9 +15,15 @@ import java.util.List;
 @WebServlet("/alterarProduto")
 public class AlterarProduto extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
         String codProdutoParam = request.getParameter("id");
 
+        String isSession = (String) session.getAttribute("usuarioLogado");
 
+        int grupo = UsuarioDAO.ObterGrupo(isSession);
+
+            request.setAttribute("grupo", grupo);
 
             Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
