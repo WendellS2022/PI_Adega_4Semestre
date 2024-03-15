@@ -31,10 +31,12 @@
             <div class="info-produtos">
                 <div id="info-selecoes">
 
-                    <form action="listarProdutos" method="GET">
+                    <form action="/listarProdutos" method="GET">
                         <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="search">
                         <button id="btn-procurar" type="submit">Procurar</button>
-                        <a href="CadastrarAlterarProduto.jsp" id="btn-cadastrar" >Novo Produto</a>
+                     </form>
+                    <form action="/cadastrarProduto" method="GET">
+                         <button id="btn-cadastrar" ${grupo == 1 ? 'enable' : 'disabled'}>Novo Produto</button>
                     </form>
 
                 </div>
@@ -60,13 +62,14 @@
                                  <td class="alterar-dados-produto">
                                      <a href="/alterarProduto?id=${produto.codProduto}">Alterar</a>
                                  </td>
-                                <td class="alterar-situacao-produto">
-                                    <a href="#" onclick="confirmarAlteracao('${produto.codProduto}', '${produto.situacaoProduto ? 'Inativar' : 'Reativar'}')">
-                                        ${produto.situacaoProduto ? 'Inativar' : 'Reativar'}
-                                    </a>
-                                </td>
+                              <td class="alterar-situacao-produto">
+                                  <a href="#" ${grupo == 1 ? 'onclick="confirmarAlteracao(\'${produto.codProduto}\', \'${produto.situacaoProduto ? \'Inativar\' : \'Reativar\'}\')"' : 'disabled'}>
+                                      ${produto.situacaoProduto ? 'Inativar' : 'Reativar'}
+                                  </a>
+                              </td>
+
                                  <td class="visualizar-produto">
-                                     <a href="visualizarProduto?id=${produto.codProduto}">Visualizar</a>
+                                     <a href="visualizarProduto?id=${produto.codProduto}" ${grupo == 1 ? 'enable' : 'disabled'}>Visualizar</a>
                                  </td>
                              </tr>
                          </c:forEach>
