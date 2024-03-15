@@ -123,13 +123,5 @@
            var novoTotal = totalAtual + imagens.length;
            document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + novoTotal;
        });
-
-                   String mensagem = (String) request.getAttribute("mensagem");
-                   if (mensagem != null) {
-
-                      <p><%= mensagem %></p>
-
-                   }
-
 </script>
 </html>
