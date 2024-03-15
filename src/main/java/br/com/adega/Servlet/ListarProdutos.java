@@ -28,50 +28,12 @@ public class ListarProdutos extends HttpServlet {
 
         if (search != null && !search.isEmpty()) {
             produtos = ProdutoDAO.PesquisarProdutosPorNome(search);
-
-            request.setAttribute("produtos", produtos);
-            request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
-
         } else {
             List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
-
-            List<List<Produto>> listaDeListasDeProdutos = new ArrayList<>();
-
-            List<Produto> subListaDeProdutos = new ArrayList<>();
-
-            for (Produto produto : todosOsProdutos) {
-                subListaDeProdutos.add(produto);
-                if (subListaDeProdutos.size() == 10) {
-                    listaDeListasDeProdutos.add(subListaDeProdutos);
-                    subListaDeProdutos = new ArrayList<>();
-                }
-            }
-
-            if (!subListaDeProdutos.isEmpty()) {
-                listaDeListasDeProdutos.add(subListaDeProdutos);
-            }
+            List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
 
             String action = request.getParameter("action");
-
-            if (action != null) {
-                switch (action) {
-                    case "firstPage":
-                        pagina = 1;
-                        break;
-                    case "prevPage":
-                        pagina = pagina - 1;
-                        break;
-                    case "nextPage":
-                        pagina = pagina + 1;
-                        break;
-                    case "lastPage":
-                        pagina = listaDeListasDeProdutos.size();
-                        break;
-                    default:
-                        pagina = 1;
-                        break;
-                }
-            }
+            pagina = calcularPagina(listaDeListasDeProdutos, pagina, action);
 
             if (pagina > 0 && pagina <= listaDeListasDeProdutos.size()) {
                 produtos = listaDeListasDeProdutos.get(pagina - 1);
@@ -85,4 +47,44 @@ public class ListarProdutos extends HttpServlet {
         request.setAttribute("page", pagina);
         request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
     }
+
+
+    private List<List<Produto>> dividirProdutosEmListas(List<Produto> todosOsProdutos) {
+        List<List<Produto>> listaDeListasDeProdutos = new ArrayList<>();
+        List<Produto> subListaDeProdutos = new ArrayList<>();
+
+        for (Produto produto : todosOsProdutos) {
+            subListaDeProdutos.add(produto);
+            if (subListaDeProdutos.size() == 10) {
+                listaDeListasDeProdutos.add(subListaDeProdutos);
+                subListaDeProdutos = new ArrayList<>();
+            }
+        }
+
+        if (!subListaDeProdutos.isEmpty()) {
+            listaDeListasDeProdutos.add(subListaDeProdutos);
+        }
+
+        return listaDeListasDeProdutos;
+    }
+
+    private int calcularPagina(List<List<Produto>> listaDeListasDeProdutos, int pagina, String action) {
+        if (action != null) {
+            switch (action) {
+                case "firstPage":
+                    return 1;
+                case "prevPage":
+                    return pagina - 1;
+                case "nextPage":
+                    return pagina + 1;
+                case "lastPage":
+                    return listaDeListasDeProdutos.size();
+                default:
+                    return 1;
+            }
+        }
+
+        return pagina;
+    }
+
 }

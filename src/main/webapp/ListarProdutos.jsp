@@ -31,9 +31,12 @@
             <div class="info-produtos">
                 <div id="info-selecoes">
 
-                    <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="search">
-                    <button id="btn-procurar" type="submit">Procurar</button>
-                    <a href="CadastrarAlterarProduto.jsp" id="btn-cadastrar">Novo Produto</a>
+                    <form action="listarProdutos" method="GET">
+                        <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="search">
+                        <button id="btn-procurar" type="submit">Procurar</button>
+                        <a href="CadastrarAlterarProduto.jsp" id="btn-cadastrar">Novo Produto</a>
+                    </form>
+
                 </div>
                 <table id="tabela-produto">
                      <thead id="cabecalho-tabela-produto">

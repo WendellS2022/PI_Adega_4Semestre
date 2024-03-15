@@ -31,6 +31,7 @@
                 <form action="/cadastrarProduto?id=${produto.codProduto}" method="POST">
                     <div id="informacao-produto">
                         <input type="hidden" name="codProduto" value="${produto != null ? produto.codProduto : ''}">
+                          <input type="hidden" name="situacao" value="${produto != null ? produto.situacaoProduto : ''}">
 
                         <label for="nomeProduto" class="titulo-campo">Nome do Produto:</label>
                         <input type="text" name="nomeProduto" id="nome-Produto" placeholder="Nome do produto" required
@@ -52,6 +53,8 @@
                         <label for="qtdEstoque" class="titulo-campo">Quantidade em Estoque:</label>
                         <input type="number" name="qtdEstoque" id="qtd-Estoque" required min="0" max="99999" step="1"
                             value="${produto != null ? produto.qtdEstoque : ''}">
+
+
                     </div>
 
 
