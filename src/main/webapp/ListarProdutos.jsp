@@ -34,7 +34,7 @@
                     <form action="listarProdutos" method="GET">
                         <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="search">
                         <button id="btn-procurar" type="submit">Procurar</button>
-                        <a href="CadastrarAlterarProduto.jsp" id="btn-cadastrar">Novo Produto</a>
+                        <a href="CadastrarAlterarProduto.jsp" id="btn-cadastrar" >Novo Produto</a>
                     </form>
 
                 </div>
@@ -107,6 +107,11 @@
         </section>
     </article>
     <script>
+
+
+
+
+
  function confirmarAlteracao(codProduto, acao) {
      var confirmacao = confirm(`Deseja realmente ${acao} o produto?`);
      if (confirmacao) {
