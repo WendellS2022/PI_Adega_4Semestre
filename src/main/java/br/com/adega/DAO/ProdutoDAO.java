@@ -1,6 +1,7 @@
 package br.com.adega.DAO;
 
 import br.com.adega.Config.ConnectionPoolConfig;
+import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 
 import java.sql.Connection;

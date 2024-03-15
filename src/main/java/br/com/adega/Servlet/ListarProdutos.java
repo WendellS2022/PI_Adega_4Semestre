@@ -10,41 +10,81 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-//@WebServlet("/listarProdutos")
-//public class ListarProdutos extends HttpServlet {
-//
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//
-//        List<Produto> produtos = ProdutoDAO.obterPaginaDeProdutos(1, 10); // Obtém a primeira página de produtos (máximo 10 por página)
-//
-//        request.setAttribute("produtos", produtos);
-//
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
-//        dispatcher.forward(request, response);
-//    }
-//}
 @WebServlet("/listarProdutos")
 public class ListarProdutos extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Parâmetro de pesquisa
-        String search = request.getParameter("search");
+        int pagina = 1; // Página padrão
+        String pagInicial = request.getParameter("page");
+
+        if (pagInicial != null)
+            pagina = Integer.parseInt(pagInicial);
 
         List<Produto> produtos;
+        String search = request.getParameter("search");
 
         if (search != null && !search.isEmpty()) {
-            // Se houver um parâmetro de pesquisa, chama o método de pesquisa por nome
             produtos = ProdutoDAO.PesquisarProdutosPorNome(search);
         } else {
-            // Caso contrário, obtém a primeira página de produtos (máximo 10 por página)
-            produtos = ProdutoDAO.obterPaginaDeProdutos(1, 10);
+            List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
+            List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
+
+            String action = request.getParameter("action");
+            pagina = calcularPagina(listaDeListasDeProdutos, pagina, action);
+
+            if (pagina > 0 && pagina <= listaDeListasDeProdutos.size()) {
+                produtos = listaDeListasDeProdutos.get(pagina - 1);
+            } else {
+                produtos = listaDeListasDeProdutos.get(0);
+                pagina = 1;
+            }
         }
 
         request.setAttribute("produtos", produtos);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
-        dispatcher.forward(request, response);
+        request.setAttribute("page", pagina);
+        request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
     }
+
+
+    private List<List<Produto>> dividirProdutosEmListas(List<Produto> todosOsProdutos) {
+        List<List<Produto>> listaDeListasDeProdutos = new ArrayList<>();
+        List<Produto> subListaDeProdutos = new ArrayList<>();
+
+        for (Produto produto : todosOsProdutos) {
+            subListaDeProdutos.add(produto);
+            if (subListaDeProdutos.size() == 10) {
+                listaDeListasDeProdutos.add(subListaDeProdutos);
+                subListaDeProdutos = new ArrayList<>();
+            }
+        }
+
+        if (!subListaDeProdutos.isEmpty()) {
+            listaDeListasDeProdutos.add(subListaDeProdutos);
+        }
+
+        return listaDeListasDeProdutos;
+    }
+
+    private int calcularPagina(List<List<Produto>> listaDeListasDeProdutos, int pagina, String action) {
+        if (action != null) {
+            switch (action) {
+                case "firstPage":
+                    return 1;
+                case "prevPage":
+                    return pagina - 1;
+                case "nextPage":
+                    return pagina + 1;
+                case "lastPage":
+                    return listaDeListasDeProdutos.size();
+                default:
+                    return 1;
+            }
+        }
+
+        return pagina;
+    }
+
 }

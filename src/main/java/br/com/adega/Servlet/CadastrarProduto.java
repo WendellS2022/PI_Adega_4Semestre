@@ -9,11 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet("/cadastrarProduto")
 public class CadastrarProduto extends HttpServlet {
@@ -45,6 +41,7 @@ public class CadastrarProduto extends HttpServlet {
             produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
             produto.setVlrVendaProduto(Double.parseDouble(request.getParameter("vlrVendaProduto")));
             produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
+            produto.setSituacaoProduto(Boolean.parseBoolean(request.getParameter("situacao")));
 
             boolean updateProduto = ProdutoDAO.AtualizarProduto(produto);
 
@@ -66,31 +63,51 @@ public class CadastrarProduto extends HttpServlet {
             boolean createProduto = ProdutoDAO.AdicionarProduto(produto);
 
             if (createProduto) {
-                request.setAttribute("mensagem", "Produto adicionado com sucesso!");
+                request.setAttribute("mensagem", "Produto adcionado com sucesso!");
             } else {
-                request.setAttribute("mensagem", "Falha ao adicionar produto!");
-            }
-
-            // Processar o upload de imagens
-            List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
-            for (Part filePart : fileParts) {
-                String fileName = filePart.getName();
-                String directory = "/PI_Adega_4Semestre/src/main/webapp/imgProdutos";
-                String filePath = directory + File.separator + fileName;
-                filePart.write(filePath);
-
-
-                // Atualizar o banco de dados com o caminho da imagem
-                Imagem imagem = new Imagem();
-                imagem.setProdutoId(produto.getCodProduto());
-                imagem.setDiretorio(directory);
-                imagem.setNome(fileName);
-                imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
-                ProdutoDAO.AdicionarImagem(imagem);
+                request.setAttribute("mensagem", "Falha ao adcionar produto!");
             }
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
             dispatcher.forward(request, response);
         }
+//        Converte os parâmetros para os tipos adequados
+//        int codProduto = 0;  // Inicializa com valor padrão
+//        if (codProduto != null && !codProdutoParam.isEmpty()) {
+//            codProduto = Integer.parseInt(codProdutoParam);
+//        }
+//        int qtdEstoque = (qtdEstoqueParam != null && !qtdEstoqueParam.isEmpty()) ? Integer.parseInt(qtdEstoqueParam) : 0;
+//        double vlrVendaProduto = (vlrVendaProdutoParam != null && !vlrVendaProdutoParam.isEmpty()) ? Double.parseDouble(vlrVendaProdutoParam) : 0.0;
+//        int avaliacaoProduto = (avaliacaoProdutoParam != null && !avaliacaoProdutoParam.isEmpty()) ? Integer.parseInt(avaliacaoProdutoParam) : 0;
+//
+//        // Cria um objeto Product com os dados do formulário
+//        Produto produto = new Produto(codProduto, nomeProduto, dscDetalhadaProduto, avaliacaoProduto, qtdEstoque, vlrVendaProduto, true);
+//
+//        // Verifica se é uma operação de cadastro ou edição
+//        if (codProduto == 0) {
+//            // Cadastro de novo produto
+//            boolean success = ProdutoDAO.adicionarProduto(produto);
+//
+//            if (success) {
+//                request.setAttribute("mensagem", "Produto cadastrado com sucesso!");
+//            } else {
+//                request.setAttribute("mensagem", "Falha ao cadastrar o produto. Verifique os dados e tente novamente.");
+//            }
+//        } else {
+//
+//            // Edição de produto existente
+//            boolean success = ProdutoDAO.atualizarProduto(produto);
+//
+//            if (success) {
+//                request.setAttribute("mensagem", "Produto atualizado com sucesso!");
+//            } else {
+//                request.setAttribute("mensagem", "Falha ao atualizar o produto. Verifique os dados e tente novamente.");
+//            }
+//        }
+
+        // Encaminha de volta para a página de cadastro/edição
+
     }
 }
+
+
