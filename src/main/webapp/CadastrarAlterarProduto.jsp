@@ -36,12 +36,13 @@
                         <input type="text" name="nomeProduto" id="nome-Produto" placeholder="Nome do produto" required
                             value="${produto != null ? produto.nomeProduto : ''}">
 
+
                         <label for="dscDetalhadaProduto" class="titulo-campo">Descrição Detalhada do Produto:</label>
-                        <input type="text" name="dscDetalhadaProduto" id="dsc-Produto" placeholder="Descrição detalhada do produto" required
-                            value="${produto != null ? produto.dscDetalhadaProduto : ''}">
+                        <input type="text" name="dscDetalhadaProduto" id="dsc-Produto" placeholder="Descrição detalhada do produto" required maxlength="2000"
+                        value="${produto != null ? produto.dscDetalhadaProduto : ''}">
 
                         <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto:</label>
-                        <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" required
+                        <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" required min="0" max="5" step="0.5"
                             value="${produto != null ? produto.avaliacaoProduto : ''}">
 
                         <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto:</label>
@@ -49,11 +50,10 @@
                             value="${produto != null ? produto.vlrVendaProduto : ''}">
 
                         <label for="qtdEstoque" class="titulo-campo">Quantidade em Estoque:</label>
-                        <input type="number" name="qtdEstoque" id="qtd-Estoque" required
+                        <input type="number" name="qtdEstoque" id="qtd-Estoque" required min="0" max="99999" step="1"
                             value="${produto != null ? produto.qtdEstoque : ''}">
                     </div>
 
-                    <input value="Enviar">
 
 
 
@@ -81,7 +81,7 @@
         </section>
     </article>
 </body>
-
+<script src="cadastrarProduto.js"></script>
 <script>
     var selectedIndex = document.getElementById('grupo-usuario').selectedIndex;
 
@@ -111,7 +111,7 @@
                        <button type="submit" class="btn-excluir">X</button>
                    </form>
                    <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto">
-                   <input type="checkbox" name="codQualificacao" class="qualificacao-produto" placeholder="Nome do produto" required>
+                   <input type="checkbox" name="codQualificacao" class="qualificacao-produto" placeholder="Nome do produto">
                `;
                td.appendChild(div);
                tr.appendChild(td);
