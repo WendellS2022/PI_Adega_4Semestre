@@ -59,9 +59,7 @@ public class Produto {
         return qtdEstoque;
     }
 
-    public void setQtdEstoque(int qtdEstoque) {
-        this.qtdEstoque = qtdEstoque;
-    }
+    public void setQtdEstoque(int qtdEstoque) {this.qtdEstoque = qtdEstoque;}
 
     public double getVlrVendaProduto() {
         return vlrVendaProduto;

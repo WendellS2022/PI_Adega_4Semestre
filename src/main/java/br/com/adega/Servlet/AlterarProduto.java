@@ -22,14 +22,14 @@ public class AlterarProduto extends HttpServlet {
 
         int grupo = UsuarioDAO.ObterGrupo(isSession);
 
-        request.setAttribute("grupo", grupo);
+            request.setAttribute("grupo", grupo);
 
-        Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
+            Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
-        request.setAttribute("produto", produtos);
+            request.setAttribute("produto", produtos);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-        dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+            dispatcher.forward(request, response);
 
 
     }
