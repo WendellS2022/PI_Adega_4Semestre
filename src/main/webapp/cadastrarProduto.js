@@ -72,3 +72,33 @@ function updateTotalImages() {
 
 // Adiciona o evento de seleção de imagem ao elemento correspondente
 document.getElementById('selecao-imagem').addEventListener('change', handleImageSelection);
+
+// Função para enviar as imagens para o servidor
+function enviarImagensParaServidor() {
+    var imagensSelecionadas = document.getElementById('selecao-imagem').files;
+    var formData = new FormData();
+
+    for (var i = 0; i < imagensSelecionadas.length; i++) {
+        formData.append('selImagem', imagensSelecionadas[i]);
+    }
+
+    // Envia as imagens para o servidor usando uma requisição AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/cadastrarProduto', true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log('Imagens enviadas com sucesso!');
+            // Atualizar a página ou realizar outras ações necessárias após o envio bem-sucedido
+        } else {
+            console.error('Erro ao enviar as imagens!');
+            // Lidar com o erro de envio das imagens, se necessário
+        }
+    };
+    xhr.send(formData);
+}
+
+// Adiciona o evento de envio das imagens ao servidor ao clicar no botão "Salvar"
+document.getElementById('btn-salvar').addEventListener('click', function(event) {
+    event.preventDefault(); // Previne o comportamento padrão do formulário
+    enviarImagensParaServidor(); // Chama a função para enviar as imagens para o servidor
+});
