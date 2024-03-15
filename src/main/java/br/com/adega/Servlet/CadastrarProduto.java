@@ -1,6 +1,7 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
+import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Produto;
 
 import javax.servlet.RequestDispatcher;
@@ -9,21 +10,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/cadastrarProduto")
 public class CadastrarProduto extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtém o ID do produto da requisição
-        String codProdutoParam = request.getParameter("COD_PRODUTO");
+        HttpSession session = request.getSession();
+        String isSession = (String) session.getAttribute("usuarioLogado");
 
-        if (codProdutoParam != null && !codProdutoParam.isEmpty()) {
-            // Se o ID do produto está presente, é uma edição
-            int codProduto = Integer.parseInt(codProdutoParam);
-            Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
-            request.setAttribute("produto", produto);
-        }
+        int grupo = UsuarioDAO.ObterGrupo(isSession);
+
+        request.setAttribute("grupo", grupo);
 
         // Encaminha para a página de cadastro/edição de produtos
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
@@ -34,7 +33,7 @@ public class CadastrarProduto extends HttpServlet {
         Produto produto = new Produto();
         String codProduto = request.getParameter("id");
 
-        if (!codProduto.isEmpty()) {
+        if (!codProduto.isBlank()) {
             produto.setCodProduto(Integer.parseInt(codProduto));
             produto.setNomeProduto(request.getParameter("nomeProduto"));
             produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
