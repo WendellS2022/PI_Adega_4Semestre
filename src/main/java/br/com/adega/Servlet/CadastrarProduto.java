@@ -72,7 +72,7 @@ public class CadastrarProduto extends HttpServlet {
             List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
             for (Part filePart : fileParts) {
                 String fileName = filePart.getName();
-                String directory = "/PI_Adega_4Semestre/src/main/webapp/imgProdutos";
+                String directory = request.getServletContext().getRealPath("/imgProdutos"); // Caminho absoluto do diretório de imagens
                 String filePath = directory + File.separator + fileName;
                 filePart.write(filePath);
 
@@ -84,6 +84,7 @@ public class CadastrarProduto extends HttpServlet {
                 imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
                 ProdutoDAO.AdicionarImagem(imagem);
             }
+
 
             // Excluir imagens existentes se solicitado
             String[] imagensParaExcluir = request.getParameterValues("excluirImagem");
