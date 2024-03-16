@@ -1,7 +1,6 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
-import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Produto;
 
 import javax.servlet.RequestDispatcher;
@@ -23,6 +22,12 @@ public class CadastrarProduto extends HttpServlet {
         int grupo = UsuarioDAO.ObterGrupo(isSession);
 
         request.setAttribute("grupo", grupo);
+        if (codProdutoParam != null && !codProdutoParam.isEmpty()) {
+            // Se o ID do produto está presente, é uma edição
+            int codProduto = Integer.parseInt(codProdutoParam);
+            Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
+            request.setAttribute("produto", produto);
+        }
 
         // Encaminha para a página de cadastro/edição de produtos
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
@@ -33,16 +38,16 @@ public class CadastrarProduto extends HttpServlet {
         Produto produto = new Produto();
         String codProduto = request.getParameter("id");
 
-        if (!codProduto.isBlank()) {
+        if (!codProduto.isEmpty()) {
             produto.setCodProduto(Integer.parseInt(codProduto));
             produto.setNomeProduto(request.getParameter("nomeProduto"));
             produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
             produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
             produto.setVlrVendaProduto(Double.parseDouble(request.getParameter("vlrVendaProduto")));
+            ;
             produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
-            produto.setSituacaoProduto(Boolean.parseBoolean(request.getParameter("situacao")));
 
-            boolean updateProduto = ProdutoDAO.AtualizarProduto(produto);
+            boolean updateProduto = ProdutoDAO.atualizarProduto(produto);
 
             if (updateProduto) {
                 request.setAttribute("mensagem", "Produto alterado com sucesso!");

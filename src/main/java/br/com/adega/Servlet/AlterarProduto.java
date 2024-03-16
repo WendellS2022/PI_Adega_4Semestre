@@ -3,12 +3,14 @@ package br.com.adega.Servlet;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Produto;
+import br.com.adega.Model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 @WebServlet("/alterarProduto")
@@ -93,6 +95,7 @@ public class AlterarProduto extends HttpServlet {
             if (pageParam != null && !pageParam.isEmpty()) {
                 page = Integer.parseInt(pageParam);
             }
+            List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
 
             // Obtém os produtos da página atual
             List<Produto> produtos = ProdutoDAO.obterPaginaDeProdutos(page, 10);
@@ -104,6 +107,9 @@ public class AlterarProduto extends HttpServlet {
         }
     }
 
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
+            dispatcher.forward(request, response);
+        }
 
 
 //        String codProdutoParam = request.getParameter("COD_PRODUTO");

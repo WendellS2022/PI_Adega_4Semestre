@@ -1,6 +1,6 @@
 ![Sprint_1](https://github.com/WendellS2022/PI_Adega_4Semestre/assets/108558824/6313f01f-753e-477c-97a6-bdae0e2c03a8)
 ![Telas_Sprint_1](https://github.com/WendellS2022/PI_Adega_4Semestre/assets/108558824/59e85eda-cafc-41a5-b1fc-a933a01890ae)
-[Script_BD_Adega.txt](https://github.com/WendellS2022/PI_Adega_4Semestre/files/14498674/Script_BD_Adega.txt)
+![Script_BD_Adega.txt](https://github.com/WendellS2022/PI_Adega_4Semestre/files/14498674/Script_BD_Adega.txt)
 ![Modelo_Lógico](https://github.com/WendellS2022/PI_Adega_4Semestre/assets/108558824/8c945e39-c9a8-4ef6-b7a0-818622988789)
 ![Modelo_Logico](https://github.com/WendellS2022/PI_Adega_4Semestre/assets/108558824/34176699-4606-4da3-ad38-48c3f97cbd9a)
 ![Modelo_Físico](https://github.com/WendellS2022/PI_Adega_4Semestre/assets/108558824/7748cb1c-affc-481a-8e73-bc66408cc7fc)

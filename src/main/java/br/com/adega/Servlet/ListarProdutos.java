@@ -15,6 +15,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+//@WebServlet("/listarProdutos")
+//public class ListarProdutos extends HttpServlet {
+//
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//
+//        List<Produto> produtos = ProdutoDAO.obterPaginaDeProdutos(1, 10); // Obtém a primeira página de produtos (máximo 10 por página)
+//
+//        request.setAttribute("produtos", produtos);
+//
+//        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
+//        dispatcher.forward(request, response);
+//    }
+//}
 @WebServlet("/listarProdutos")
 public class ListarProdutos extends HttpServlet {
 
@@ -53,47 +66,8 @@ public class ListarProdutos extends HttpServlet {
         }
 
         request.setAttribute("produtos", produtos);
-        request.setAttribute("page", pagina);
-        request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
+        dispatcher.forward(request, response);
     }
-
-
-    private List<List<Produto>> dividirProdutosEmListas(List<Produto> todosOsProdutos) {
-        List<List<Produto>> listaDeListasDeProdutos = new ArrayList<>();
-        List<Produto> subListaDeProdutos = new ArrayList<>();
-
-        for (Produto produto : todosOsProdutos) {
-            subListaDeProdutos.add(produto);
-            if (subListaDeProdutos.size() == 10) {
-                listaDeListasDeProdutos.add(subListaDeProdutos);
-                subListaDeProdutos = new ArrayList<>();
-            }
-        }
-
-        if (!subListaDeProdutos.isEmpty()) {
-            listaDeListasDeProdutos.add(subListaDeProdutos);
-        }
-
-        return listaDeListasDeProdutos;
-    }
-
-    private int calcularPagina(List<List<Produto>> listaDeListasDeProdutos, int pagina, String action) {
-        if (action != null) {
-            switch (action) {
-                case "firstPage":
-                    return 1;
-                case "prevPage":
-                    return pagina - 1;
-                case "nextPage":
-                    return pagina + 1;
-                case "lastPage":
-                    return listaDeListasDeProdutos.size();
-                default:
-                    return 1;
-            }
-        }
-
-        return pagina;
-    }
-
 }
