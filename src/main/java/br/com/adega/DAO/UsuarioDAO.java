@@ -28,7 +28,7 @@ public class UsuarioDAO {
             if (resultSet.next()) {
                 // Crie um objeto Usuario com os dados do ResultSet
 
-                usuario.setUserId(resultSet.getInt("UsersId"));
+                usuario.setUserId(resultSet.getInt("UserId"));
                 usuario.setNome(resultSet.getString("Nome"));
                 usuario.setEmail(resultSet.getString("Email"));
                 usuario.setSenha(resultSet.getString("Senha"));

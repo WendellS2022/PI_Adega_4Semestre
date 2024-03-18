@@ -1,4 +1,4 @@
-// Função principal para lidar com a seleção de imagens
+/*// Função principal para lidar com a seleção de imagens
 function handleImageSelection(event) {
     var imagens = event.target.files;
     var listaImagens = document.getElementById('lista-imagens');
@@ -71,9 +71,9 @@ function updateTotalImages() {
 }
 
 // Adiciona o evento de seleção de imagem ao elemento correspondente
-document.getElementById('selecao-imagem').addEventListener('change', handleImageSelection);
+document.getElementById('selecao-imagem').addEventListener('change', handleImageSelection);*/
 
-/*
+
 
 Esse trecho é o contido no formulario CadastrarAlterarProduto.jsp
 
@@ -126,4 +126,6 @@ Esse trecho é o contido no formulario CadastrarAlterarProduto.jsp
 
                    }
 
-</script>*/
+</script>
+
+

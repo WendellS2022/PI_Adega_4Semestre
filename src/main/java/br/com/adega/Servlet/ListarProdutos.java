@@ -39,6 +39,14 @@ public class ListarProdutos extends HttpServlet {
             produtos = ProdutoDAO.PesquisarProdutosPorNome(search);
         } else {
             List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
+
+            if(todosOsProdutos.size() == 0){
+                request.setAttribute("produtos", todosOsProdutos);
+                request.setAttribute("page", pagina);
+                request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
+            return;
+            }
+
             List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
 
             String action = request.getParameter("action");
