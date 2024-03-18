@@ -1,6 +1,7 @@
 package br.com.adega.DAO;
 
 import br.com.adega.Config.ConnectionPoolConfig;
+import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 
 import java.sql.Connection;
@@ -243,5 +244,94 @@ public class ProdutoDAO {
 
         return produtos;
     }
+    public static boolean AdicionarImagem(Imagem imagem) {
+        String SQL = "INSERT INTO Imagens (ProdutoId, Diretorio, Nome, Qualificacao, Extensao) VALUES (?, ?, ?, ?, ?)";
 
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setInt(1, imagem.getProdutoId());
+            preparedStatement.setString(2, imagem.getDiretorio());
+            preparedStatement.setString(3, imagem.getNome());
+            preparedStatement.setBoolean(4, imagem.isQualificacao());
+            preparedStatement.setString(5, imagem.getExtensao());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean AtualizarImagem(Imagem imagem) {
+        String SQL = "UPDATE Imagens SET ProdutoId = ?, Diretorio = ?, Nome = ?, Qualificacao = ?, Extensao = ? WHERE ImagemID = ?";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setInt(1, imagem.getProdutoId());
+            preparedStatement.setString(2, imagem.getDiretorio());
+            preparedStatement.setString(3, imagem.getNome());
+            preparedStatement.setBoolean(4, imagem.isQualificacao());
+            preparedStatement.setString(5, imagem.getExtensao());
+            preparedStatement.setInt(6, imagem.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean ExcluirImagem(int imagemId) {
+        String SQL = "DELETE FROM Imagens WHERE ImagemID = ?";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setInt(1, imagemId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<Imagem> obterImagensPorProdutoId(int produtoId) {
+        List<Imagem> imagens = new ArrayList<>();
+
+        String SQL = "SELECT * FROM Imagens WHERE ProdutoId = ?";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setInt(1, produtoId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Imagem imagem = new Imagem();
+
+                    imagem.setId(resultSet.getInt("ImagemID"));
+                    imagem.setProdutoId(resultSet.getInt("ProdutoId"));
+                    imagem.setDiretorio(resultSet.getString("Diretorio"));
+                    imagem.setNome(resultSet.getString("Nome"));
+                    imagem.setQualificacao(resultSet.getBoolean("Qualificacao"));
+                    imagem.setExtensao(resultSet.getString("Extensao"));
+
+                    imagens.add(imagem);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return imagens;
+    }
 }
