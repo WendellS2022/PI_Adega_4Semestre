@@ -9,6 +9,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -63,15 +64,15 @@ public class CadastrarProduto extends HttpServlet {
             boolean createProduto = ProdutoDAO.AdicionarProduto(produto);
 
             if (createProduto) {
-                request.setAttribute("mensagem", "Produto adcionado com sucesso!");
+                request.setAttribute("mensagem", "Produto adicionado com sucesso!");
             } else {
-                request.setAttribute("mensagem", "Falha ao adcionar produto!");
+                request.setAttribute("mensagem", "Falha ao adicionar produto!");
             }
 
             // Processar o upload de imagens
             List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
             for (Part filePart : fileParts) {
-                String fileName = filePart.getName();
+                String fileName = extractFileName(filePart.getHeader("content-disposition"));
                 String directory = request.getServletContext().getRealPath("/imgProdutos"); // Caminho absoluto do diretório de imagens
                 String filePath = directory + File.separator + fileName;
                 filePart.write(filePath);
@@ -83,15 +84,6 @@ public class CadastrarProduto extends HttpServlet {
                 imagem.setNome(fileName);
                 imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
                 ProdutoDAO.AdicionarImagem(imagem);
-            }
-
-
-            // Excluir imagens existentes se solicitado
-            String[] imagensParaExcluir = request.getParameterValues("excluirImagem");
-            if (imagensParaExcluir != null) {
-                for (String imagemId : imagensParaExcluir) {
-                    ProdutoDAO.ExcluirImagem(Integer.parseInt(imagemId));
-                }
             }
 
             // Redirecionar para a página de cadastro/edição de produtos

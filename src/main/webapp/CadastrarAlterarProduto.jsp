@@ -88,6 +88,35 @@
             </div>
         </section>
     </article>
+
+    <script>
+        // Função para enviar o formulário e as imagens para o servidor
+        function enviarFormularioEImagens() {
+            var form = document.getElementById('formulario-produto');
+            var formData = new FormData(form);
+
+            var imagensSelecionadas = document.getElementById('selecao-imagem').files;
+            for (var i = 0; i < imagensSelecionadas.length; i++) {
+                formData.append('selImagem', imagensSelecionadas[i]);
+            }
+
+            // Envia os dados do formulário e as imagens para o servidor usando uma requisição AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/cadastrarProduto', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('Formulário e imagens enviados com sucesso!');
+                    // Atualizar a página ou realizar outras ações necessárias após o envio bem-sucedido
+                } else {
+                    console.error('Erro ao enviar o formulário e as imagens!');
+                    // Lidar com o erro de envio, se necessário
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
+
+
 </body>
 
 <script src="cadastrarProduto.js"></script>
