@@ -35,7 +35,7 @@ public class CadastrarProduto extends HttpServlet {
         Produto produto = new Produto();
         String codProduto = request.getParameter("id");
 
-        if (!codProduto.isBlank()) {
+        if (codProduto != null && !codProduto.isBlank()) {
             produto.setCodProduto(Integer.parseInt(codProduto));
             produto.setNomeProduto(request.getParameter("nomeProduto"));
             produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
