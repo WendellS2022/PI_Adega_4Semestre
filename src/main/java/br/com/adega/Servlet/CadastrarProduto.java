@@ -2,15 +2,15 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.DAO.UsuarioDAO;
-import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-import javax.servlet.http.Part;
-import java.io.File;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +21,13 @@ public class CadastrarProduto extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String isSession = (String) session.getAttribute("usuarioLogado");
+
+        if (codProdutoParam != null && !codProdutoParam.isEmpty()) {
+            // Se o ID do produto está presente, é uma edição
+            int codProduto = Integer.parseInt(codProdutoParam);
+            Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
+            request.setAttribute("produto", produto);
+        }
 
         int grupo = UsuarioDAO.ObterGrupo(isSession);
 
@@ -64,9 +71,9 @@ public class CadastrarProduto extends HttpServlet {
             boolean createProduto = ProdutoDAO.AdicionarProduto(produto);
 
             if (createProduto) {
-                request.setAttribute("mensagem", "Produto adicionado com sucesso!");
+                request.setAttribute("mensagem", "Produto adcionado com sucesso!");
             } else {
-                request.setAttribute("mensagem", "Falha ao adicionar produto!");
+                request.setAttribute("mensagem", "Falha ao adcionar produto!");
             }
 
             // Processar o upload de imagens
@@ -90,7 +97,39 @@ public class CadastrarProduto extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
             dispatcher.forward(request, response);
         }
-    }
+//        Converte os parâmetros para os tipos adequados
+//        int codProduto = 0;  // Inicializa com valor padrão
+//        if (codProduto != null && !codProdutoParam.isEmpty()) {
+//            codProduto = Integer.parseInt(codProdutoParam);
+//        }
+//        int qtdEstoque = (qtdEstoqueParam != null && !qtdEstoqueParam.isEmpty()) ? Integer.parseInt(qtdEstoqueParam) : 0;
+//        double vlrVendaProduto = (vlrVendaProdutoParam != null && !vlrVendaProdutoParam.isEmpty()) ? Double.parseDouble(vlrVendaProdutoParam) : 0.0;
+//        int avaliacaoProduto = (avaliacaoProdutoParam != null && !avaliacaoProdutoParam.isEmpty()) ? Integer.parseInt(avaliacaoProdutoParam) : 0;
+//
+//        // Cria um objeto Product com os dados do formulário
+//        Produto produto = new Produto(codProduto, nomeProduto, dscDetalhadaProduto, avaliacaoProduto, qtdEstoque, vlrVendaProduto, true);
+//
+//        // Verifica se é uma operação de cadastro ou edição
+//        if (codProduto == 0) {
+//            // Cadastro de novo produto
+//            boolean success = ProdutoDAO.adicionarProduto(produto);
+//
+//            if (success) {
+//                request.setAttribute("mensagem", "Produto cadastrado com sucesso!");
+//            } else {
+//                request.setAttribute("mensagem", "Falha ao cadastrar o produto. Verifique os dados e tente novamente.");
+//            }
+//        } else {
+//
+//            // Edição de produto existente
+//            boolean success = ProdutoDAO.atualizarProduto(produto);
+//
+//            if (success) {
+//                request.setAttribute("mensagem", "Produto atualizado com sucesso!");
+//            } else {
+//                request.setAttribute("mensagem", "Falha ao atualizar o produto. Verifique os dados e tente novamente.");
+//            }
+//        }
 
     // Função para extrair o nome do arquivo do cabeçalho Content-Disposition
     private String extractFileName(String contentDispositionHeader) {
