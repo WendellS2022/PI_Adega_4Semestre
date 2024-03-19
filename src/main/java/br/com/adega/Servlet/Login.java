@@ -33,6 +33,7 @@ public class Login extends HttpServlet {
         String email = request.getParameter("email");
         String senha = request.getParameter("password");
 
+
         autenticacao = autenticacaoService.autenticarUsuario(email, senha);
         try {
             if (autenticacao.getUserId() > 0) {

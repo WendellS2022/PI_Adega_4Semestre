@@ -81,7 +81,7 @@ public class CadastrarUsuario extends HttpServlet {
             }
         } while (!senhasCorrespondem);
 
-        if (isSession != null) {
+        //if (isSession != null) {
             if (userIdParam.isBlank()) {
                 usuario.setSituacao(true);
                 boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
@@ -101,11 +101,11 @@ public class CadastrarUsuario extends HttpServlet {
             }
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
             dispatcher.forward(request, response);
-        }
-        else {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
-            dispatcher.forward(request, response);
-        }
+//        }
+//        else {
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+//            dispatcher.forward(request, response);
+//        }
     }
 
     public String limparCPF(String cpf) {

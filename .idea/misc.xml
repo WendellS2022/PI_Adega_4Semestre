@@ -8,7 +8,14 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+  <component name="ProjectResources">
+    <resource url="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;          xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot; &lt;!-- Alteração no namespace --&gt;          xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot; &lt;!-- Alteração no URL do esquema --&gt;          id=&quot;WebApp_ID&quot; version=&quot;3.1&quot;&gt; &lt;!-- Alteração na versão --&gt; " location="$PROJECT_DIR$" />
+    <resource url="http://java.sun.com/dtd/web-app_2_3.dtd" location="$USER_HOME$/AppData/Local/JetBrains/IdeaIC2023.2/extResources/d664ad10_web-app_2_3.dtd" />
+    <resource url="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" location="$USER_HOME$/AppData/Local/JetBrains/IdeaIC2023.2/extResources/beee9943_web-app_3_0.xsd" />
+    <resource url="http://www.w3.org/2001/xml.xsd" location="$USER_HOME$/AppData/Local/JetBrains/IdeaIC2023.2/extResources/9b192256_xml.xsd" />
+    <xml-schema-version>XMLSchema_1_1</xml-schema-version>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

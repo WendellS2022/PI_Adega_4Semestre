@@ -92,54 +92,5 @@
 
 <script src="cadastrarProduto.js"></script>
 
-<script>
-    var selectedIndex = document.getElementById('grupo-usuario').selectedIndex;
 
-    // Impede que o valor seja alterado se o campo estiver desabilitado
-    document.getElementById('grupo-usuario').addEventListener('change', function() {
-        if (this.disabled) {
-            this.selectedIndex = selectedIndex;
-        } else {
-            selectedIndex = this.selectedIndex;
-        }
-    }
-    );
-
-    document.getElementById('selecao-imagem').addEventListener('change', function(event) {
-           var imagens = event.target.files;
-           var listaImagens = document.getElementById('lista-imagens');
-
-           // Adiciona as novas imagens à lista existente
-           for (var i = 0; i < imagens.length; i++) {
-               var imagem = imagens[i];
-               var tr = document.createElement('tr');
-               var td = document.createElement('td');
-               var div = document.createElement('div');
-               div.className = 'informacao-imagem';
-               div.innerHTML = `
-                   <form action="/excluir-imagem" method="DELETE">
-                       <button type="submit" class="btn-excluir">X</button>
-                   </form>
-                   <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto">
-                   <input type="checkbox" name="codQualificacao" class="qualificacao-produto" placeholder="Nome do produto" required>
-               `;
-               td.appendChild(div);
-               tr.appendChild(td);
-               listaImagens.appendChild(tr);
-           }
-
-           // Atualiza o total de imagens anexadas
-           var totalAtual = parseInt(document.getElementById('total-imagens').textContent.split(' ')[4]); // Extrai o número atual de imagens anexadas
-           var novoTotal = totalAtual + imagens.length;
-           document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + novoTotal;
-       });
-
-                   String mensagem = (String) request.getAttribute("mensagem");
-                   if (mensagem != null) {
-
-                      <p><%= mensagem %></p>
-
-                   }
-
-</script>
 </html>

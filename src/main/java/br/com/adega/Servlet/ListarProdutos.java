@@ -1,6 +1,7 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
+import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Produto;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,14 @@ public class ListarProdutos extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pagina = 1; // Página padrão
+        HttpSession session = request.getSession();
         String pagInicial = request.getParameter("page");
+        String isSession = (String) session.getAttribute("usuarioLogado");
+
+
+        int grupo = UsuarioDAO.ObterGrupo(isSession);
+
+        request.setAttribute("grupo", grupo);
 
         if (pagInicial != null)
             pagina = Integer.parseInt(pagInicial);
@@ -30,6 +39,14 @@ public class ListarProdutos extends HttpServlet {
             produtos = ProdutoDAO.PesquisarProdutosPorNome(search);
         } else {
             List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
+
+            if(todosOsProdutos.size() == 0){
+                request.setAttribute("produtos", todosOsProdutos);
+                request.setAttribute("page", pagina);
+                request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
+            return;
+            }
+
             List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
 
             String action = request.getParameter("action");
