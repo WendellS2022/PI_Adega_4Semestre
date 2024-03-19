@@ -2,15 +2,14 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.DAO.UsuarioDAO;
+import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,13 +20,6 @@ public class CadastrarProduto extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String isSession = (String) session.getAttribute("usuarioLogado");
-
-        if (codProdutoParam != null && !codProdutoParam.isEmpty()) {
-            // Se o ID do produto está presente, é uma edição
-            int codProduto = Integer.parseInt(codProdutoParam);
-            Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
-            request.setAttribute("produto", produto);
-        }
 
         int grupo = UsuarioDAO.ObterGrupo(isSession);
 
@@ -42,7 +34,7 @@ public class CadastrarProduto extends HttpServlet {
         Produto produto = new Produto();
         String codProduto = request.getParameter("id");
 
-        if (codProduto != null && !codProduto.isBlank()) {
+        if (!codProduto.isBlank()) {
             produto.setCodProduto(Integer.parseInt(codProduto));
             produto.setNomeProduto(request.getParameter("nomeProduto"));
             produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
@@ -78,6 +70,7 @@ public class CadastrarProduto extends HttpServlet {
 
             // Processar o upload de imagens
             List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
+
             for (Part filePart : fileParts) {
                 String fileName = extractFileName(filePart.getHeader("content-disposition"));
                 String directory = request.getServletContext().getRealPath("/imgProdutos"); // Caminho absoluto do diretório de imagens
@@ -131,7 +124,10 @@ public class CadastrarProduto extends HttpServlet {
 //            }
 //        }
 
-    // Função para extrair o nome do arquivo do cabeçalho Content-Disposition
+        // Encaminha de volta para a página de cadastro/edição
+
+    }
+
     private String extractFileName(String contentDispositionHeader) {
         // O cabeçalho Content-Disposition é enviado no formato:
         // Content-Disposition: form-data; name="file"; filename="nome-do-arquivo.extensao"

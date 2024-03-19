@@ -83,34 +83,20 @@ public class AlterarProduto extends HttpServlet {
 //    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtém os dados do formulário
+        HttpSession session = request.getSession();
+        int page = 1;
+
+        String isSession = (String) session.getAttribute("usuarioLogado");
         String codProdutoParam = request.getParameter("codProduto");
 
         if (codProdutoParam != null) {
             boolean isSuccess = ProdutoDAO.AtualizarStatus(codProdutoParam);
 
             // Obtém os parâmetros de página da requisição
-            int page = 1; // Página padrão é a primeira
+            // Página padrão é a primeira
             String pageParam = request.getParameter("page");
-            if (pageParam != null && !pageParam.isEmpty()) {
-                page = Integer.parseInt(pageParam);
-            }
-            List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
-
-            // Obtém os produtos da página atual
-            List<Produto> produtos = ProdutoDAO.obterPaginaDeProdutos(page, 10);
-
-            // Lógica de upload de arquivos aqui, se necessário
-
-            request.setAttribute("produtos", produtos);
-            request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
         }
     }
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
-            dispatcher.forward(request, response);
-        }
-
 
 //        String codProdutoParam = request.getParameter("COD_PRODUTO");
 //        String nomeProduto = request.getParameter("DSC_NOME");
