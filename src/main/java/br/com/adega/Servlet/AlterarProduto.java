@@ -25,14 +25,14 @@ public class AlterarProduto extends HttpServlet {
 
         int grupo = UsuarioDAO.ObterGrupo(isSession);
 
-        request.setAttribute("grupo", grupo);
+            request.setAttribute("grupo", grupo);
 
-        Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
+            Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
-        request.setAttribute("produto", produtos);
+            request.setAttribute("produto", produtos);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-        dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+            dispatcher.forward(request, response);
 
 
     }
@@ -96,7 +96,8 @@ public class AlterarProduto extends HttpServlet {
         if (codProdutoParam != null) {
             boolean isSuccess = ProdutoDAO.AtualizarStatus(codProdutoParam);
 
-
+            // Obtém os parâmetros de página da requisição
+            int page = 1; // Página padrão é a primeira
             String pageParam = request.getParameter("page");
             if (pageParam != null && !pageParam.isEmpty()) {
                 pagina = Integer.parseInt(pageParam);

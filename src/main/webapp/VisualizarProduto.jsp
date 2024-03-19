@@ -38,17 +38,17 @@
                 <div class="area-imagem">
                     <ul class="controle-imagem">
                         <li class="imagem" data-active>
-                            <img src="/imagens/imagem1.avif"
+                            <img src="/src/main/resources/imagens/imagem01.avif"
                                 alt=""
                             />
                         </li>
                         <li class="imagem">
-                            <img src="/imagens/imagem2.avif"
+                            <img src="/src/main/resources/imagens/imagem02.avif"
                                 alt=""
                             />
                         </li>
                         <li class="imagem">
-                            <img src="/imagens/imagem3.avif"
+                            <img src="/src/main/resources/imagens/imagem03.avif"
                                 alt=""
                             />
                         </li>

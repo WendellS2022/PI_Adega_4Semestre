@@ -16,20 +16,20 @@
 
 
 </head>
-<header id="cabecalho-site">
-    <h1 id="identificacao-site">e-Commerce e-Devs - Área de BackOffice</h1>
-</header>
+  <header id="cabecalho-site">
+        <h1 id="identificacao-site">e-Commerce e-Devs - Área de BackOffice</h1>
+    </header>
 <body>
 
 
-<article id="area-lista-produto">
+    <article id="area-lista-produto">
 
-    <section id="caixa-lista-produto">
-        <header id="cabecalho-lista-produto">
-            <h2>Lista de Produto</h2>
-        </header>
-        <div class="info-produtos">
-            <div id="info-selecoes">
+        <section id="caixa-lista-produto">
+            <header id="cabecalho-lista-produto">
+                <h2>Lista de Produto</h2>
+            </header>
+            <div class="info-produtos">
+                <div id="info-selecoes">
 
                 <form action="/listarProdutos" method="GET">
                     <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="search">
