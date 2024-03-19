@@ -20,19 +20,11 @@ public class CadastrarProduto extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String isSession = (String) session.getAttribute("usuarioLogado"); Temporary merge branch 1
-        if (codProdutoParam != null && !codProdutoParam.isEmpty()) {
-            // Se o ID do produto está presente, é uma edição
-            int codProduto = Integer.parseInt(codProdutoParam);
-            Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
-            request.setAttribute("produto", produto);
-        }
+        String isSession = (String) session.getAttribute("usuarioLogado");
 
         int grupo = UsuarioDAO.ObterGrupo(isSession);
 
         request.setAttribute("grupo", grupo);
-
-        Temporary merge branch 2
 
         // Encaminha para a página de cadastro/edição de produtos
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
@@ -79,6 +71,7 @@ public class CadastrarProduto extends HttpServlet {
 
             // Processar o upload de imagens
             List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
+
             for (Part filePart : fileParts) {
                 String fileName = extractFileName(filePart.getHeader("content-disposition"));
                 String directory = request.getServletContext().getRealPath("/imgProdutos"); // Caminho absoluto do diretório de imagens
@@ -134,5 +127,20 @@ public class CadastrarProduto extends HttpServlet {
 
         // Encaminha de volta para a página de cadastro/edição
 
+    }
+
+    private String extractFileName(String contentDispositionHeader) {
+        // O cabeçalho Content-Disposition é enviado no formato:
+        // Content-Disposition: form-data; name="file"; filename="nome-do-arquivo.extensao"
+        // Vamos extrair o valor dentro das aspas após "filename="
+        String fileName = null;
+        String[] parts = contentDispositionHeader.split(";");
+        for (String part : parts) {
+            if (part.trim().startsWith("filename")) {
+                fileName = part.substring(part.indexOf("=") + 1).trim().replace("\"", "");
+                break;
+            }
+        }
+        return fileName;
     }
 }

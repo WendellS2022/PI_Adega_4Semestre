@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,14 +25,14 @@ public class AlterarProduto extends HttpServlet {
 
         int grupo = UsuarioDAO.ObterGrupo(isSession);
 
-            request.setAttribute("grupo", grupo);
+        request.setAttribute("grupo", grupo);
 
-            Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
+        Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
-            request.setAttribute("produto", produtos);
+        request.setAttribute("produto", produtos);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-            dispatcher.forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+        dispatcher.forward(request, response);
 
 
     }
@@ -83,33 +84,96 @@ public class AlterarProduto extends HttpServlet {
 //    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtém os dados do formulário
+        HttpSession session = request.getSession();
+        int pagina = 1;
+
+        String isSession = (String) session.getAttribute("usuarioLogado");
         String codProdutoParam = request.getParameter("codProduto");
+
+
+        List<Produto> produtos = null;
 
         if (codProdutoParam != null) {
             boolean isSuccess = ProdutoDAO.AtualizarStatus(codProdutoParam);
 
-            // Obtém os parâmetros de página da requisição
-            int page = 1; // Página padrão é a primeira
+
             String pageParam = request.getParameter("page");
             if (pageParam != null && !pageParam.isEmpty()) {
-                page = Integer.parseInt(pageParam);
+                pagina = Integer.parseInt(pageParam);
+
+                request.setAttribute("page", pageParam);
+            } else {
+                request.setAttribute("page", pagina);
             }
-            List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
 
-            // Obtém os produtos da página atual
-            List<Produto> produtos = ProdutoDAO.obterPaginaDeProdutos(page, 10);
+            List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
 
-            // Lógica de upload de arquivos aqui, se necessário
+            List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
 
-            request.setAttribute("produtos", produtos);
-            request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
+
+            String action = request.getParameter("action");
+            pagina = calcularPagina(listaDeListasDeProdutos, pagina, action);
+
+            if (pagina > 0 && pagina <= listaDeListasDeProdutos.size()) {
+                produtos = listaDeListasDeProdutos.get(pagina - 1);
+            } else {
+                produtos = listaDeListasDeProdutos.get(0);
+                pagina = 1;
+            }
         }
+
+
+        int grupo = UsuarioDAO.ObterGrupo(isSession);
+
+        request.setAttribute("grupo", grupo);
+        request.setAttribute("produtos", produtos);
+        request.setAttribute("page", pagina);
+        request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
     }
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarProdutos.jsp");
-            dispatcher.forward(request, response);
+
+
+
+
+            private List<List<Produto>> dividirProdutosEmListas(List<Produto> todosOsProdutos) {
+                List<List<Produto>> listaDeListasDeProdutos = new ArrayList<>();
+                List<Produto> subListaDeProdutos = new ArrayList<>();
+
+                for (Produto produto : todosOsProdutos) {
+                    subListaDeProdutos.add(produto);
+                    if (subListaDeProdutos.size() == 10) {
+                        listaDeListasDeProdutos.add(subListaDeProdutos);
+                        subListaDeProdutos = new ArrayList<>();
+                    }
+                }
+
+                if (!subListaDeProdutos.isEmpty()) {
+                    listaDeListasDeProdutos.add(subListaDeProdutos);
+                }
+
+                return listaDeListasDeProdutos;
+            }
+
+    private int calcularPagina(List<List<Produto>> listaDeListasDeProdutos, int pagina, String action) {
+        if (action != null) {
+            switch (action) {
+                case "firstPage":
+                    return 1;
+                case "prevPage":
+                    return pagina - 1;
+                case "nextPage":
+                    return pagina + 1;
+                case "lastPage":
+                    return listaDeListasDeProdutos.size();
+                default:
+                    return 1;
+            }
         }
+
+        return pagina;
+    }
+
+
 
 
 //        String codProdutoParam = request.getParameter("COD_PRODUTO");

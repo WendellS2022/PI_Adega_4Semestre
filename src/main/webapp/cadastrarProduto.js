@@ -77,55 +77,85 @@ document.getElementById('selecao-imagem').addEventListener('change', handleImage
 
 Esse trecho é o contido no formulario CadastrarAlterarProduto.jsp
 
-<script>
-    var selectedIndex = document.getElementById('grupo-usuario').selectedIndex;
+document.getElementById('selecao-imagem').addEventListener('change', function(event) {
+    var imagens = event.target.files;
+    var listaImagens = document.getElementById('lista-imagens');
+    var imagensArray = []; // Array para armazenar os caminhos das imagens
 
-    // Impede que o valor seja alterado se o campo estiver desabilitado
-    document.getElementById('grupo-usuario').addEventListener('change', function() {
-        if (this.disabled) {
-            this.selectedIndex = selectedIndex;
-        } else {
-            selectedIndex = this.selectedIndex;
-        }
+    // Itera sobre as imagens selecionadas
+    for (var i = 0; i < imagens.length; i++) {
+        var imagem = imagens[i];
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        var div = document.createElement('div');
+        div.className = 'informacao-imagem';
+
+        // Cria um novo nome para a imagem usando um timestamp para evitar duplicatas
+        var novoNome = 'imagem_' + Date.now() + '_' + imagem.name;
+
+        // Salva a imagem no diretório da aplicação (substitua '/caminho/para/diretorio' pelo caminho real)
+        var caminhoRelativo = '/caminho/para/diretorio/' + novoNome; // Caminho relativo ao diretório da aplicação
+        salvarImagemNoDiretorio(imagem, caminhoRelativo);
+
+        // Adiciona o caminho da imagem ao array
+        imagensArray.push(caminhoRelativo);
+
+        div.innerHTML = `
+            <form action="/excluir-imagem" method="DELETE">
+                <button type="submit" class="btn-excluir">X</button>
+            </form>
+            <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto">
+            <input type="checkbox" name="codQualificacao" class="qualificacao-produto" placeholder="Nome do produto" required>
+        `;
+        td.appendChild(div);
+        tr.appendChild(td);
+        listaImagens.appendChild(tr);
     }
-    );
 
-    document.getElementById('selecao-imagem').addEventListener('change', function(event) {
-           var imagens = event.target.files;
-           var listaImagens = document.getElementById('lista-imagens');
+    // Atualiza o total de imagens anexadas
+    var totalAtual = parseInt(document.getElementById('total-imagens').textContent.split(' ')[4]); // Extrai o número atual de imagens anexadas
+    var novoTotal = totalAtual + imagens.length;
+    document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + novoTotal;
 
-           // Adiciona as novas imagens à lista existente
-           for (var i = 0; i < imagens.length; i++) {
-               var imagem = imagens[i];
-               var tr = document.createElement('tr');
-               var td = document.createElement('td');
-               var div = document.createElement('div');
-               div.className = 'informacao-imagem';
-               div.innerHTML = `
-                   <form action="/excluir-imagem" method="DELETE">
-                       <button type="submit" class="btn-excluir">X</button>
-                   </form>
-                   <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto">
-                   <input type="checkbox" name="codQualificacao" class="qualificacao-produto" placeholder="Nome do produto" required>
-               `;
-               td.appendChild(div);
-               tr.appendChild(td);
-               listaImagens.appendChild(tr);
-           }
+    // Aqui você pode fazer o envio do array de caminhos para o backend para posterior salvamento no banco de dados
+    console.log(imagensArray); // Exemplo de como enviar o array para o backend
+});
 
-           // Atualiza o total de imagens anexadas
-           var totalAtual = parseInt(document.getElementById('total-imagens').textContent.split(' ')[4]); // Extrai o número atual de imagens anexadas
-           var novoTotal = totalAtual + imagens.length;
-           document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + novoTotal;
-       });
+function salvarImagemNoDiretorio(imagem, caminhoRelativo) {
+    // Aqui você pode implementar a lógica para salvar a imagem no diretório da aplicação
+    // Isso depende da tecnologia do servidor backend que você está utilizando (Java, Node.js, PHP, etc.)
+    // Por exemplo, se estiver usando Node.js com Express, pode usar a função fs.writeFile para salvar a imagem no disco
+}
 
-                   String mensagem = (String) request.getAttribute("mensagem");
-                   if (mensagem != null) {
 
-                      <p><%= mensagem %></p>
+document.getElementById('btn-salvar').addEventListener('click', function(event) {
+    event.preventDefault(); // Impede o comportamento padrão do botão (enviar o formulário)
 
-                   }
+    // Reúne os dados do formulário
+    var formData = new FormData();
 
-</script>
+    // Adiciona as imagens selecionadas ao FormData
+    var imagensSelecionadas = document.querySelectorAll('.informacao-imagem img');
+    imagensSelecionadas.forEach(function(imagem) {
+        formData.append('imagens', imagem.src);
+    });
+
+    // Obtém outros dados do formulário, se necessário, e adiciona ao FormData
+
+    // Envia os dados para a servlet via requisição AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/cadastrarProduto');
+    xhr.onload = function() {
+        // Lida com a resposta da servlet, se necessário
+        if (xhr.status === 200) {
+            console.log('Produto cadastrado com sucesso!');
+            // Faça algo com a resposta, se necessário
+        } else {
+            console.error('Erro ao cadastrar produto.');
+            // Lida com o erro, se necessário
+        }
+    };
+    xhr.send(formData);
+});
 
 
