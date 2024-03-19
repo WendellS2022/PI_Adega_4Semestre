@@ -77,9 +77,11 @@
                     <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" readonly
                      value="${produto != null ? produto.avaliacaoProduto : ''}">
 
+
+
                     <label for="situacaoProduto" class="titulo-campo">Situação do Produto</label>
-                    <input type="text" name="situacaoProduto" id="situação-Produto" readonly
-					 value="${produto != null ? ${produto.situacaoProduto ? 'Ativo' : 'Inativo'} : ''}">
+                    <input type="text" name="situacaoProduto" id="situacao-Produto" readonly
+                     value="${produto != null ? (produto.situacaoProduto ? 'Ativo' : 'Inativo') : ''}">
 
                     <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto</label>
                     <input type="number" name="vlrVendaProduto" id="vlr-VendaProduto" readonly

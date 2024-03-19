@@ -69,8 +69,12 @@
                               </td>
 
                                  <td class="visualizar-produto">
-                                     <a href="visualizarProduto?id=${produto.codProduto}" ${grupo == 1 ? 'enable' : 'disabled'}>Visualizar</a>
+                                     <form action="/visualizarProduto" method="GET">
+                                         <input type="hidden" name="id" value="${produto.codProduto}">
+                                         <button type="submit" ${grupo == 1 ? 'enabled' : 'disabled'}>Visualizar</button>
+                                     </form>
                                  </td>
+
                              </tr>
                          </c:forEach>
                      </tbody>
