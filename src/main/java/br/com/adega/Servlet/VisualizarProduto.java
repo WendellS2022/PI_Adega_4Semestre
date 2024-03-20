@@ -1,6 +1,7 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
+import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 
 import javax.servlet.RequestDispatcher;
@@ -14,14 +15,20 @@ import java.util.List;
 public class VisualizarProduto extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
 
         int codProdutoParam = Integer.parseInt(request.getParameter("id"));
 
-        Produto produtos = ProdutoDAO.ObterProdutoPorId(codProdutoParam);
+        Produto produto = ProdutoDAO.ObterProdutoPorId(codProdutoParam);
 
-        request.setAttribute("produto", produtos);
+        if (produto != null) {
+            // Buscar imagens correspondentes ao produto
+            List<Imagem> imagens = ProdutoDAO.obterImagensPorProdutoId(produto.getCodProduto());
+
+            request.setAttribute("produto", produto);
+            request.setAttribute("imagens", imagens);
+        }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/VisualizarProduto.jsp");
         dispatcher.forward(request, response);
