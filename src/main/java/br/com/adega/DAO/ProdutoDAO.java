@@ -285,7 +285,6 @@ public class ProdutoDAO {
         }
     }
 
-
     public static boolean ExcluirImagem(int imagemId) {
         String SQL = "DELETE FROM Imagens WHERE ImagemID = ?";
 

@@ -21,6 +21,8 @@
     <url-pattern>/console/*</url-pattern>
   </servlet-mapping>
 
+
+
   <welcome-file-list>
     <welcome-file>TelaLogin.jsp</welcome-file>
   </welcome-file-list>
