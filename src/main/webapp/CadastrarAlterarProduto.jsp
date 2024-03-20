@@ -28,69 +28,52 @@
             <% } %>
 
 
-                    <form action="/cadastrarProduto?id=${produto.codProduto}" method="POST">
-
+                    <form action="/cadastrarProduto?id=${produto.codProduto}" method="POST" enctype="multipart/form-data">
                         <div id="informacao-produto">
-                          <input type="hidden" name="codProduto" value="${produto != null ? produto.codProduto : ''}">
-                          <input type="hidden" name="situacao" value="${produto != null ? produto.situacaoProduto : ''}">
+                            <input type="hidden" name="codProduto" value="${produto != null ? produto.codProduto : ''}">
+                            <input type="hidden" name="situacao" value="${produto != null ? produto.situacaoProduto : ''}">
 
+                            <label for="nomeProduto" class="titulo-campo">Nome do Produto:</label>
+                            <input type="text" name="nomeProduto" id="nome-Produto" placeholder="Nome do produto" required maxlength="200" value="${produto != null ? produto.nomeProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
 
-                       <label for="nomeProduto" class="titulo-campo">Nome do Produto:</label>
-                            <input type="text" name="nomeProduto" id="nome-Produto" placeholder="Nome do produto" required  maxlength="200"
-                             value="${produto != null ? produto.nomeProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
+                            <label for="dscDetalhadaProduto" class="titulo-campo">Descrição Detalhada do Produto:</label>
+                            <input type="text" name="dscDetalhadaProduto" id="dsc-Produto" placeholder="Descrição detalhada do produto" required maxlength="2000" value="${produto != null ? produto.dscDetalhadaProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
 
-                       <label for="dscDetalhadaProduto" class="titulo-campo">Descrição Detalhada do Produto:</label>
-                            <input type="text" name="dscDetalhadaProduto" id="dsc-Produto" placeholder="Descrição detalhada do produto" required  maxlength="2000"
-                            value="${produto != null ? produto.dscDetalhadaProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
+                            <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto:</label>
+                            <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" required min="0" max="5" step="0.5" value="${produto != null ? produto.avaliacaoProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
 
+                            <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto:</label>
+                            <input type="number" name="vlrVendaProduto" id="vlr-VendaProduto" required value="${produto != null ? produto.vlrVendaProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
 
-                       <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto:</label>
-                            <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" required min="0" max="5" step="0.5"
-                             value="${produto != null ? produto.avaliacaoProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
+                            <label for="qtdEstoque" class="titulo-campo">Quantidade em Estoque:</label>
+                            <input type="number" name="qtdEstoque" id="qtd-Estoque" required min="0" max="99999" step="1" value="${produto != null ? produto.qtdEstoque : ''}">
+                        </div>
 
+                        <div id="imagens-produto">
+                            <label for="selImagem" class="titulo-campo">Seleção de Imagem do Produto:</label>
+                            <input type="file" name="selImagem" id="selecao-imagem" required multiple>
+                            <header id="cabecalho-imagem">
+                                <h5>Imagem(ns) do Produto</h5>
+                            </header>
+                        </div>
 
+                        <p id="total-imagens">Total de imagens anexadas: 0</p>
 
-                      <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto:</label>
-                            <input type="text" name="vlrVendaProduto" id="vlr-VendaProduto" required
-                            value="${produto != null ? produto.vlrVendaProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
+                        <table id="tabela-imagem">
+                            <tbody id="lista-imagens">
+                                <!-- Esta parte será preenchida dinamicamente com JavaScript -->
+                            </tbody>
+                        </table>
 
+                        <button type="submit" id="btn-salvar">Salvar</button>
+                        <button type="button" id="btn-cancelar" onclick="window.location.href='/listarProdutos'">Cancelar</button>
+                    </form>
 
-
-                     <label for="qtdEstoque" class="titulo-campo">Quantidade em Estoque:</label>
-                            <input type="number" name="qtdEstoque" id="qtd-Estoque" required min="0" max="99999" step="1"
-                            value="${produto != null ? produto.qtdEstoque : ''}">
-                     </div>
-
-
-
-
-
-       <div id="imagens-produto">
-           <label for="selImagem" class="titulo-campo">Seleção de Imagem do Produto:</label>
-           <input type="file" name="selImagem" id="selecao-imagem" required multiple>
-           <header id="cabecalho-imagem">
-               <h5>Imagem(ns) do Produto</h5>
-           </header>
-       </div>
-
-       <p id="total-imagens">Total de imagens anexadas: 0</p>
-
-       <table id="tabela-imagem">
-           <tbody id="lista-imagens">
-               <!-- Esta parte será preenchida dinamicamente com JavaScript -->
-           </tbody>
-       </table>
-                    <button type="submit" id="btn-salvar">Salvar</button>
-                </form>
-                <form action="/listarProdutos" method="GET">
-                    <button type="submit" id="btn-cancelar">Cancelar</button>
-                </form>
             </div>
         </section>
     </article>
 </body>
 
 <script src="cadastrarProduto.js"></script>
-
 
 </html>

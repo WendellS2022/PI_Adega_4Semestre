@@ -265,18 +265,16 @@ public class ProdutoDAO {
         }
     }
 
-    public static boolean AtualizarImagem(Imagem imagem) {
-        String SQL = "UPDATE Imagens SET ProdutoId = ?, Diretorio = ?, Nome = ?, Qualificacao = ?, Extensao = ? WHERE ImagemID = ?";
+    public static boolean DefinirImagemPrincipal(int produtoId, String nomeImagemPrincipal) {
+        String SQL = "UPDATE Imagens SET Qualificacao = ? WHERE ProdutoId = ? AND Nome = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
 
-            preparedStatement.setInt(1, imagem.getProdutoId());
-            preparedStatement.setString(2, imagem.getDiretorio());
-            preparedStatement.setString(3, imagem.getNome());
-            preparedStatement.setBoolean(4, imagem.isQualificacao());
-            preparedStatement.setString(5, imagem.getExtensao());
-            preparedStatement.setInt(6, imagem.getId());
+            // Definir a qualificação da imagem para true para torná-la a imagem principal
+            preparedStatement.setBoolean(1, true);
+            preparedStatement.setInt(2, produtoId);
+            preparedStatement.setString(3, nomeImagemPrincipal);
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -286,6 +284,7 @@ public class ProdutoDAO {
             return false;
         }
     }
+
 
     public static boolean ExcluirImagem(int imagemId) {
         String SQL = "DELETE FROM Imagens WHERE ImagemID = ?";
