@@ -7,6 +7,7 @@ import br.com.adega.Model.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,39 @@ public class ProdutoDAO {
             return false;
         }
     }
+    public static int AdicionarProdutoRetornandoCodigo(Produto produto) {
+        String SQL = "INSERT INTO PRODUCTS (Nome, Descricao, Avaliacao, Quantidade, Valor, Situacao) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+
+            preparedStatement.setString(1, produto.getNomeProduto());
+            preparedStatement.setString(2, produto.getDscDetalhadaProduto());
+            preparedStatement.setDouble(3, produto.getAvaliacaoProduto());
+            preparedStatement.setInt(4, produto.getQtdEstoque());
+            preparedStatement.setDouble(5, produto.getVlrVendaProduto());
+            preparedStatement.setBoolean(6, produto.isSituacaoProduto());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                return 0; // Se não houve inserção, retorna 0
+            }
+
+            // Obter o código do produto inserido
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); // Retorna o código do produto inserido
+                } else {
+                    return 0; // Se não foi possível obter o código, retorna 0
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0; // Em caso de exceção, retorna 0
+        }
+    }
+
     public static boolean AtualizarProduto(Produto produto) {
         boolean sucesso = false;
 

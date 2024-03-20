@@ -38,6 +38,7 @@ public class CadastrarProduto extends HttpServlet {
         String codProduto = request.getParameter("id");
 
         try {
+            int produtoId;
             if (codProduto != null && !codProduto.isBlank()) {
                 produto.setCodProduto(Integer.parseInt(codProduto));
                 produto.setNomeProduto(request.getParameter("nomeProduto"));
@@ -54,6 +55,8 @@ public class CadastrarProduto extends HttpServlet {
                 } else {
                     request.setAttribute("mensagem", "Falha ao alterar produto!");
                 }
+
+                produtoId = produto.getCodProduto(); // Usar o ID do produto existente
             } else {
                 produto.setNomeProduto(request.getParameter("nomeProduto"));
                 produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
@@ -62,9 +65,9 @@ public class CadastrarProduto extends HttpServlet {
                 produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
                 produto.setSituacaoProduto(true);
 
-                boolean createProduto = ProdutoDAO.AdicionarProduto(produto);
+                produtoId = ProdutoDAO.AdicionarProdutoRetornandoCodigo(produto);
 
-                if (createProduto) {
+                if (produtoId != 0) {
                     request.setAttribute("mensagem", "Produto adicionado com sucesso!");
                 } else {
                     request.setAttribute("mensagem", "Falha ao adicionar produto!");
@@ -92,7 +95,7 @@ public class CadastrarProduto extends HttpServlet {
 
                     // Salvar detalhes da imagem no banco de dados
                     Imagem imagem = new Imagem();
-                    imagem.setProdutoId(produto.getCodProduto());
+                    imagem.setProdutoId(produtoId); // Usando o ID do produto
                     imagem.setDiretorio(diretorio);
                     imagem.setNome(fileName);
                     imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
