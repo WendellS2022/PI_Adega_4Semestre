@@ -1,4 +1,5 @@
 package br.com.adega.Servlet;
+
 import java.io.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,11 +13,15 @@ import javax.servlet.http.Part;
 @MultipartConfig
 public class UploadImagemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String diretorio = getServletContext().getRealPath("/imagens"); // Diretório onde as imagens serão salvas
+        // Diretório onde as imagens serão salvas (caminho relativo)
+        String diretorio = "imagens";
 
-        System.out.println("Diretório de imagens: " + diretorio); // Adicione este log para verificar se o caminho do diretório está correto
+        // Diretório absoluto da aplicação
+        String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio);
 
-        File diretorioImagens = new File(diretorio);
+        System.out.println("Diretório de imagens: " + diretorioAbsoluto); // Adicione este log para verificar se o caminho do diretório está correto
+
+        File diretorioImagens = new File(diretorioAbsoluto);
         if (!diretorioImagens.exists()) {
             System.out.println("O diretório de imagens não existe. Criando..."); // Adicione este log para verificar se o diretório está sendo criado corretamente
             if (!diretorioImagens.mkdirs()) {
@@ -28,7 +33,7 @@ public class UploadImagemServlet extends HttpServlet {
 
         for (Part part : request.getParts()) {
             String nomeArquivo = extractFileName(part);
-            String caminhoCompleto = diretorio + File.separator + nomeArquivo;
+            String caminhoCompleto = diretorioAbsoluto + File.separator + nomeArquivo;
             part.write(caminhoCompleto);
             System.out.println("Arquivo salvo em: " + caminhoCompleto); // Adicione este log para verificar se o arquivo está sendo salvo corretamente
         }

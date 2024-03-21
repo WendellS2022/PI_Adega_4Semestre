@@ -77,10 +77,11 @@ public class CadastrarProduto extends HttpServlet {
             // Processar o upload de imagens
             List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
             List<String> imagePaths = new ArrayList<>();
-            String diretorio = getServletContext().getRealPath("/imagens"); // Diretório onde as imagens serão salvas
-            File diretorioImagens = new File(diretorio);
+            String diretorio = "imagens"; // Diretório onde as imagens serão salvas (caminho relativo)
+            String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio); // Diretório absoluto da aplicação
 
             // Verificar se o diretório de imagens existe e criar se não existir
+            File diretorioImagens = new File(diretorioAbsoluto);
             if (!diretorioImagens.exists()) {
                 diretorioImagens.mkdirs();
             }
@@ -89,7 +90,7 @@ public class CadastrarProduto extends HttpServlet {
                 String fileName = extractFileName(filePart);
                 if (fileName != null && !fileName.isEmpty()) {
                     // Salvar a imagem no diretório
-                    String filePath = diretorio + File.separator + fileName;
+                    String filePath = diretorioAbsoluto + File.separator + fileName;
                     filePart.write(filePath);
                     imagePaths.add(filePath);
 
