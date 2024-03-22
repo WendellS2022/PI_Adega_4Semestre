@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet("/cadastrarProduto")
-@MultipartConfig
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,    // 2MB
+    maxFileSize = 1024 * 1024 * 10,       // 10MB
+    maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class CadastrarProduto extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -74,50 +76,57 @@ public class CadastrarProduto extends HttpServlet {
                 }
             }
 
+            // Obter o caminho da imagem principal do formulário
+            String caminhoImagemPrincipal = request.getParameter("caminhoImagemPrincipal");
+
+            // Atualizar o banco de dados para definir a imagem principal
+            if (caminhoImagemPrincipal != null && !caminhoImagemPrincipal.isEmpty()) {
+                ProdutoDAO.DefinirImagemPrincipal(produtoId, caminhoImagemPrincipal);
+            }
+
             // Processar o upload de imagens
-            List<Part> fileParts = request.getParts().stream()
-                    .filter(part -> "selImagem".equals(part.getName()))
-                    .collect(Collectors.toList());
+            List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
             List<String> imagePaths = new ArrayList<>();
             String diretorio = "imagens"; // Diretório onde as imagens serão salvas (caminho relativo)
-
-// Verificar se o diretório de imagens existe e criar se não existir
             String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio); // Diretório absoluto da aplicação
+
+            // Verificar se o diretório de imagens existe e criar se não existir
             File diretorioImagens = new File(diretorioAbsoluto);
             if (!diretorioImagens.exists()) {
                 diretorioImagens.mkdirs();
             }
 
+            boolean primeiraImagem = true;
             for (Part filePart : fileParts) {
                 String fileName = extractFileName(filePart);
                 if (fileName != null && !fileName.isEmpty()) {
                     // Salvar a imagem no diretório
-                    String filePath = diretorioAbsoluto + File.separator + fileName;
+                    String novoNome = "imagem_" + System.currentTimeMillis() + "_" + fileName;
+                    String filePath = diretorioAbsoluto + File.separator + novoNome;
                     filePart.write(filePath);
-
-                    // Montar o caminho relativo para a imagem
-                    String caminhoRelativo = "/" + diretorio + "/" + fileName;
-
-                    // Adicionar o caminho relativo à lista de caminhos de imagens
-                    imagePaths.add(caminhoRelativo);
+                    imagePaths.add(filePath);
 
                     // Salvar detalhes da imagem no banco de dados
                     Imagem imagem = new Imagem();
                     imagem.setProdutoId(produtoId); // Usando o ID do produto
-                    imagem.setDiretorio(caminhoRelativo);
+                    imagem.setDiretorio(diretorio);
                     imagem.setNome(fileName);
                     imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
+
+                    // Definir a qualificação da imagem principal
+                    if (primeiraImagem) {
+                        imagem.setQualificacao(true);
+                        primeiraImagem = false;
+                    } else {
+                        imagem.setQualificacao(false);
+                    }
+
                     ProdutoDAO.AdicionarImagem(imagem);
                 }
             }
 
-// Adicionar os caminhos das imagens à requisição para exibição posterior (opcional)
-            request.setAttribute("imagePaths", imagePaths);
-
-
-            // Redirecionar para a página de cadastro/edição de produtos
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-            dispatcher.forward(request, response);
+            // Redirecionar para a página de listagem de produtos
+            response.sendRedirect(request.getContextPath() + "/listarProdutos");
         } catch (Exception e) {
             e.printStackTrace();
         }

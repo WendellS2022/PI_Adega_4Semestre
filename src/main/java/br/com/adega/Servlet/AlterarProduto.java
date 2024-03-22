@@ -19,35 +19,69 @@ import java.util.List;
 public class AlterarProduto extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String isSession = (String) session.getAttribute("usuarioLogado");
+        int grupo = UsuarioDAO.ObterGrupo(isSession);
+        request.setAttribute("grupo", grupo);
 
         String codProdutoParam = request.getParameter("id");
+        Produto produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
-        String isSession = (String) session.getAttribute("usuarioLogado");
+        // Obter as imagens associadas ao produto
+        List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProdutoParam));
 
-        int grupo = UsuarioDAO.ObterGrupo(isSession);
-
-            request.setAttribute("grupo", grupo);
-
-            Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
-
-            List <Imagem> imagens = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProdutoParam));
-        List<String> diretorios = new ArrayList<>(); // Certifique-se de especificar o tipo da lista
-
-        for (Imagem imagem : imagens) {
-            diretorios.add(imagem.getDiretorio()); // Substitua "getDiretorio()" pelo método correto que retorna o diretório da imagem
-        }
-
-        request.setAttribute("produto", produtos);
-        request.setAttribute("img", diretorios);
-
+        // Passar as imagens e o produto para o JSP
+        request.setAttribute("produto", produto);
+        request.setAttribute("imagensProduto", imagensProduto);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-            dispatcher.forward(request, response);
-
-
+        dispatcher.forward(request, response);
     }
 
 
+//        int codProduto = Integer.parseInt(codProdutoParam);
+//        Produto produto = ProdutoDAO.obterProdutoPorId(codProduto);
+//
+//        if (produto != null) {
+//            request.setAttribute("produto", produto);
+//        } else {
+//            request.setAttribute("mensagem", "Produto não encontrado");
+//        }
+
+//        String situacaoProduto = request.getParameter("COD_SITUACAO");
+//
+//        if ("inativar".equals(situacaoProduto) || "reativar".equals(situacaoProduto)) {
+//            Produto produto = ProdutoDAO.obterProdutoPorId(Integer.parseInt(codProdutoParam));
+//
+//            if (produto != null) {
+//                String confirmacao = request.getParameter("confirmacao");
+//
+//                if (confirmacao != null && confirmacao.equals("true")) {
+//                    boolean novoStatus = !produto.isSituacaoProduto();
+//                    produto.setSituacaoProduto(novoStatus);
+//
+//                    boolean sucesso = ProdutoDAO.atualizarProduto(produto);
+//
+//                    if (sucesso) {
+//                        String mensagem = "Produto " + (novoStatus ? "reativado" : "inativado") + " com sucesso!";
+//                        request.setAttribute("mensagem", mensagem);
+//                    } else {
+//                        String mensagem = "Falha ao " + (novoStatus ? "reativar" : "inativar") + " o produto. Verifique os dados e tente novamente.";
+//                        request.setAttribute("mensagem", mensagem);
+//                    }
+//                } else {
+//                    request.setAttribute("produto", produto);
+//                    RequestDispatcher dispatcher = request.getRequestDispatcher("/ConfirmacaoAlteracao.jsp");
+//                    dispatcher.forward(request, response);
+//                    return;
+//                }
+//            } else {
+//                request.setAttribute("mensagem", "Produto não encontrado");
+//            }
+//        }
+
+//        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+//        dispatcher.forward(request, response);
+//    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

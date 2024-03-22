@@ -14,8 +14,6 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
         // Cria um novo nome para a imagem usando um timestamp para evitar duplicatas
         var novoNome = 'imagem_' + Date.now() + '_' + imagem.name;
 
-
-
         // Adiciona a imagem à lista de imagens
         var caminhoRelativo = 'imagens/' + novoNome;
         div.innerHTML = `
@@ -33,7 +31,16 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
         // Adiciona o manipulador de eventos para o botão de exclusão
         var btnExcluir = div.querySelector('.btn-excluir');
         btnExcluir.addEventListener('click', function() {
-            tr.remove(); // Remove a linha da tabela que contém a imagem
+            var parentTR = this.closest('tr'); // Encontra o elemento pai 'tr' da imagem
+            parentTR.remove(); // Remove a linha da tabela que contém a imagem
+            // Remove o caminho da imagem excluída do array de caminhos de imagens
+            var caminhoExcluido = parentTR.querySelector('img').src;
+            var index = imagensArray.indexOf(caminhoExcluido);
+            if (index !== -1) {
+                imagensArray.splice(index, 1);
+            }
+            // Atualiza o total de imagens anexadas
+            document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + imagensArray.length;
         });
 
         // Adiciona o manipulador de eventos para marcar a imagem principal
@@ -48,9 +55,7 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
     }
 
     // Atualiza o total de imagens anexadas
-    var totalAtual = parseInt(document.getElementById('total-imagens').textContent.split(' ')[4]); // Extrai o número atual de imagens anexadas
-    var novoTotal = totalAtual + imagens.length;
-    document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + novoTotal;
+    document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + imagensArray.length;
 
     // Aqui você pode fazer o envio do array de caminhos para o backend para posterior salvamento no banco de dados
     console.log(imagensArray); // Exemplo de como enviar o array para o backend
@@ -71,22 +76,3 @@ function salvarImagemNoDiretorio(imagem, nomeArquivo, diretorio) {
     };
     xhr.send(formData);
 }
-
-function excluirImagem(elementoTR) {
-    elementoTR.remove(); // Remove a linha da tabela que contém a imagem
-}
-
-// Supondo que "listaDeImagens" seja a lista de imagens recebida da servlet
-// Vamos iterar sobre essa lista e adicionar cada imagem à tabela
-//var listaDeImagens = []; // Substitua por sua lista real de imagens
-//
-//var tabelaImagem = document.getElementById('tabela-imagem');
-//var listaImagens = document.getElementById('lista-imagens');
-//
-//listaDeImagens.forEach(function(imagem) {
-//    var linha = listaImagens.insertRow();
-//    var coluna = linha.insertCell();
-//    var img = document.createElement('img');
-//    img.src = imagem; // Defina o src da imagem com o caminho recebido
-//    coluna.appendChild(img);
-//});
