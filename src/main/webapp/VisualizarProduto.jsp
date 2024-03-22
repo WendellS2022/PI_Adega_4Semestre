@@ -59,35 +59,25 @@
                 </div>
 
                 <div class="informacao-produto">
-                    <label for="codProduto" class="titulo-campo">Código do Produto</label>
-                    <input type="number" name="codProduto" id="codigo-Produto" readonly
-                         value="${produto != null ? produto.codProduto : ''}">
 
                     <label for="nomeProduto" class="titulo-campo">Nome do Produto</label>
-                    <textarea name="nomeProduto" id="nome-Produto" readonly
-                              value="${produto != null ? produto.nomeProduto : ''}">
+                    <textarea name="nomeProduto" id="nome-Produto" readonly>${produto != null ? produto.getNomeProduto() : ''}
                     </textarea>
 
                     <label for="dscDetalhadaProduto" class="titulo-campo">Descrição Detalhada do Produto</label>
-                    <textarea  name="dscDetalhadaProduto" id="descricao-Produto" readonly
-                               value="${produto != null ? produto.dscDetalhadaProduto : ''}">
+                    <textarea name="dscDetalhadaProduto" id="descricao-Produto" readonly>${produto != null ? produto.getDscDetalhadaProduto() : ''}
                     </textarea>
 
                     <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto</label>
                     <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" readonly
                            value="${produto != null ? produto.avaliacaoProduto : ''}">
 
-                    <label for="situacaoProduto" class="titulo-campo">Situação do Produto</label>
-                    <input type="text" name="situacaoProduto" id="situacao-Produto" readonly
-                           value="${produto != null ? (produto.situacaoProduto ? 'Ativo' : 'Inativo') : ''}">
-
                     <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto</label>
                     <input type="number" name="vlrVendaProduto" id="vlr-VendaProduto" readonly
                            value="${produto != null ? produto.vlrVendaProduto : ''}">
 
-                    <label for="qtdEstoque" class="titulo-campo">Quantidade em Estoque</label>
-                    <input type="number" name="qtdEstoque" id="qtd-EstoqueProduto" readonly
-                           value="${produto != null ? produto.qtdEstoque : ''}">
+                  <button id="btn-comprar" class="btn btn-primary" style="margin-top: 25px;">Comprar</button>
+
                 </div>
             </section>
         </section>
