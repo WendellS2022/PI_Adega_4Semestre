@@ -74,54 +74,6 @@
 </article>
 </body>
 
-<script>
-document.getElementById('selecao-imagem').addEventListener('change', function(event) {
-    var imagens = event.target.files;
-    var listaImagens = document.getElementById('lista-imagens');
-    var imagemPrincipalCaminho = '';
-
-    // Itera sobre as imagens selecionadas
-    for (var i = 0; i < imagens.length; i++) {
-        var imagem = imagens[i];
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        var div = document.createElement('div');
-        div.className = 'informacao-imagem';
-
-        // Cria um novo nome para a imagem usando um timestamp para evitar duplicatas
-        var novoNome = 'imagem_' + Date.now() + '_' + imagem.name;
-
-        // Adiciona a imagem à lista de imagens
-        var caminhoRelativo = '/imagens/' + novoNome;
-        div.innerHTML = `
-            <button type="button" class="btn-excluir">Excluir</button>
-            <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
-            <input type="radio" name="imagemPrincipal" class="imagem-principal" data-caminho="${caminhoRelativo}">
-        `;
-        td.appendChild(div);
-        tr.appendChild(td);
-        listaImagens.appendChild(tr);
-
-        // Adiciona o manipulador de eventos para o botão de exclusão
-        var btnExcluir = div.querySelector('.btn-excluir');
-        btnExcluir.addEventListener('click', function() {
-            tr.remove(); // Remove a linha da tabela que contém a imagem
-        });
-
-        // Adiciona o manipulador de eventos para marcar a imagem principal
-        var radioPrincipal = div.querySelector('.imagem-principal');
-        radioPrincipal.addEventListener('change', function() {
-            imagemPrincipalCaminho = caminhoRelativo;
-            document.getElementById('caminho-imagem-principal').value = caminhoRelativo;
-        });
-    }
-
-    // Atualiza o total de imagens anexadas
-    var totalAtual = parseInt(document.getElementById('total-imagens').textContent.split(' ')[4]);
-    var novoTotal = totalAtual + imagens.length;
-    document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + novoTotal;
-});
-
-</script>
+<script src="cadastrarProduto.js"></script>
 
 </html>

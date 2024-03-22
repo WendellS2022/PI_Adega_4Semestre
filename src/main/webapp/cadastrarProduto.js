@@ -14,27 +14,37 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
         // Cria um novo nome para a imagem usando um timestamp para evitar duplicatas
         var novoNome = 'imagem_' + Date.now() + '_' + imagem.name;
 
-        // Salva a imagem no diretório da aplicação (substitua '/caminho/para/diretorio' pelo caminho real)
-        var caminhoRelativo = '/imagens/' + novoNome; // Caminho relativo ao diretório da aplicação
-        salvarImagemNoDiretorio(imagem, novoNome, '/imagens'); // Chamada corrigida
 
-        // Adiciona o caminho da imagem ao array
-        imagensArray.push(caminhoRelativo);
 
+        // Adiciona a imagem à lista de imagens
+        var caminhoRelativo = 'imagens/' + novoNome;
         div.innerHTML = `
-            <button type="button" class="btn-excluir">X</button>
-            <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto">
+            <button type="button" class="btn-excluir">Excluir</button>
+            <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
             <input type="radio" name="imagemPrincipal" class="imagem-principal" data-caminho="${caminhoRelativo}" ${i === 0 ? 'checked' : ''}>
         `;
         td.appendChild(div);
         tr.appendChild(td);
         listaImagens.appendChild(tr);
 
+        // Adiciona o caminho da imagem ao array
+        imagensArray.push(caminhoRelativo);
+
         // Adiciona o manipulador de eventos para o botão de exclusão
         var btnExcluir = div.querySelector('.btn-excluir');
         btnExcluir.addEventListener('click', function() {
-        excluirImagem(this.closest('tr')); // Chama a função para excluir a linha da tabela
+            tr.remove(); // Remove a linha da tabela que contém a imagem
         });
+
+        // Adiciona o manipulador de eventos para marcar a imagem principal
+        var radioPrincipal = div.querySelector('.imagem-principal');
+        radioPrincipal.addEventListener('change', function() {
+            imagemPrincipalCaminho = caminhoRelativo;
+            document.getElementById('caminho-imagem-principal').value = caminhoRelativo;
+        });
+
+        // Salva a imagem no diretório da aplicação (substitua '/caminho/para/diretorio' pelo caminho real)
+        salvarImagemNoDiretorio(imagem, novoNome, '/imagens'); // Chamada corrigida
     }
 
     // Atualiza o total de imagens anexadas
@@ -46,16 +56,7 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
     console.log(imagensArray); // Exemplo de como enviar o array para o backend
 });
 
-function salvarImagemNoDiretorio(imagem, caminhoRelativo) {
-    // Aqui você pode implementar a lógica para salvar a imagem no diretório da aplicação
-    // Isso depende da tecnologia do servidor backend que você está utilizando (Java, Node.js, PHP, etc.)
-    // Por exemplo, se estiver usando Node.js com Express, pode usar a função fs.writeFile para salvar a imagem no disco
-}
-
-function excluirImagem(elementoTR) {
-    elementoTR.remove(); // Remove a linha da tabela que contém a imagem
-}
-function salvarImagemNoDiretorio(imagem) {
+function salvarImagemNoDiretorio(imagem, nomeArquivo, diretorio) {
     var formData = new FormData();
     formData.append('selImagem', imagem);
 
@@ -71,3 +72,6 @@ function salvarImagemNoDiretorio(imagem) {
     xhr.send(formData);
 }
 
+function excluirImagem(elementoTR) {
+    elementoTR.remove(); // Remove a linha da tabela que contém a imagem
+}
