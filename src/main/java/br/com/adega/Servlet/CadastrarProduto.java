@@ -75,12 +75,14 @@ public class CadastrarProduto extends HttpServlet {
             }
 
             // Processar o upload de imagens
-            List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
+            List<Part> fileParts = request.getParts().stream()
+                    .filter(part -> "selImagem".equals(part.getName()))
+                    .collect(Collectors.toList());
             List<String> imagePaths = new ArrayList<>();
             String diretorio = "imagens"; // Diretório onde as imagens serão salvas (caminho relativo)
-            String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio); // Diretório absoluto da aplicação
 
-            // Verificar se o diretório de imagens existe e criar se não existir
+// Verificar se o diretório de imagens existe e criar se não existir
+            String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio); // Diretório absoluto da aplicação
             File diretorioImagens = new File(diretorioAbsoluto);
             if (!diretorioImagens.exists()) {
                 diretorioImagens.mkdirs();
@@ -92,20 +94,26 @@ public class CadastrarProduto extends HttpServlet {
                     // Salvar a imagem no diretório
                     String filePath = diretorioAbsoluto + File.separator + fileName;
                     filePart.write(filePath);
-                    imagePaths.add(filePath);
+
+                    // Montar o caminho relativo para a imagem
+                    String caminhoRelativo = "/" + diretorio + "/" + fileName;
+
+                    // Adicionar o caminho relativo à lista de caminhos de imagens
+                    imagePaths.add(caminhoRelativo);
 
                     // Salvar detalhes da imagem no banco de dados
                     Imagem imagem = new Imagem();
                     imagem.setProdutoId(produtoId); // Usando o ID do produto
-                    imagem.setDiretorio(diretorio);
+                    imagem.setDiretorio(caminhoRelativo);
                     imagem.setNome(fileName);
                     imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
                     ProdutoDAO.AdicionarImagem(imagem);
                 }
             }
 
-            // Adicionar os caminhos das imagens à requisição para exibição posterior (opcional)
+// Adicionar os caminhos das imagens à requisição para exibição posterior (opcional)
             request.setAttribute("imagePaths", imagePaths);
+
 
             // Redirecionar para a página de cadastro/edição de produtos
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");

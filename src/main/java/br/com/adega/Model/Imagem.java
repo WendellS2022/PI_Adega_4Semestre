@@ -67,4 +67,7 @@ public class Imagem {
     public void setExtensao(String extensao) {
         this.extensao = extensao;
     }
+
+
+
 }

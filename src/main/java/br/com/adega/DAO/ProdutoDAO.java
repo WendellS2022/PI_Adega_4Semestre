@@ -279,7 +279,7 @@ public class ProdutoDAO {
         return produtos;
     }
     public static boolean AdicionarImagem(Imagem imagem) {
-        String SQL = "INSERT INTO Imagens (ProdutoId, Diretorio, Nome, Qualificacao, Extensao) VALUES (?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO IMAGENS (ProdutoId, Diretorio, Nome, Qualificacao, Extensao) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {

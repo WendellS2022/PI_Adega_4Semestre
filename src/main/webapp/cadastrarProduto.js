@@ -75,3 +75,18 @@ function salvarImagemNoDiretorio(imagem, nomeArquivo, diretorio) {
 function excluirImagem(elementoTR) {
     elementoTR.remove(); // Remove a linha da tabela que contém a imagem
 }
+
+// Supondo que "listaDeImagens" seja a lista de imagens recebida da servlet
+// Vamos iterar sobre essa lista e adicionar cada imagem à tabela
+//var listaDeImagens = []; // Substitua por sua lista real de imagens
+//
+//var tabelaImagem = document.getElementById('tabela-imagem');
+//var listaImagens = document.getElementById('lista-imagens');
+//
+//listaDeImagens.forEach(function(imagem) {
+//    var linha = listaImagens.insertRow();
+//    var coluna = linha.insertCell();
+//    var img = document.createElement('img');
+//    img.src = imagem; // Defina o src da imagem com o caminho recebido
+//    coluna.appendChild(img);
+//});

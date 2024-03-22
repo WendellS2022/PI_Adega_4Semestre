@@ -59,11 +59,9 @@
 
                 <p id="total-imagens">Total de imagens anexadas: 0</p>
 
-                <table id="tabela-imagem">
-                    <tbody id="lista-imagens">
-                        <!-- Esta parte será preenchida dinamicamente com JavaScript -->
-                    </tbody>
-                </table>
+         <c:forEach var="imagem" items="${img}">
+             <img src="${imagem}" alt="Imagem do Produto">
+         </c:forEach>
 
                 <button type="submit" id="btn-salvar">Salvar</button>
                 <button type="button" id="btn-cancelar" onclick="window.location.href='/listarProdutos'">Cancelar</button>

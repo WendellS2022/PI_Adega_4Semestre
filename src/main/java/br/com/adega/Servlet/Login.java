@@ -1,10 +1,12 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.Autenticacao.AutenticacaoService;
+import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.User;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,9 +23,17 @@ public class Login extends HttpServlet {
     private static final Map<String, HttpSession> emailToSessionMap = new HashMap<>();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Encaminha para a página de login
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
-        dispatcher.forward(request, response);
+        List<User> usuarios;
+
+        usuarios = UsuarioDAO.ObterUsuarios();
+        if(usuarios.isEmpty()){
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/cadastrar");
+            dispatcher.forward(request, response);
+        }else{
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

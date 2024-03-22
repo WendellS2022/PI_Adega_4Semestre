@@ -22,10 +22,14 @@ public class CadastrarUsuario extends HttpServlet {
         HttpSession session = request.getSession();
         String isSession = (String) session.getAttribute("usuarioLogado");
 
-        if (isSession != null) {
+        List<User> usuarios;
+
+        usuarios = UsuarioDAO.ObterUsuarios();
+
+        if (isSession != null || usuarios.isEmpty()) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
             dispatcher.forward(request, response);
-        }else{
+        } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
             dispatcher.forward(request, response);
         }
@@ -81,6 +85,20 @@ public class CadastrarUsuario extends HttpServlet {
             }
         } while (!senhasCorrespondem);
 
+        List<User> usuarios;
+
+        usuarios = UsuarioDAO.ObterUsuarios();
+
+        if (usuarios.isEmpty()) {
+            usuario.setSituacao(true);
+            boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
+            if (sucesso) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+                dispatcher.forward(request, response);
+
+                return;
+            }
+        }
         if (isSession != null) {
             if (userIdParam.isBlank()) {
                 usuario.setSituacao(true);
@@ -101,8 +119,7 @@ public class CadastrarUsuario extends HttpServlet {
             }
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
             dispatcher.forward(request, response);
-        }
-        else {
+        } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
             dispatcher.forward(request, response);
         }

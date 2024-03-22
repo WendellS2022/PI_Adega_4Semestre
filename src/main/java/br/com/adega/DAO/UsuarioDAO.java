@@ -107,7 +107,7 @@ public class UsuarioDAO {
             while (resultSet.next()) {
                 User usuario = new User();
 
-                usuario.setUserId(resultSet.getInt("usersId"));
+                usuario.setUserId(resultSet.getInt("userId"));
                 usuario.setNome(resultSet.getString("Nome"));
                 usuario.setEmail(resultSet.getString("Email"));
                 usuario.setGrupo(resultSet.getInt("Grupo"));
@@ -124,7 +124,7 @@ public class UsuarioDAO {
 
     public static User ObterUsuarioPorId(int userId) {
         User usuario = new User();
-        String SQL = "SELECT * FROM USERS WHERE USERSID = ?";
+        String SQL = "SELECT * FROM USERS WHERE USERID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -133,7 +133,7 @@ public class UsuarioDAO {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    usuario.setUserId(resultSet.getInt("usersId"));
+                    usuario.setUserId(resultSet.getInt("userId"));
                     usuario.setNome(resultSet.getString("Nome"));
                     usuario.setEmail(resultSet.getString("email"));
                     usuario.setCPF(resultSet.getString("CPF"));
@@ -196,7 +196,7 @@ public class UsuarioDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     User usuario = new User();
-                    usuario.setUserId(resultSet.getInt("usersId"));
+                    usuario.setUserId(resultSet.getInt("userId"));
                     usuario.setNome(resultSet.getString("Nome"));
                     usuario.setEmail(resultSet.getString("email"));
                     usuario.setCPF(resultSet.getString("CPF"));

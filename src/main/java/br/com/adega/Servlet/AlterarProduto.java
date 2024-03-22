@@ -2,6 +2,7 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.DAO.UsuarioDAO;
+import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 import br.com.adega.Model.User;
 
@@ -29,59 +30,24 @@ public class AlterarProduto extends HttpServlet {
 
             Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
-            request.setAttribute("produto", produtos);
+            List <Imagem> imagens = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProdutoParam));
+        List<String> diretorios = new ArrayList<>(); // Certifique-se de especificar o tipo da lista
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+        for (Imagem imagem : imagens) {
+            diretorios.add(imagem.getDiretorio()); // Substitua "getDiretorio()" pelo método correto que retorna o diretório da imagem
+        }
+
+        request.setAttribute("produto", produtos);
+        request.setAttribute("img", diretorios);
+
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
             dispatcher.forward(request, response);
 
 
     }
 
 
-//        int codProduto = Integer.parseInt(codProdutoParam);
-//        Produto produto = ProdutoDAO.obterProdutoPorId(codProduto);
-//
-//        if (produto != null) {
-//            request.setAttribute("produto", produto);
-//        } else {
-//            request.setAttribute("mensagem", "Produto não encontrado");
-//        }
-
-//        String situacaoProduto = request.getParameter("COD_SITUACAO");
-//
-//        if ("inativar".equals(situacaoProduto) || "reativar".equals(situacaoProduto)) {
-//            Produto produto = ProdutoDAO.obterProdutoPorId(Integer.parseInt(codProdutoParam));
-//
-//            if (produto != null) {
-//                String confirmacao = request.getParameter("confirmacao");
-//
-//                if (confirmacao != null && confirmacao.equals("true")) {
-//                    boolean novoStatus = !produto.isSituacaoProduto();
-//                    produto.setSituacaoProduto(novoStatus);
-//
-//                    boolean sucesso = ProdutoDAO.atualizarProduto(produto);
-//
-//                    if (sucesso) {
-//                        String mensagem = "Produto " + (novoStatus ? "reativado" : "inativado") + " com sucesso!";
-//                        request.setAttribute("mensagem", mensagem);
-//                    } else {
-//                        String mensagem = "Falha ao " + (novoStatus ? "reativar" : "inativar") + " o produto. Verifique os dados e tente novamente.";
-//                        request.setAttribute("mensagem", mensagem);
-//                    }
-//                } else {
-//                    request.setAttribute("produto", produto);
-//                    RequestDispatcher dispatcher = request.getRequestDispatcher("/ConfirmacaoAlteracao.jsp");
-//                    dispatcher.forward(request, response);
-//                    return;
-//                }
-//            } else {
-//                request.setAttribute("mensagem", "Produto não encontrado");
-//            }
-//        }
-
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-//        dispatcher.forward(request, response);
-//    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

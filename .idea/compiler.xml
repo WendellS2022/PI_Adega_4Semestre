@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="e-Devs-PI-4-Adega" />
+        <module name="PI_Adega_4Semestre" />
       </profile>
     </annotationProcessing>
   </component>
