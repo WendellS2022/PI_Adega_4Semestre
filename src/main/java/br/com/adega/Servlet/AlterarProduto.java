@@ -2,6 +2,7 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.DAO.UsuarioDAO;
+import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 import br.com.adega.Model.User;
 
@@ -18,23 +19,22 @@ import java.util.List;
 public class AlterarProduto extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String isSession = (String) session.getAttribute("usuarioLogado");
+        int grupo = UsuarioDAO.ObterGrupo(isSession);
+        request.setAttribute("grupo", grupo);
 
         String codProdutoParam = request.getParameter("id");
+        Produto produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
-        String isSession = (String) session.getAttribute("usuarioLogado");
+        // Obter as imagens associadas ao produto
+        List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProdutoParam));
 
-        int grupo = UsuarioDAO.ObterGrupo(isSession);
+        // Passar as imagens e o produto para o JSP
+        request.setAttribute("produto", produto);
+        request.setAttribute("imagensProduto", imagensProduto);
 
-            request.setAttribute("grupo", grupo);
-
-            Produto produtos = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
-
-            request.setAttribute("produto", produtos);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-            dispatcher.forward(request, response);
-
-
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+        dispatcher.forward(request, response);
     }
 
 

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="br.com.adega.Model.Produto" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
@@ -48,6 +50,7 @@
                     <input type="number" name="qtdEstoque" id="qtd-Estoque" required min="0" max="99999" step="1" value="${produto != null ? produto.qtdEstoque : ''}">
                 </div>
 
+                <!-- Seção de imagens do produto -->
                 <div id="imagens-produto">
                     <label for="selImagem" class="titulo-campo">Seleção de Imagem do Produto:</label>
                     <input type="file" name="selImagem" id="selecao-imagem" required multiple>
@@ -55,7 +58,17 @@
                     <header id="cabecalho-imagem">
                         <h5>Imagem(ns) do Produto</h5>
                     </header>
+
+                    <!-- Iterar sobre as imagens do produto -->
+                    <c:forEach var="imagem" items="${imagensProduto}">
+                        <div class="informacao-imagem">
+                            <!-- Adicione um botão para excluir a imagem, se necessário -->
+                            <!-- Adicione uma lógica para definir a imagem principal, se necessário -->
+                            <img src="${imagem.diretorio}/${imagem.nome}.${imagem.extensao}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
+                        </div>
+                    </c:forEach>
                 </div>
+
 
                 <!-- <p id="total-imagens">Total de imagens anexadas: 0</p> -->
 
