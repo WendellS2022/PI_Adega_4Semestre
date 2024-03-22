@@ -57,7 +57,7 @@
                     </header>
                 </div>
 
-                <p id="total-imagens">Total de imagens anexadas: 0</p>
+                <!-- <p id="total-imagens">Total de imagens anexadas: 0</p> -->
 
                 <table id="tabela-imagem">
                     <tbody id="lista-imagens">
