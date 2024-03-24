@@ -107,7 +107,7 @@ public class UsuarioDAO {
             while (resultSet.next()) {
                 User usuario = new User();
 
-                usuario.setUserId(resultSet.getInt("usersId"));
+                usuario.setUserId(resultSet.getInt("userId"));
                 usuario.setNome(resultSet.getString("Nome"));
                 usuario.setEmail(resultSet.getString("Email"));
                 usuario.setGrupo(resultSet.getInt("Grupo"));
@@ -133,7 +133,7 @@ public class UsuarioDAO {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    usuario.setUserId(resultSet.getInt("usersId"));
+                    usuario.setUserId(resultSet.getInt("userId"));
                     usuario.setNome(resultSet.getString("Nome"));
                     usuario.setEmail(resultSet.getString("email"));
                     usuario.setCPF(resultSet.getString("CPF"));
@@ -196,7 +196,7 @@ public class UsuarioDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     User usuario = new User();
-                    usuario.setUserId(resultSet.getInt("usersId"));
+                    usuario.setUserId(resultSet.getInt("userId"));
                     usuario.setNome(resultSet.getString("Nome"));
                     usuario.setEmail(resultSet.getString("email"));
                     usuario.setCPF(resultSet.getString("CPF"));
@@ -219,7 +219,7 @@ public class UsuarioDAO {
         User usuario = ObterUsuarioPorId(Integer.parseInt(userId));
 
 
-        String SQL = "UPDATE USERS SET SITUACAO = ? WHERE USERSID = ?";
+        String SQL = "UPDATE USERS SET SITUACAO = ? WHERE USERID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
