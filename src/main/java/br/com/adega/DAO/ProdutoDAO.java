@@ -16,7 +16,7 @@ public class ProdutoDAO {
     public static List<Produto> ObterTodosOsProdutos(){
         List<Produto> produtos = new ArrayList<>();
 
-        String SQL = "SELECT * FROM PRODUCTS ORDER BY PRODUTOID DESC";
+        String SQL = "SELECT * FROM PRODUTOS ORDER BY PRODUTOID DESC";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL);
@@ -30,7 +30,7 @@ public class ProdutoDAO {
                 produto.setDscDetalhadaProduto(resultSet.getString("Descricao"));
                 produto.setAvaliacaoProduto(resultSet.getInt("Avaliacao"));
                 produto.setQtdEstoque(resultSet.getInt("Quantidade"));
-                produto.setVlrVendaProduto(resultSet.getDouble("Valor"));
+                produto.setVlrVendaProduto(resultSet.getBigDecimal("Valor"));
                 produto.setSituacaoProduto(resultSet.getBoolean("Situacao"));
 
                 produtos.add(produto);
@@ -45,7 +45,7 @@ public class ProdutoDAO {
     public static Produto ObterProdutoPorId(int codProduto) {
         Produto produto = new Produto();
 
-        String SQL = "SELECT * FROM PRODUCTS WHERE PRODUTOID = ?";
+        String SQL = "SELECT * FROM PRODUTOS WHERE PRODUTOID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -59,7 +59,7 @@ public class ProdutoDAO {
                     produto.setDscDetalhadaProduto(resultSet.getString("Descricao"));
                     produto.setAvaliacaoProduto(resultSet.getInt("Avaliacao"));
                     produto.setQtdEstoque(resultSet.getInt("Quantidade"));
-                    produto.setVlrVendaProduto(resultSet.getDouble("Valor"));
+                    produto.setVlrVendaProduto(resultSet.getBigDecimal("Valor"));
                     produto.setSituacaoProduto(resultSet.getBoolean("Situacao"));
                 }
             }
@@ -71,7 +71,7 @@ public class ProdutoDAO {
     }
 
     public static boolean AdicionarProduto(Produto produto) {
-        String SQL = "INSERT INTO PRODUCTS (Nome, Descricao, Avaliacao, Quantidade, Valor, Situacao) VALUES (?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO PRODUTOS (Nome, Descricao, Avaliacao, Quantidade, Valor, Situacao) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -80,7 +80,7 @@ public class ProdutoDAO {
             preparedStatement.setString(2, produto.getDscDetalhadaProduto());
             preparedStatement.setDouble(3, produto.getAvaliacaoProduto());
             preparedStatement.setInt(4, produto.getQtdEstoque());
-            preparedStatement.setDouble(5, produto.getVlrVendaProduto());
+            preparedStatement.setBigDecimal(5, produto.getVlrVendaProduto());
             preparedStatement.setBoolean(6, produto.isSituacaoProduto());
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -92,7 +92,7 @@ public class ProdutoDAO {
         }
     }
     public static int AdicionarProdutoRetornandoCodigo(Produto produto) {
-        String SQL = "INSERT INTO PRODUCTS (Nome, Descricao, Avaliacao, Quantidade, Valor, Situacao) VALUES (?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO PRODUTOS (NOME, DESCRICAO, AVALIACAO, QUANTIDADE, VALOR, SITUACAO) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -101,7 +101,7 @@ public class ProdutoDAO {
             preparedStatement.setString(2, produto.getDscDetalhadaProduto());
             preparedStatement.setDouble(3, produto.getAvaliacaoProduto());
             preparedStatement.setInt(4, produto.getQtdEstoque());
-            preparedStatement.setDouble(5, produto.getVlrVendaProduto());
+            preparedStatement.setBigDecimal(5, produto.getVlrVendaProduto());
             preparedStatement.setBoolean(6, produto.isSituacaoProduto());
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -127,7 +127,7 @@ public class ProdutoDAO {
     public static boolean AtualizarProduto(Produto produto) {
         boolean sucesso = false;
 
-        String SQL = "UPDATE PRODUCTS SET Nome = ?, Descricao = ?, Avaliacao = ?, Quantidade = ?, Valor = ?, Situacao = ? WHERE ProdutoID = ?";
+        String SQL = "UPDATE PRODUTOS SET NOME = ?, DESCRICAO = ?, AVALIACAO = ?, QUANTIDADE = ?, VALOR = ?, SITUACAO = ? WHERE PRODUTOID = ?";
 
         try {
             Connection connection = ConnectionPoolConfig.getConnection();
@@ -138,7 +138,7 @@ public class ProdutoDAO {
             preparedStatement.setString(2, produto.getDscDetalhadaProduto());
             preparedStatement.setDouble(3, produto.getAvaliacaoProduto());
             preparedStatement.setInt(4, produto.getQtdEstoque());
-            preparedStatement.setDouble(5, produto.getVlrVendaProduto());
+            preparedStatement.setBigDecimal(5, produto.getVlrVendaProduto());
             preparedStatement.setBoolean(6, produto.isSituacaoProduto());
             preparedStatement.setInt(7, produto.getCodProduto());
 
@@ -160,7 +160,7 @@ public class ProdutoDAO {
     }
 
     public static boolean ObterSituacaoProduto(int codProduto) {
-        String SQL = "SELECT Situacao FROM PRODUCTS WHERE ProdutoID = ?";
+        String SQL = "SELECT SITUACAO FROM PRODUTOS WHERE ProdutoID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -186,7 +186,7 @@ public class ProdutoDAO {
         // Inverte o status do produto
         boolean novoStatus = !produto.isSituacaoProduto();
 
-        String SQL = "UPDATE PRODUCTS SET Situacao = ? WHERE ProdutoID = ?";
+        String SQL = "UPDATE PRODUTOS SET Situacao = ? WHERE ProdutoID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -217,7 +217,7 @@ public class ProdutoDAO {
     public static List<Produto> PesquisarProdutosPorNome(String nomeProduto) {
         List<Produto> produtos = new ArrayList<>();
 
-        String SQL = "SELECT * FROM PRODUCTS WHERE LOWER(Nome) LIKE LOWER(?) ORDER BY ProdutoID DESC";
+        String SQL = "SELECT * FROM PRODUTOS WHERE LOWER(Nome) LIKE LOWER(?) ORDER BY ProdutoID DESC";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -233,7 +233,7 @@ public class ProdutoDAO {
                     produto.setDscDetalhadaProduto(resultSet.getString("Descricao"));
                     produto.setAvaliacaoProduto(resultSet.getInt("Avaliacao"));
                     produto.setQtdEstoque(resultSet.getInt("Quantidade"));
-                    produto.setVlrVendaProduto(resultSet.getDouble("Valor"));
+                    produto.setVlrVendaProduto(resultSet.getBigDecimal("Valor"));
                     produto.setSituacaoProduto(resultSet.getBoolean("Situacao"));//verificar
 
                     produtos.add(produto);
@@ -249,7 +249,7 @@ public class ProdutoDAO {
     public static List<Produto> obterPaginaDeProdutos(int page, int pageSize) {
         List<Produto> produtos = new ArrayList<>();
 
-        String SQL = "SELECT * FROM PRODUCTS ORDER BY produtoID DESC LIMIT ? OFFSET ?";
+        String SQL = "SELECT * FROM PRODUTOS ORDER BY produtoID DESC LIMIT ? OFFSET ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -266,7 +266,7 @@ public class ProdutoDAO {
                     produto.setDscDetalhadaProduto(resultSet.getString("Descricao"));
                     produto.setAvaliacaoProduto(resultSet.getInt("Avaliacao"));
                     produto.setQtdEstoque(resultSet.getInt("Quantidade"));
-                    produto.setVlrVendaProduto(resultSet.getDouble("Valor"));
+                    produto.setVlrVendaProduto(resultSet.getBigDecimal("Valor"));
                     produto.setSituacaoProduto(resultSet.getBoolean("Situacao"));
 
                     produtos.add(produto);
@@ -300,7 +300,7 @@ public class ProdutoDAO {
     }
 
     public static boolean DefinirImagemPrincipal(int produtoId, String nomeImagemPrincipal) {
-        String SQL = "UPDATE Imagens SET Qualificacao = ? WHERE ProdutoId = ? AND Nome = ?";
+        String SQL = "UPDATE IMAGENS SET QUALIFICACAO = ? WHERE PRODUTOID = ? AND NOME = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -320,7 +320,7 @@ public class ProdutoDAO {
     }
 
     public static boolean ExcluirImagem(int imagemId) {
-        String SQL = "DELETE FROM Imagens WHERE ImagemID = ?";
+        String SQL = "DELETE FROM IMAGENS WHERE IMAGEMID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -339,7 +339,7 @@ public class ProdutoDAO {
     public static List<Imagem> obterImagensPorProdutoId(int produtoId) {
         List<Imagem> imagens = new ArrayList<>();
 
-        String SQL = "SELECT * FROM Imagens WHERE ProdutoId = ?";
+        String SQL = "SELECT * FROM IMAGENS WHERE PRODUTOID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {

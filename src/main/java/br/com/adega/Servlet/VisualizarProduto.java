@@ -18,7 +18,7 @@ public class VisualizarProduto extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        int codProdutoParam = Integer.parseInt(request.getParameter("id"));
+        int codProdutoParam = Integer.parseInt(request.getParameter("codProduto"));
 
         Produto produto = ProdutoDAO.ObterProdutoPorId(codProdutoParam);
 

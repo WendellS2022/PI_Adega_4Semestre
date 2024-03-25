@@ -1,5 +1,7 @@
 package br.com.adega.Model;
 
+import java.math.BigDecimal;
+
 public class Produto {
 
     private int codProduto;
@@ -7,13 +9,13 @@ public class Produto {
     private String dscDetalhadaProduto;
     private double avaliacaoProduto;
     private int qtdEstoque;
-    private double vlrVendaProduto;
+    private BigDecimal vlrVendaProduto;
     private boolean situacaoProduto;
 
     public Produto() {
     }
 
-    public Produto(int codProduto, String nomeProduto, String dscDetalhadaProduto, double avaliacaoProduto, int qtdEstoque, double vlrVendaProduto, boolean situacaoProduto) {
+    public Produto(int codProduto, String nomeProduto, String dscDetalhadaProduto, double avaliacaoProduto, int qtdEstoque, BigDecimal vlrVendaProduto, boolean situacaoProduto) {
         this.codProduto = codProduto;
         this.nomeProduto = nomeProduto;
         this.dscDetalhadaProduto = dscDetalhadaProduto;
@@ -61,11 +63,11 @@ public class Produto {
 
     public void setQtdEstoque(int qtdEstoque) {this.qtdEstoque = qtdEstoque;}
 
-    public double getVlrVendaProduto() {
+    public BigDecimal getVlrVendaProduto() {
         return vlrVendaProduto;
     }
 
-    public void setVlrVendaProduto(double vlrVendaProduto) {
+    public void setVlrVendaProduto(BigDecimal vlrVendaProduto) {
         this.vlrVendaProduto = vlrVendaProduto;
     }
 

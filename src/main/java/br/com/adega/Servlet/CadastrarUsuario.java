@@ -1,7 +1,7 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.DAO.UsuarioDAO;
-import br.com.adega.Model.User;
+import br.com.adega.Model.Usuario;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,13 +20,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class CadastrarUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String isSession = (String) session.getAttribute("usuarioLogado");
+        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
 
-        List<User> usuarios;
+        List<Usuario> usuarios;
 
         usuarios = UsuarioDAO.ObterUsuarios();
 
-        if (isSession != null || usuarios.isEmpty()) {
+        if (usuarioLogado != null || usuarios.isEmpty()) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
             dispatcher.forward(request, response);
         } else {
@@ -38,15 +38,15 @@ public class CadastrarUsuario extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        User usuario = new User();
+        Usuario usuario = new Usuario();
 
-        String isSession = (String) session.getAttribute("usuarioLogado");
+        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
         boolean senhasCorrespondem = false;
 
-        String userIdParam = request.getParameter("userId");
+        String userIdParam = request.getParameter("usuarioId");
         do {
             if (!userIdParam.isBlank()) {
-                usuario.setUserId(Integer.parseInt(userIdParam));
+                usuario.setUsuarioId(Integer.parseInt(userIdParam));
             }
 
             usuario.setEmail(request.getParameter("email"));
@@ -71,8 +71,8 @@ public class CadastrarUsuario extends HttpServlet {
 
 
                 usuario.setSenha("");
-                request.setAttribute("user", usuario);
-                request.setAttribute("isSession", isSession);
+                request.setAttribute("usuario", usuario);
+                request.setAttribute("usuarioLogado", usuarioLogado);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");
                 dispatcher.forward(request, response);
@@ -85,7 +85,7 @@ public class CadastrarUsuario extends HttpServlet {
             }
         } while (!senhasCorrespondem);
 
-        List<User> usuarios;
+        List<Usuario> usuarios;
 
         usuarios = UsuarioDAO.ObterUsuarios();
 
@@ -99,7 +99,7 @@ public class CadastrarUsuario extends HttpServlet {
                 return;
             }
         }
-        if (isSession != null) {
+        if (usuarioLogado != null) {
             if (userIdParam.isBlank()) {
                 usuario.setSituacao(true);
                 boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);

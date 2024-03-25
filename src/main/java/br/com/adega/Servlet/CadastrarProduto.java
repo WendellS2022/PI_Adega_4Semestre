@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,9 +25,9 @@ public class CadastrarProduto extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String isSession = (String) session.getAttribute("usuarioLogado");
+        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
 
-        int grupo = UsuarioDAO.ObterGrupo(isSession);
+        int grupo = UsuarioDAO.ObterGrupo(usuarioLogado);
 
         request.setAttribute("grupo", grupo);
 
@@ -46,13 +47,13 @@ public class CadastrarProduto extends HttpServlet {
                 produto.setNomeProduto(request.getParameter("nomeProduto"));
                 produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
                 produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
-                produto.setVlrVendaProduto(Double.parseDouble(request.getParameter("vlrVendaProduto")));
+                produto.setVlrVendaProduto(new BigDecimal(request.getParameter("vlrVendaProduto")));
                 produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
                 produto.setSituacaoProduto(Boolean.parseBoolean(request.getParameter("situacao")));
 
-                boolean updateProduto = ProdutoDAO.AtualizarProduto(produto);
+                boolean produtoAtualizado = ProdutoDAO.AtualizarProduto(produto);
 
-                if (updateProduto) {
+                if (produtoAtualizado) {
                     request.setAttribute("mensagem", "Produto alterado com sucesso!");
                 } else {
                     request.setAttribute("mensagem", "Falha ao alterar produto!");
@@ -63,9 +64,10 @@ public class CadastrarProduto extends HttpServlet {
                 produto.setNomeProduto(request.getParameter("nomeProduto"));
                 produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
                 produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
-                produto.setVlrVendaProduto(Double.parseDouble(request.getParameter("vlrVendaProduto")));
+                produto.setVlrVendaProduto(new BigDecimal(request.getParameter("vlrVendaProduto")));
                 produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
-                produto.setSituacaoProduto(true);
+                produto.setSituacaoProduto(true); // Definir conforme necessário
+
 
                 produtoId = ProdutoDAO.AdicionarProdutoRetornandoCodigo(produto);
 
@@ -85,12 +87,15 @@ public class CadastrarProduto extends HttpServlet {
             }
 
             // Processar o upload de imagens
-            List<Part> fileParts = request.getParts().stream().filter(part -> "selImagem".equals(part.getName())).collect(Collectors.toList());
+            List<Part> fileParts = request.getParts().stream()
+                    .filter(part -> "selImagem".equals(part.getName()))
+                    .collect(Collectors.toList());
+
             List<String> imagePaths = new ArrayList<>();
             String diretorio = "imagens"; // Diretório onde as imagens serão salvas (caminho relativo)
             String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio); // Diretório absoluto da aplicação
 
-            // Verificar se o diretório de imagens existe e criar se não existir
+// Verificar se o diretório de imagens existe e criar se não existir
             File diretorioImagens = new File(diretorioAbsoluto);
             if (!diretorioImagens.exists()) {
                 diretorioImagens.mkdirs();
@@ -109,8 +114,8 @@ public class CadastrarProduto extends HttpServlet {
                     // Salvar detalhes da imagem no banco de dados
                     Imagem imagem = new Imagem();
                     imagem.setProdutoId(produtoId); // Usando o ID do produto
-                    imagem.setDiretorio(diretorio);
-                    imagem.setNome(fileName);
+                    imagem.setDiretorio(diretorio); // Caminho relativo
+                    imagem.setNome(novoNome); // Nome do arquivo gerado
                     imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
 
                     // Definir a qualificação da imagem principal
@@ -124,6 +129,7 @@ public class CadastrarProduto extends HttpServlet {
                     ProdutoDAO.AdicionarImagem(imagem);
                 }
             }
+
 
             // Redirecionar para a página de listagem de produtos
             response.sendRedirect(request.getContextPath() + "/listarProdutos");
