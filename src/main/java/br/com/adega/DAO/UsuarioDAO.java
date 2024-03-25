@@ -219,7 +219,7 @@ public class UsuarioDAO {
         User usuario = ObterUsuarioPorId(Integer.parseInt(userId));
 
 
-        String SQL = "UPDATE USERS SET SITUACAO = ? WHERE USERSID = ?";
+        String SQL = "UPDATE USERS SET SITUACAO = ? WHERE USERID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
