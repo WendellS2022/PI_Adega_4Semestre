@@ -78,6 +78,31 @@ public class CadastrarProduto extends HttpServlet {
                 }
             }
 
+            String caminhoImagem = request.getParameter("caminhoImagem");
+
+            if (caminhoImagem != null && !caminhoImagem.isEmpty()) {
+                // Excluir a imagem do diretório
+                String diretorioAbsoluto = getServletContext().getRealPath("/");
+                File arquivo = new File(diretorioAbsoluto + caminhoImagem);
+                if (arquivo.exists()) {
+                    arquivo.delete();
+                }
+
+                // Excluir a imagem do banco de dados
+                if (ProdutoDAO.ExcluirImagem(caminhoImagem)) {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().write("Imagem excluída com sucesso!");
+                } else {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write("Erro ao excluir imagem!");
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Caminho da imagem não fornecido!");
+            }
+
+
+
             // Obter o caminho da imagem principal do formulário
             String caminhoImagemPrincipal = request.getParameter("caminhoImagemPrincipal");
 

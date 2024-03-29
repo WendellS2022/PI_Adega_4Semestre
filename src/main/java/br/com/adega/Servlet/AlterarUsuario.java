@@ -20,10 +20,10 @@ public class AlterarUsuario extends HttpServlet {
         String usuarioLogado = (String) session.getAttribute("usuarioLogado");
 
         if (usuarioLogado != null) {
-            int userIdParam = Integer.parseInt(request.getParameter("usuarioId"));
+            int usuarioIdParam = Integer.parseInt(request.getParameter("usuarioId"));
 
 
-            Usuario usuario = UsuarioDAO.ObterUsuarioPorId(userIdParam);
+            Usuario usuario = UsuarioDAO.ObterUsuarioPorId(usuarioIdParam);
 
             if (usuarioLogado.equals(usuario.getEmail())) {
                 request.setAttribute("sessao", usuarioLogado);

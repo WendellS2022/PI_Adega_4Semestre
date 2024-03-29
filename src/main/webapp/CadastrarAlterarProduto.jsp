@@ -54,19 +54,24 @@
                 <!-- Seção de imagens do produto -->
                 <div id="imagens-produto">
                     <label for="selImagem" class="titulo-campo">Seleção de Imagem do Produto:</label>
-                    <input type="file" name="selImagem" id="selecao-imagem" required multiple>
+                    <input type="file" name="selImagem" id="selecao-imagem" multiple>
                     <input type="hidden" name="caminhoImagemPrincipal" id="caminho-imagem-principal"> <!-- Adicionando o campo oculto -->
                     <header id="cabecalho-imagem">
                         <h5>Imagem(ns) do Produto</h5>
                     </header>
+<c:forEach var="imagem" items="${imagensProduto}">
+    <div class="informacao-imagem">
+        <!-- Formulário para excluir a imagem -->
+        <form action="/alterarProduto" method="POST">
+            <input type="hidden" name="caminhoImagem" value="${imagem.diretorio}/${imagem.nome}">
+            <button type="submit">Excluir</button>
+        </form>
 
-                  <c:forEach var="imagem" items="${imagensProduto}">
-                      <div class="informacao-imagem">
-                          <!-- Adicionar um botão para excluir a imagem -->
-                          <button type="button"  onclick="excluirImagemNoServidor('${imagem.diretorio}/${imagem.nome}')">Excluir</button>
-                          <img src="${imagem.diretorio}/${imagem.nome}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
-                      </div>
-                  </c:forEach>
+        <!-- Imagem do Produto -->
+        <img src="${imagem.diretorio}/${imagem.nome}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
+    </div>
+</c:forEach>
+
 
 
                 <!-- <p id="total-imagens">Total de imagens anexadas: 0</p> -->

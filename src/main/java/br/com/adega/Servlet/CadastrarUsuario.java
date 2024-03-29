@@ -43,10 +43,10 @@ public class CadastrarUsuario extends HttpServlet {
         String usuarioLogado = (String) session.getAttribute("usuarioLogado");
         boolean senhasCorrespondem = false;
 
-        String userIdParam = request.getParameter("usuarioId");
+        String usuarioIdParam = request.getParameter("usuarioId");
         do {
-            if (!userIdParam.isBlank()) {
-                usuario.setUsuarioId(Integer.parseInt(userIdParam));
+            if (!usuarioIdParam.isBlank()) {
+                usuario.setUsuarioId(Integer.parseInt(usuarioIdParam));
             }
 
             usuario.setEmail(request.getParameter("email"));
@@ -100,7 +100,7 @@ public class CadastrarUsuario extends HttpServlet {
             }
         }
         if (usuarioLogado != null) {
-            if (userIdParam.isBlank()) {
+            if (usuarioIdParam.isBlank()) {
                 usuario.setSituacao(true);
                 boolean sucesso = UsuarioDAO.CadastrarUsuario(usuario);
                 if (sucesso) {
@@ -110,8 +110,8 @@ public class CadastrarUsuario extends HttpServlet {
                 }
             } else {
                 usuario.setSituacao(true);
-                boolean updateUser = UsuarioDAO.AlterarUsuario(usuario);
-                if (updateUser) {
+                boolean updateUsuario = UsuarioDAO.AlterarUsuario(usuario);
+                if (updateUsuario) {
                     request.setAttribute("mensagem", "Usuário alterado com sucesso!");
                 } else {
                     request.setAttribute("mensagem", "Falha ao alterar usuário!");

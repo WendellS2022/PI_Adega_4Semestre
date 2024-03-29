@@ -1,8 +1,8 @@
 create database Adega;
 use  Adega;
 
-create table Users(
-UserID int primary key auto_increment,
+create table Usuarios(
+UsuarioID int primary key auto_increment,
 Nome varchar(100),
 Email nvarchar(100),
 Senha varchar(150), 
@@ -11,7 +11,7 @@ Situacao bit,
 Grupo smallint not null
 );
 
-create table Products(
+create table Produtos(
 ProdutoID int primary key auto_increment,
 Nome varchar(50), 
 Quantidade int not null,
@@ -25,7 +25,7 @@ Situacao bit
 create table Imagens(
 ImagemID int primary key auto_increment,
 ProdutoId int not null,
-foreign key (ProdutoId) references Products(ProdutoID),
+foreign key (ProdutoId) references Produtos(ProdutoID),
 Diretorio varchar(100),
 Nome varchar(100),
 Qualificacao bit,
