@@ -43,8 +43,9 @@
                     <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto:</label>
                     <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" required min="0" max="5" step="0.5" value="${produto != null ? produto.avaliacaoProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
 
-                    <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto:</label>
-                    <input type="number" name="vlrVendaProduto" id="vlr-VendaProduto" required value="${produto != null ? produto.vlrVendaProduto : ''}" ${grupo == 1 ? '' : 'readonly'}>
+<label for="vlrVendaProduto" class="titulo-campo">Preço do Produto:</label>
+<input type="text" name="vlrVendaProduto" id="vlr-VendaProduto" value="${produto != null ? produto.vlrVendaProduto : ''}"
+       pattern="[0-9]+(\.[0-9]+)?" title="Digite um valor numérico ou decimal" ${grupo == 1 ? '' : 'readonly'}>
 
                     <label for="qtdEstoque" class="titulo-campo">Quantidade em Estoque:</label>
                     <input type="number" name="qtdEstoque" id="qtd-Estoque" required min="0" max="99999" step="1" value="${produto != null ? produto.qtdEstoque : ''}">
@@ -59,15 +60,13 @@
                         <h5>Imagem(ns) do Produto</h5>
                     </header>
 
-                    <!-- Iterar sobre as imagens do produto -->
-                    <c:forEach var="imagem" items="${imagensProduto}">
-                        <div class="informacao-imagem">
-                            <!-- Adicione um botão para excluir a imagem, se necessário -->
-                            <!-- Adicione uma lógica para definir a imagem principal, se necessário -->
-                            <img src="${imagem.diretorio}/${imagem.nome}.${imagem.extensao}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
-                        </div>
-                    </c:forEach>
-                </div>
+                  <c:forEach var="imagem" items="${imagensProduto}">
+                      <div class="informacao-imagem">
+                          <!-- Adicionar um botão para excluir a imagem -->
+                          <button type="button"  onclick="excluirImagemNoServidor('${imagem.diretorio}/${imagem.nome}')">Excluir</button>
+                          <img src="${imagem.diretorio}/${imagem.nome}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
+                      </div>
+                  </c:forEach>
 
 
                 <!-- <p id="total-imagens">Total de imagens anexadas: 0</p> -->
@@ -86,5 +85,5 @@
 </body>
 
 <script src="cadastrarProduto.js"></script>
-
+<script src="excluirImagem.js"></script>
 </html>

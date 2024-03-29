@@ -21,11 +21,11 @@ public class ListarProdutos extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pagina = 1; // Página padrão
         HttpSession session = request.getSession();
-        String pagInicial = request.getParameter("page");
-        String isSession = (String) session.getAttribute("usuarioLogado");
+        String pagInicial = request.getParameter("pagina");
+        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
 
 
-        int grupo = UsuarioDAO.ObterGrupo(isSession);
+        int grupo = UsuarioDAO.ObterGrupo(usuarioLogado);
 
         request.setAttribute("grupo", grupo);
 
@@ -33,24 +33,24 @@ public class ListarProdutos extends HttpServlet {
             pagina = Integer.parseInt(pagInicial);
 
         List<Produto> produtos;
-        String search = request.getParameter("search");
+        String nomeProduto = request.getParameter("procurar");
 
-        if (search != null && !search.isEmpty()) {
-            produtos = ProdutoDAO.PesquisarProdutosPorNome(search);
+        if (nomeProduto != null && !nomeProduto.isEmpty()) {
+            produtos = ProdutoDAO.PesquisarProdutosPorNome(nomeProduto);
         } else {
             List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
 
             if(todosOsProdutos.size() == 0){
                 request.setAttribute("produtos", todosOsProdutos);
-                request.setAttribute("page", pagina);
+                request.setAttribute("pagina", pagina);
                 request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
             return;
             }
 
             List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
 
-            String action = request.getParameter("action");
-            pagina = calcularPagina(listaDeListasDeProdutos, pagina, action);
+            String acao = request.getParameter("acao");
+            pagina = calcularPagina(listaDeListasDeProdutos, pagina, acao);
 
             if (pagina > 0 && pagina <= listaDeListasDeProdutos.size()) {
                 produtos = listaDeListasDeProdutos.get(pagina - 1);
@@ -61,7 +61,7 @@ public class ListarProdutos extends HttpServlet {
         }
 
         request.setAttribute("produtos", produtos);
-        request.setAttribute("page", pagina);
+        request.setAttribute("pagina", pagina);
         request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
     }
 
@@ -85,16 +85,16 @@ public class ListarProdutos extends HttpServlet {
         return listaDeListasDeProdutos;
     }
 
-    private int calcularPagina(List<List<Produto>> listaDeListasDeProdutos, int pagina, String action) {
-        if (action != null) {
-            switch (action) {
-                case "firstPage":
+    private int calcularPagina(List<List<Produto>> listaDeListasDeProdutos, int pagina, String acao) {
+        if (acao != null) {
+            switch (acao) {
+                case "primeiraPag":
                     return 1;
-                case "prevPage":
+                case "anteriorPag":
                     return pagina - 1;
-                case "nextPage":
+                case "proximaPag":
                     return pagina + 1;
-                case "lastPage":
+                case "ultimaPag":
                     return listaDeListasDeProdutos.size();
                 default:
                     return 1;

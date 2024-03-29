@@ -1,7 +1,7 @@
 package br.com.adega.DAO;
 
 import br.com.adega.Config.ConnectionPoolConfig;
-import br.com.adega.Model.User;
+import br.com.adega.Model.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class UsuarioDAO {
 
-    public static User VerificarCredenciais(String email) {
-        User usuario = new User();
+    public static Usuario VerificarCredenciais(String email) {
+        Usuario usuario = new Usuario();
 
-        String SQL = "SELECT * FROM USERS WHERE EMAIL = ?";
+        String SQL = "SELECT * FROM USUARIOS WHERE EMAIL = ?";
 
         try {
             Connection connection = ConnectionPoolConfig.getConnection();
@@ -28,7 +28,7 @@ public class UsuarioDAO {
             if (resultSet.next()) {
                 // Crie um objeto Usuario com os dados do ResultSet
 
-                usuario.setUserId(resultSet.getInt("UserId"));
+                usuario.setUsuarioId(resultSet.getInt("UsuarioId"));
                 usuario.setNome(resultSet.getString("Nome"));
                 usuario.setEmail(resultSet.getString("Email"));
                 usuario.setSenha(resultSet.getString("Senha"));
@@ -45,12 +45,12 @@ public class UsuarioDAO {
         return usuario; // Retorne o objeto Usuario
     }
 
-    public static boolean CadastrarUsuario(User usuario) {
+    public static boolean CadastrarUsuario(Usuario usuario) {
         if (VerificarEmailExistente(usuario.getEmail())) {
             return false;
         }
 
-        String SQL = "INSERT INTO USERS (email, nome, cpf, grupo, situacao, senha) VALUES (?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO USUARIOS (email, nome, cpf, grupo, situacao, senha) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             Connection connection = ConnectionPoolConfig.getConnection();
@@ -78,7 +78,7 @@ public class UsuarioDAO {
     }
 
     private static boolean VerificarEmailExistente(String email) {
-        String SQL = "SELECT COUNT(*) FROM USERS WHERE email = ?";
+        String SQL = "SELECT COUNT(*) FROM USUARIOS WHERE EMAIL = ?";
 
         try {
             Connection connection = ConnectionPoolConfig.getConnection();
@@ -96,18 +96,18 @@ public class UsuarioDAO {
         return false;
     }
 
-    public static List<User> ObterUsuarios() {
-        List<User> usuarios = new ArrayList<>();
-        String SQL = "SELECT * FROM USERS";
+    public static List<Usuario> ObterUsuarios() {
+        List<Usuario> usuarios = new ArrayList<>();
+        String SQL = "SELECT * FROM USUARIOS";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                User usuario = new User();
+                Usuario usuario = new Usuario();
 
-                usuario.setUserId(resultSet.getInt("userId"));
+                usuario.setUsuarioId(resultSet.getInt("UsuarioId"));
                 usuario.setNome(resultSet.getString("Nome"));
                 usuario.setEmail(resultSet.getString("Email"));
                 usuario.setGrupo(resultSet.getInt("Grupo"));
@@ -122,18 +122,18 @@ public class UsuarioDAO {
         return usuarios;
     }
 
-    public static User ObterUsuarioPorId(int userId) {
-        User usuario = new User();
-        String SQL = "SELECT * FROM USERS WHERE USERID = ?";
+    public static Usuario ObterUsuarioPorId(int usuarioId) {
+        Usuario usuario = new Usuario();
+        String SQL = "SELECT * FROM USUARIOS WHERE USUARIOID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
 
-            preparedStatement.setInt(1, userId); // Define o parâmetro do ID do usuário
+            preparedStatement.setInt(1, usuarioId); // Define o parâmetro do ID do usuário
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    usuario.setUserId(resultSet.getInt("userId"));
+                    usuario.setUsuarioId(resultSet.getInt("UsuarioId"));
                     usuario.setNome(resultSet.getString("Nome"));
                     usuario.setEmail(resultSet.getString("email"));
                     usuario.setCPF(resultSet.getString("CPF"));
@@ -149,10 +149,10 @@ public class UsuarioDAO {
         return usuario;
     }
 
-    public static boolean AlterarUsuario(User usuario) {
+    public static boolean AlterarUsuario(Usuario usuario) {
         boolean sucesso = false;
 
-        String SQL = "UPDATE USERS SET NOME = ?, SENHA = ?, CPF = ?, SITUACAO = ?, GRUPO = ? WHERE EMAIL = ?";
+        String SQL = "UPDATE USUARIOS SET NOME = ?, SENHA = ?, CPF = ?, SITUACAO = ?, GRUPO = ? WHERE EMAIL = ?";
 
         try {
             Connection connection = ConnectionPoolConfig.getConnection();
@@ -183,10 +183,10 @@ public class UsuarioDAO {
         return sucesso;
     }
 
-    public static List<User> ObterUsuarioPorNome(String nome) {
-        List<User> usuarios = new ArrayList<>();
+    public static List<Usuario> ObterUsuarioPorNome(String nome) {
+        List<Usuario> usuarios = new ArrayList<>();
 
-        String SQL = "SELECT * FROM USERS WHERE NOME LIKE ? ";
+        String SQL = "SELECT * FROM USUARIOS WHERE NOME LIKE ? ";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -195,8 +195,8 @@ public class UsuarioDAO {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    User usuario = new User();
-                    usuario.setUserId(resultSet.getInt("userId"));
+                    Usuario usuario = new Usuario();
+                    usuario.setUsuarioId(resultSet.getInt("UsuarioId"));
                     usuario.setNome(resultSet.getString("Nome"));
                     usuario.setEmail(resultSet.getString("email"));
                     usuario.setCPF(resultSet.getString("CPF"));
@@ -214,12 +214,12 @@ public class UsuarioDAO {
     }
 
 
-    public static boolean AtualizarStatus(String userId) {
+    public static boolean AtualizarStatus(String usuarioId) {
 
-        User usuario = ObterUsuarioPorId(Integer.parseInt(userId));
+        Usuario usuario = ObterUsuarioPorId(Integer.parseInt(usuarioId));
 
 
-        String SQL = "UPDATE USERS SET SITUACAO = ? WHERE USERID = ?";
+        String SQL = "UPDATE USUARIOS SET SITUACAO = ? WHERE USUARIOID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
@@ -229,7 +229,7 @@ public class UsuarioDAO {
 
             // Defina os parâmetros da consulta SQL
             preparedStatement.setBoolean(1, novoStatus);
-            preparedStatement.setInt(2, usuario.getUserId());
+            preparedStatement.setInt(2, usuario.getUsuarioId());
 
             // Execute a atualização do status
             int linhasAfetadas = preparedStatement.executeUpdate();
@@ -254,7 +254,7 @@ public class UsuarioDAO {
     public static int ObterGrupo(String email) {
         int grupo = 0;
 
-        String SQL = "SELECT GRUPO FROM USERS WHERE EMAIL = ?";
+        String SQL = "SELECT GRUPO FROM USUARIOS WHERE EMAIL = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {

@@ -1,7 +1,7 @@
 package br.com.adega.Autenticacao;
 
 import br.com.adega.DAO.UsuarioDAO;
-import br.com.adega.Model.User;
+import br.com.adega.Model.Usuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class AutenticacaoService {
@@ -11,8 +11,8 @@ public class AutenticacaoService {
         this.encoder = new BCryptPasswordEncoder();
     }
 
-    public User autenticarUsuario(String email, String senha) {
-        User usuario = UsuarioDAO.VerificarCredenciais(email);
+    public Usuario autenticarUsuario(String email, String senha) {
+        Usuario usuario = UsuarioDAO.VerificarCredenciais(email);
         if (!usuario.isSituacao()) {
             return usuario;
         } else if(usuario != null && encoder.matches(senha, usuario.getSenha())) {

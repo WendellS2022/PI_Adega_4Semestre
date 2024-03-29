@@ -1,13 +1,11 @@
 document.getElementById('selecao-imagem').addEventListener('change', function(event) {
     var imagens = event.target.files;
-    var listaImagens = document.getElementById('lista-imagens');
+    var listaImagens = document.getElementById('imagens-produto');
     var imagensArray = []; // Array para armazenar os caminhos das imagens
 
     // Itera sobre as imagens selecionadas
     for (var i = 0; i < imagens.length; i++) {
         var imagem = imagens[i];
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
         var div = document.createElement('div');
         div.className = 'informacao-imagem';
 
@@ -21,9 +19,7 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
             <img src="${URL.createObjectURL(imagem)}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
             <input type="radio" name="imagemPrincipal" class="imagem-principal" data-caminho="${caminhoRelativo}" ${i === 0 ? 'checked' : ''}>
         `;
-        td.appendChild(div);
-        tr.appendChild(td);
-        listaImagens.appendChild(tr);
+        listaImagens.appendChild(div);
 
         // Adiciona o caminho da imagem ao array
         imagensArray.push(caminhoRelativo);
@@ -31,23 +27,18 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
         // Adiciona o manipulador de eventos para o botão de exclusão
         var btnExcluir = div.querySelector('.btn-excluir');
         btnExcluir.addEventListener('click', function() {
-            var parentTR = this.closest('tr'); // Encontra o elemento pai 'tr' da imagem
-            parentTR.remove(); // Remove a linha da tabela que contém a imagem
+            var caminhoExcluido = this.nextElementSibling.src; // Obtém o caminho da imagem excluída
+            var parentDiv = this.parentNode; // Encontra o elemento pai da imagem
+            parentDiv.remove(); // Remove o elemento pai que contém a imagem
+            // Remove a imagem do servidor
+            excluirImagemNoServidor(caminhoExcluido);
             // Remove o caminho da imagem excluída do array de caminhos de imagens
-            var caminhoExcluido = parentTR.querySelector('img').src;
             var index = imagensArray.indexOf(caminhoExcluido);
             if (index !== -1) {
                 imagensArray.splice(index, 1);
             }
             // Atualiza o total de imagens anexadas
             document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + imagensArray.length;
-        });
-
-        // Adiciona o manipulador de eventos para marcar a imagem principal
-        var radioPrincipal = div.querySelector('.imagem-principal');
-        radioPrincipal.addEventListener('change', function() {
-            imagemPrincipalCaminho = caminhoRelativo;
-            document.getElementById('caminho-imagem-principal').value = caminhoRelativo;
         });
 
         // Salva a imagem no diretório da aplicação (substitua '/caminho/para/diretorio' pelo caminho real)
@@ -76,3 +67,4 @@ function salvarImagemNoDiretorio(imagem, nomeArquivo, diretorio) {
     };
     xhr.send(formData);
 }
+

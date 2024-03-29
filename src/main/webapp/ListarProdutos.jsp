@@ -27,7 +27,7 @@
             <div class="info-produtos">
                 <div id="info-selecoes">
                     <form action="/listarProdutos" method="GET">
-                        <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="search">
+                        <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="procurar">
                         <button id="btn-procurar" type="submit">Procurar</button>
                     </form>
                     <c:choose>
@@ -73,8 +73,8 @@
                                     <c:when test="${grupo == 1}">
                                         <td class="visualizar-produto">
                                             <form id="visualizarForm" action="/visualizarProduto" method="GET">
-                                                <input type="hidden" name="id" value="${produto.codProduto}">
-                                                <a href="#" onclick="document.getElementById('visualizarForm').submit(); return false;">Visualizar</a>
+                                                <input type="hidden" value="${produto.codProduto}">
+                                                  <a href="/visualizarProduto?codProduto=${produto.codProduto}">Visualizar</a>
                                             </form>
                                         </td>
                                     </c:when>
@@ -90,29 +90,29 @@
                     <div class="paginacao">
                         <div class="primeira-pagina">
                             <form action="listarProdutos" method="get">
-                                <input type="hidden" name="page" value="${page}">
-                                <button type="submit" name="action" value="firstPage">&lt;&lt;</button>
+                                <input type="hidden" name="pagina" value="${pagina}">
+                                <button type="submit" name="acao" value="primeiraPag">&lt;&lt;</button>
                             </form>
                         </div>
                         <div class="pagina-anterior">
                             <form action="listarProdutos" method="get">
-                                <input type="hidden" name="page" value="${page}">
-                                <button type="submit" name="action" value="prevPage">&lt;</button>
+                                <input type="hidden" name="pagina" value="${pagina}">
+                                <button type="submit" name="acao" value="anteriorPag">&lt;</button>
                             </form>
                         </div>
                         <div class="numero-pagina">
-                            <div type="hidden" value="${page}" >${page}</div>
+                            <div type="hidden" value="${pagina}" >${pagina}</div>
                         </div>
                         <div class="proxima-pagina">
                             <form action="listarProdutos" method="GET">
-                                <input type="hidden" name="page" value="${page}">
-                                <button type="submit" name="action" value="nextPage">&gt;</button>
+                                <input type="hidden" name="pagina" value="${pagina}">
+                                <button type="submit" name="acao" value="proximaPag">&gt;</button>
                             </form>
                         </div>
                         <div class="ultima-pagina">
                             <form action="listarProdutos" method="get">
-                                <input type="hidden" name="page" value="${page}">
-                                <button type="submit" name="action" value="lastPage">&gt;&gt;</button>
+                                <input type="hidden" name="pagina" value="${pagina}">
+                                <button type="submit" name="acao" value="ultimaPag">&gt;&gt;</button>
                             </form>
                         </div>
                     </div>
@@ -144,11 +144,6 @@
                 pageInput.name = 'page';
                 pageInput.value = page;
 
-                form.appendChild(codProdutoInput);
-            form.appendChild(acaoInput);
-            form.appendChild(pageInput); // Adiciona o input hidden para a variável page ao formulário
-            document.body.appendChild(form);
-            form.submit();
 
             setTimeout(function() {
                 window.location.href = "/listarProdutos"; // Redireciona após 1 segundo (1000 milissegundos)

@@ -1,7 +1,7 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.DAO.UsuarioDAO;
-import br.com.adega.Model.User;
+import br.com.adega.Model.Usuario;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,22 +17,22 @@ import java.util.List;
 public class AlterarUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String isSession = (String) session.getAttribute("usuarioLogado");
+        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
 
-        if (isSession != null) {
-            int userIdParam = Integer.parseInt(request.getParameter("userId"));
+        if (usuarioLogado != null) {
+            int userIdParam = Integer.parseInt(request.getParameter("usuarioId"));
 
 
-            User user = UsuarioDAO.ObterUsuarioPorId(userIdParam);
+            Usuario usuario = UsuarioDAO.ObterUsuarioPorId(userIdParam);
 
-            if (isSession.equals(user.getEmail())) {
-                request.setAttribute("isSession", isSession);
+            if (usuarioLogado.equals(usuario.getEmail())) {
+                request.setAttribute("sessao", usuarioLogado);
 
-                request.setAttribute("user", user);
+                request.setAttribute("usuario", usuario);
 
                 request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp").forward(request, response);
             } else {
-                request.setAttribute("user", user);
+                request.setAttribute("usuario", usuario);
 
                 request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp").forward(request, response);
             }
@@ -44,15 +44,15 @@ public class AlterarUsuario extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String isSession = (String) session.getAttribute("usuarioLogado");
-        String userId = request.getParameter("userId");
+        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
+        String usuarioId = request.getParameter("usuarioId");
 
 
-        boolean isSucess = UsuarioDAO.AtualizarStatus(userId);
+        boolean statusAtualizado = UsuarioDAO.AtualizarStatus(usuarioId);
 
-        List<User> usuarios = UsuarioDAO.ObterUsuarios();
+        List<Usuario> usuarios = UsuarioDAO.ObterUsuarios();
 
-        request.setAttribute("isSession", isSession);
+        request.setAttribute("statusAtualizado", statusAtualizado);
         request.setAttribute("usuarios", usuarios);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarUsuario.jsp");

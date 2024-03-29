@@ -1,7 +1,7 @@
 package br.com.adega.Model;
 
-public class User {
-    private int UserId;
+public class Usuario {
+    private int UsuarioId;
     private String Nome;
     private String Email;
     private String Senha;
@@ -9,11 +9,11 @@ public class User {
     private boolean Situacao;
     private int Grupo;
 
-    public User() {
+    public Usuario() {
     }
 
-    public User(int userId, String nome, String email, String senha, String CPF, boolean situacao, int grupo) {
-        this.UserId = userId;
+    public Usuario(int usuarioId, String nome, String email, String senha, String CPF, boolean situacao, int grupo) {
+        this.UsuarioId = usuarioId;
         this.Nome = nome;
         this.Email = email;
         this.Senha = senha;
@@ -23,13 +23,9 @@ public class User {
     }
 
 
-    public int getUserId() {
-        return UserId;
-    }
+    public int getUsuarioId() {return UsuarioId; }
 
-    public void setUserId(int userId) {
-        UserId = userId;
-    }
+    public void setUsuarioId(int usuarioId) {UsuarioId = usuarioId; }
 
     public String getNome() {
         return Nome;
