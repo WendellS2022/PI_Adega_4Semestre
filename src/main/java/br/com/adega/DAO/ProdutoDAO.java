@@ -319,13 +319,13 @@ public class ProdutoDAO {
         }
     }
 
-    public static boolean ExcluirImagem(int imagemId) {
-        String SQL = "DELETE FROM IMAGENS WHERE IMAGEMID = ?";
+    public static boolean ExcluirImagem(String nome) {
+        String SQL = "DELETE FROM IMAGENS WHERE NOME = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
 
-            preparedStatement.setInt(1, imagemId);
+            preparedStatement.setString(1, nome);
 
             int rowsAffected = preparedStatement.executeUpdate();
 

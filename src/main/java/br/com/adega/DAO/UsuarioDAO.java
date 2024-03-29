@@ -122,14 +122,14 @@ public class UsuarioDAO {
         return usuarios;
     }
 
-    public static Usuario ObterUsuarioPorId(int userId) {
+    public static Usuario ObterUsuarioPorId(int usuarioId) {
         Usuario usuario = new Usuario();
         String SQL = "SELECT * FROM USUARIOS WHERE USUARIOID = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
 
-            preparedStatement.setInt(1, userId); // Define o parâmetro do ID do usuário
+            preparedStatement.setInt(1, usuarioId); // Define o parâmetro do ID do usuário
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -214,9 +214,9 @@ public class UsuarioDAO {
     }
 
 
-    public static boolean AtualizarStatus(String userId) {
+    public static boolean AtualizarStatus(String usuarioId) {
 
-        Usuario usuario = ObterUsuarioPorId(Integer.parseInt(userId));
+        Usuario usuario = ObterUsuarioPorId(Integer.parseInt(usuarioId));
 
 
         String SQL = "UPDATE USUARIOS SET SITUACAO = ? WHERE USUARIOID = ?";
