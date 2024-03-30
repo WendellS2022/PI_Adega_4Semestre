@@ -29,7 +29,7 @@
             <p><%= mensagem %></p>
             <% } %>
 
-            <form action="/cadastrarProduto?id=${produto.codProduto}" method="POST" enctype="multipart/form-data">
+<form action="/cadastrarProduto?id=${produto.codProduto}" method="POST" enctype="multipart/form-data">
                 <div id="informacao-produto">
                     <input type="hidden" name="codProduto" value="${produto != null ? produto.codProduto : ''}">
                     <input type="hidden" name="situacao" value="${produto != null ? produto.situacaoProduto : ''}">
@@ -62,10 +62,8 @@
 <c:forEach var="imagem" items="${imagensProduto}">
     <div class="informacao-imagem">
         <!-- Formulário para excluir a imagem -->
-        <form action="/alterarProduto" method="POST">
             <input type="hidden" name="caminhoImagem" value="${imagem.diretorio}/${imagem.nome}">
             <button type="submit">Excluir</button>
-        </form>
 
         <!-- Imagem do Produto -->
         <img src="${imagem.diretorio}/${imagem.nome}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">

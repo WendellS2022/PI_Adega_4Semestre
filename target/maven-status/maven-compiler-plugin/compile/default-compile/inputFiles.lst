@@ -3,7 +3,6 @@
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Config/ConnectionPoolConfig.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/VisualizarProduto.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/CadastrarUsuario.java
-/Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/CarregarImagem.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/ListarUsuario.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/DAO/UsuarioDAO.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Model/Produto.java
