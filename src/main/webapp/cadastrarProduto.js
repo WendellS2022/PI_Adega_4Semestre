@@ -67,4 +67,3 @@ function salvarImagemNoDiretorio(imagem, nomeArquivo, diretorio) {
     };
     xhr.send(formData);
 }
-

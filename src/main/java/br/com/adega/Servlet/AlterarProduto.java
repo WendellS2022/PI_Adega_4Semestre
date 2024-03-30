@@ -43,90 +43,42 @@ public class AlterarProduto extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-            HttpSession session = request.getSession();
-            String usuarioLogado = (String) session.getAttribute("usuarioLogado");
-            int pagina = 1;
+        HttpSession session = request.getSession();
+        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
+        int pagina = 1;
 
-            // Obtém o ID do produto e informações do usuário logado
-            String codProdutoParam = request.getParameter("codProduto");
+        // Obtém o ID do produto e informações do usuário logado
+        String codProdutoParam = request.getParameter("codProduto");
 
-            List<Produto> produtos = null;
+        List<Produto> produtos = null;
 
-            if (codProdutoParam != null) {
-                // Atualiza o status do produto
-                boolean isSuccess = ProdutoDAO.AtualizarStatus(codProdutoParam);
+        if (codProdutoParam != null) {
+            // Atualiza o status do produto
+            boolean isSuccess = ProdutoDAO.AtualizarStatus(codProdutoParam);
 
-                // Obtém os parâmetros de página da requisição
-                String pageParam = request.getParameter("page");
-                if (pageParam != null && !pageParam.isEmpty()) {
-                    pagina = Integer.parseInt(pageParam);
-                    request.setAttribute("page", pageParam);
-                } else {
-                    request.setAttribute("page", pagina);
-                }
-
-                List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
-
-                List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
-
-                String action = request.getParameter("action");
-                pagina = calcularPagina(listaDeListasDeProdutos, pagina, action);
-
-                if (pagina > 0 && pagina <= listaDeListasDeProdutos.size()) {
-                    produtos = listaDeListasDeProdutos.get(pagina - 1);
-                } else {
-                    produtos = listaDeListasDeProdutos.get(0);
-                    pagina = 1;
-                }
-            }
-
-            // Área de exclusão de imagem
-            String caminhoImagem = request.getParameter("caminhoImagem");
-            if (caminhoImagem != null && !caminhoImagem.isEmpty()) {
-                // Obtém apenas o nome do arquivo, removendo o caminho completo e o prefixo "imagens/"
-                String nomeArquivo = caminhoImagem.substring(caminhoImagem.lastIndexOf("/") + 1);
-
-                // Obtém o diretório absoluto de imagens da aplicação
-                String diretorioImagens = getServletContext().getRealPath("/imagens");
-                File arquivoImagem = new File(diretorioImagens);
-
-                if (arquivoImagem.exists() && arquivoImagem.isDirectory()) {
-                    // Itera sobre os arquivos dentro do diretório
-                    for (File arquivo : arquivoImagem.listFiles()) {
-                        // Verifica se o nome do arquivo corresponde ao nome que estamos buscando
-                        if (arquivo.getName().equals(nomeArquivo)) {
-                            // Exclui o arquivo encontrado
-                            if (arquivo.delete()) {
-                                response.setStatus(HttpServletResponse.SC_OK);
-                                response.getWriter().write("Imagem excluída com sucesso!");
-                                System.out.println("Imagem excluída: " + caminhoImagem);
-                            } else {
-                                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                                response.getWriter().write("Falha ao excluir a imagem.");
-                                System.err.println("Falha ao excluir a imagem: " + caminhoImagem);
-                            }
-                            break; // Saímos do loop após excluir o arquivo
-                        }
-                    }
-                } else {
-                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                    response.getWriter().write("Diretório de imagens não encontrado.");
-                    return;
-                }
-
-                if (ProdutoDAO.ExcluirImagem(nomeArquivo)) {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write("Imagem excluída com sucesso!");
-                } else {
-                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    response.getWriter().write("Erro ao excluir imagem!");
-                }
+            // Obtém os parâmetros de página da requisição
+            String pageParam = request.getParameter("page");
+            if (pageParam != null && !pageParam.isEmpty()) {
+                pagina = Integer.parseInt(pageParam);
+                request.setAttribute("page", pageParam);
             } else {
-                processarImagens(request, Integer.parseInt(codProdutoParam));
+                request.setAttribute("page", pagina);
             }
 
-            response.sendRedirect(request.getContextPath() + "/listarProdutos");
+            List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
 
+            List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
+
+            String action = request.getParameter("action");
+            pagina = calcularPagina(listaDeListasDeProdutos, pagina, action);
+
+            if (pagina > 0 && pagina <= listaDeListasDeProdutos.size()) {
+                produtos = listaDeListasDeProdutos.get(pagina - 1);
+            } else {
+                produtos = listaDeListasDeProdutos.get(0);
+                pagina = 1;
+            }
+        }
     }
 
     // Método para dividir a lista de produtos em listas de tamanho fixo
@@ -167,52 +119,5 @@ public class AlterarProduto extends HttpServlet {
         }
 
         return pagina;
-    }
-
-    // Método para processar o upload de imagens
-    private void processarImagens(HttpServletRequest request, int produtoId) throws IOException, ServletException {
-        List<Part> fileParts = request.getParts().stream()
-                .filter(part -> "selImagem".equals(part.getName()))
-                .collect(Collectors.toList());
-
-        String diretorio = "imagens";
-        String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio);
-
-        File diretorioImagens = new File(diretorioAbsoluto);
-        if (!diretorioImagens.exists()) {
-            diretorioImagens.mkdirs();
-        }
-
-        boolean primeiraImagem = true;
-        for (Part filePart : fileParts) {
-            String fileName = extractFileName(filePart);
-            if (!fileName.isEmpty()) {
-                String novoNome = "imagem_" + System.currentTimeMillis() + "_" + fileName;
-                String filePath = diretorioAbsoluto + File.separator + novoNome;
-                filePart.write(filePath);
-
-                Imagem imagem = new Imagem();
-                imagem.setProdutoId(produtoId);
-                imagem.setDiretorio(diretorio);
-                imagem.setNome(novoNome);
-                imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
-                imagem.setQualificacao(primeiraImagem);
-
-                ProdutoDAO.AdicionarImagem(imagem);
-                primeiraImagem = false;
-            }
-        }
-    }
-
-    // Método para extrair o nome do arquivo de uma parte da solicitação (request)
-    private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] tokens = contentDisp.split(";");
-        for (String token : tokens) {
-            if (token.trim().startsWith("filename")) {
-                return token.substring(token.indexOf("=") + 2, token.length() - 1);
-            }
-        }
-        return "";
     }
 }
