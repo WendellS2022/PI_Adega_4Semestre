@@ -3,6 +3,7 @@
 <%@ page import="br.com.adega.Model.Imagem" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,10 +16,14 @@
     <title>Visualizar Produto</title>
 </head>
 
-<!-- Aqui fica o cabeçalho -->
-<header id="cabecalho-site">
-    <h1 id="identificacao-site">e-Commerce e-Devs - Área de BackOffice</h1>
-</header>
+<!-- Aqui fica o cabeçalho com bootstrap-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary vh-100">
+    <div class="container">
+      <!-- Logo -->
+      <a class="navbar-brand h-100%" href="/TelaProdutos">
+        <img src="LOGO1.png" alt="Logo" height="300">
+      </a>
+
 
 <body>
     <article id="area-vizualizacao">
@@ -60,7 +65,7 @@
 
                 <div class="informacao-produto">
 
-                    <label for="nomeProduto" class="titulo-campo">Nome do Produto</label>
+                    <label for="nomeProduto" class="titulo-campo"></label>
                     <textarea name="nomeProduto" id="nome-Produto" readonly>${produto != null ? produto.getNomeProduto() : ''}
                     </textarea>
 

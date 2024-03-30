@@ -193,7 +193,7 @@ public class CadastrarProduto extends HttpServlet {
         } else {
             // Se o produto não foi encontrado, define uma mensagem de erro e encaminha para a página principal
             request.setAttribute("mensagem", "Produto não encontrado!");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/listarProdutos");
             dispatcher.forward(request, response);
         }
     }
