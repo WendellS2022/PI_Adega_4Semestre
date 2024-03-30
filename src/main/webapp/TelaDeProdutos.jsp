@@ -11,10 +11,7 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <style>
-    /* Estilos adicionais aqui */
-    .card {
-      height: 100%;
-    }
+
   </style>
 </head>
 <body>
@@ -22,7 +19,7 @@
     <div class="container">
       <!-- Logo -->
       <a class="navbar-brand" href="#">
-        <img src="caminho/para/sua/logo.png" alt="Logo" height="30">
+        <img src="LogoPrincipal-r.png" alt="Logo" height="70">
         Adega E-Dev's
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +46,7 @@
 
 
             <c:forEach var="imagem" items="${imagensPorProduto[produto.codProduto]}">
-                            <img src="${imagem.diretorio}/${imagem.nome}" alt="${produto.nomeProduto}" class="img-fluid">
+                            <img src="${imagem.diretorio}/${imagem.nome}" alt="${produto.nomeProduto}" class="img-fluid" style="max-height: 200px;">
                           </c:forEach>
 
 
