@@ -40,48 +40,26 @@ public class CadastrarProduto extends HttpServlet {
         if ((caminhoImagem == null || !caminhoImagem.isEmpty()) && (!codProduto.isEmpty() || codProduto == null)) {
             boolean imagemAdicionada = processarImagens(request, Integer.parseInt(codProduto), response);
             if (imagemAdicionada) {
-                Produto produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProduto));
-
-                // Obtém as imagens associadas ao produto
-                List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProduto));
-
-                // Passa as imagens e o produto para o JSP
-                request.setAttribute("produto", produto);
-                request.setAttribute("imagensProduto", imagensProduto);
-
-                // Encaminha para a página de cadastro/edição de produtos
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-                dispatcher.forward(request, response);
-                // Se alguma imagem foi adicionada com sucesso, encerre a execução do método
+                carregarProduto(request, response, codProduto);
                 return;
             }
         }
+
         Produto produto = new Produto();
         try {
             int produtoId;
             if (codProduto != null && !codProduto.isBlank()) {
-                produtoId = Integer.parseInt(codProduto);
                 preencherProduto(request, produto);
+
                 boolean produtoAtualizado = ProdutoDAO.AtualizarProduto(produto);
                 if (caminhoImagem != null && !produtoAtualizado) {
-                   boolean imagemExcluida = excluirImagem(caminhoImagem);
-
-                   if(imagemExcluida){
-                    produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProduto));
-
-                       // Obtém as imagens associadas ao produto
-                       List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProduto));
-
-                       // Passa as imagens e o produto para o JSP
-                       request.setAttribute("produto", produto);
-                       request.setAttribute("imagensProduto", imagensProduto);
-
-                       // Encaminha para a página de cadastro/edição de produtos
-                       RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
-                       dispatcher.forward(request, response);
-                   }
-                    return;
+                    boolean imagemExcluida = excluirImagem(caminhoImagem);
+                    if (imagemExcluida) {
+                        carregarProduto(request, response, codProduto);
+                        return;
+                    }
                 }
+
                 if (produtoAtualizado) {
                     request.setAttribute("mensagem", "Produto alterado com sucesso!");
                 } else {
@@ -198,4 +176,25 @@ public class CadastrarProduto extends HttpServlet {
         return false;
     }
 
+    private void carregarProduto(HttpServletRequest request, HttpServletResponse response, String codProdutoParam) throws ServletException, IOException {
+        Produto produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
+
+        if (produto != null) {
+            // Obtém as imagens associadas ao produto
+            List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProdutoParam));
+
+            // Passa as imagens e o produto para o JSP
+            request.setAttribute("produto", produto);
+            request.setAttribute("imagensProduto", imagensProduto);
+
+            // Encaminha para a página de cadastro/edição de produtos
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            // Se o produto não foi encontrado, define uma mensagem de erro e encaminha para a página principal
+            request.setAttribute("mensagem", "Produto não encontrado!");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
 }
