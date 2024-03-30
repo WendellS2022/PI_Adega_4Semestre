@@ -23,6 +23,7 @@ public class Produto {
         this.qtdEstoque = qtdEstoque;
         this.vlrVendaProduto = vlrVendaProduto;
         this.situacaoProduto = situacaoProduto;
+
     }
 
     public int getCodProduto() {

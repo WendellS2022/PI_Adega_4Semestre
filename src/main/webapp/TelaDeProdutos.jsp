@@ -47,11 +47,17 @@
           <div class="card h-100">
             <div class="card-body">
 
+
+            <c:forEach var="imagem" items="${imagensPorProduto[produto.codProduto]}">
+                            <img src="${imagem.diretorio}/${imagem.nome}" alt="${produto.nomeProduto}" class="img-fluid">
+                          </c:forEach>
+
+
               <p class="card-title">${produto.nomeProduto}</p>
               <p class="card-text">Preço: R$ ${produto.vlrVendaProduto}</p>
             </div>
             <div class="card-footer">
-              <a href="DetalhesProduto.jsp?codProduto=${produto.codProduto}" class="btn btn-primary btn-block">Detalhes</a>
+              <a href="/visualizarProduto?codProduto=${produto.codProduto}" class="btn btn-primary btn-block">Detalhes</a>
             </div>
           </div>
         </div>
