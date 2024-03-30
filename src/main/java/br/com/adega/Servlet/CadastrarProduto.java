@@ -19,56 +19,76 @@ import java.util.stream.Collectors;
 
 @WebServlet("/cadastrarProduto")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,    // 2MB
-    maxFileSize = 1024 * 1024 * 10,       // 10MB
-    maxRequestSize = 1024 * 1024 * 50)   // 50MB
+        maxFileSize = 1024 * 1024 * 10,       // 10MB
+        maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class CadastrarProduto extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String usuarioLogado = (String) session.getAttribute("usuarioLogado");
-
         int grupo = UsuarioDAO.ObterGrupo(usuarioLogado);
-
         request.setAttribute("grupo", grupo);
 
-        // Encaminha para a página de cadastro/edição de produtos
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
         dispatcher.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Produto produto = new Produto();
         String codProduto = request.getParameter("id");
+        String caminhoImagem = request.getParameter("caminhoImagem");
 
+        if ((caminhoImagem == null || !caminhoImagem.isEmpty()) && (!codProduto.isEmpty() || codProduto == null)) {
+            boolean imagemAdicionada = processarImagens(request, Integer.parseInt(codProduto), response);
+            if (imagemAdicionada) {
+                Produto produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProduto));
+
+                // Obtém as imagens associadas ao produto
+                List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProduto));
+
+                // Passa as imagens e o produto para o JSP
+                request.setAttribute("produto", produto);
+                request.setAttribute("imagensProduto", imagensProduto);
+
+                // Encaminha para a página de cadastro/edição de produtos
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+                dispatcher.forward(request, response);
+                // Se alguma imagem foi adicionada com sucesso, encerre a execução do método
+                return;
+            }
+        }
+        Produto produto = new Produto();
         try {
             int produtoId;
             if (codProduto != null && !codProduto.isBlank()) {
-                produto.setCodProduto(Integer.parseInt(codProduto));
-                produto.setNomeProduto(request.getParameter("nomeProduto"));
-                produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
-                produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
-                produto.setVlrVendaProduto(new BigDecimal(request.getParameter("vlrVendaProduto")));
-                produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
-                produto.setSituacaoProduto(Boolean.parseBoolean(request.getParameter("situacao")));
-
+                produtoId = Integer.parseInt(codProduto);
+                preencherProduto(request, produto);
                 boolean produtoAtualizado = ProdutoDAO.AtualizarProduto(produto);
+                if (caminhoImagem != null && !produtoAtualizado) {
+                   boolean imagemExcluida = excluirImagem(caminhoImagem);
 
+                   if(imagemExcluida){
+                    produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProduto));
+
+                       // Obtém as imagens associadas ao produto
+                       List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProduto));
+
+                       // Passa as imagens e o produto para o JSP
+                       request.setAttribute("produto", produto);
+                       request.setAttribute("imagensProduto", imagensProduto);
+
+                       // Encaminha para a página de cadastro/edição de produtos
+                       RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+                       dispatcher.forward(request, response);
+                   }
+                    return;
+                }
                 if (produtoAtualizado) {
                     request.setAttribute("mensagem", "Produto alterado com sucesso!");
                 } else {
                     request.setAttribute("mensagem", "Falha ao alterar produto!");
                 }
-
-                produtoId = produto.getCodProduto(); // Usar o ID do produto existente
             } else {
-                produto.setNomeProduto(request.getParameter("nomeProduto"));
-                produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
-                produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
-                produto.setVlrVendaProduto(new BigDecimal(request.getParameter("vlrVendaProduto")));
-                produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
-                produto.setSituacaoProduto(true); // Definir conforme necessário
-
-
+                preencherProduto(request, produto);
                 produtoId = ProdutoDAO.AdicionarProdutoRetornandoCodigo(produto);
 
                 if (produtoId != 0) {
@@ -76,95 +96,69 @@ public class CadastrarProduto extends HttpServlet {
                 } else {
                     request.setAttribute("mensagem", "Falha ao adicionar produto!");
                 }
+
+                // Área de processamento de imagens
+                processarImagens(request, produtoId, response);
             }
 
-            String caminhoImagem = request.getParameter("caminhoImagem");
-
-            if (caminhoImagem != null && !caminhoImagem.isEmpty()) {
-                // Excluir a imagem do diretório
-                String diretorioAbsoluto = getServletContext().getRealPath("/");
-                File arquivo = new File(diretorioAbsoluto + caminhoImagem);
-                if (arquivo.exists()) {
-                    arquivo.delete();
-                }
-
-                // Excluir a imagem do banco de dados
-                if (ProdutoDAO.ExcluirImagem(caminhoImagem)) {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write("Imagem excluída com sucesso!");
-                } else {
-                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    response.getWriter().write("Erro ao excluir imagem!");
-                }
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("Caminho da imagem não fornecido!");
-            }
-
-
-
-            // Obter o caminho da imagem principal do formulário
-            String caminhoImagemPrincipal = request.getParameter("caminhoImagemPrincipal");
-
-            // Atualizar o banco de dados para definir a imagem principal
-            if (caminhoImagemPrincipal != null && !caminhoImagemPrincipal.isEmpty()) {
-                ProdutoDAO.DefinirImagemPrincipal(produtoId, caminhoImagemPrincipal);
-            }
-
-            // Processar o upload de imagens
-            List<Part> fileParts = request.getParts().stream()
-                    .filter(part -> "selImagem".equals(part.getName()))
-                    .collect(Collectors.toList());
-
-            List<String> imagePaths = new ArrayList<>();
-            String diretorio = "imagens"; // Diretório onde as imagens serão salvas (caminho relativo)
-            String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio); // Diretório absoluto da aplicação
-
-// Verificar se o diretório de imagens existe e criar se não existir
-            File diretorioImagens = new File(diretorioAbsoluto);
-            if (!diretorioImagens.exists()) {
-                diretorioImagens.mkdirs();
-            }
-
-            boolean primeiraImagem = true;
-            for (Part filePart : fileParts) {
-                String fileName = extractFileName(filePart);
-                if (fileName != null && !fileName.isEmpty()) {
-                    // Salvar a imagem no diretório
-                    String novoNome = "imagem_" + System.currentTimeMillis() + "_" + fileName;
-                    String filePath = diretorioAbsoluto + File.separator + novoNome;
-                    filePart.write(filePath);
-                    imagePaths.add(filePath);
-
-                    // Salvar detalhes da imagem no banco de dados
-                    Imagem imagem = new Imagem();
-                    imagem.setProdutoId(produtoId); // Usando o ID do produto
-                    imagem.setDiretorio(diretorio); // Caminho relativo
-                    imagem.setNome(novoNome); // Nome do arquivo gerado
-                    imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
-
-                    // Definir a qualificação da imagem principal
-                    if (primeiraImagem) {
-                        imagem.setQualificacao(true);
-                        primeiraImagem = false;
-                    } else {
-                        imagem.setQualificacao(false);
-                    }
-
-                    ProdutoDAO.AdicionarImagem(imagem);
-                }
-            }
-
-
-            // Redirecionar para a página de listagem de produtos
-            response.sendRedirect(request.getContextPath() + "/listarProdutos");
         } catch (Exception e) {
             e.printStackTrace();
+            request.setAttribute("mensagem", "Ocorreu um erro ao processar a requisição.");
         }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
+        dispatcher.forward(request, response);
     }
 
-    // Método para extrair o nome do arquivo de uma Part
-    private static String extractFileName(Part part) {
+    private void preencherProduto(HttpServletRequest request, Produto produto) {
+        produto.setNomeProduto(request.getParameter("nomeProduto"));
+        produto.setDscDetalhadaProduto(request.getParameter("dscDetalhadaProduto"));
+        produto.setAvaliacaoProduto(Double.parseDouble(request.getParameter("avaliacaoProduto")));
+        produto.setVlrVendaProduto(new BigDecimal(request.getParameter("vlrVendaProduto")));
+        produto.setQtdEstoque(Integer.parseInt(request.getParameter("qtdEstoque")));
+        produto.setSituacaoProduto(Boolean.parseBoolean(request.getParameter("situacao")));
+    }
+
+    private boolean processarImagens(HttpServletRequest request, int produtoId, HttpServletResponse response) throws IOException, ServletException {
+        List<Part> fileParts = request.getParts().stream()
+                .filter(part -> "selImagem".equals(part.getName()))
+                .collect(Collectors.toList());
+
+        String diretorio = "imagens";
+        String diretorioAbsoluto = getServletContext().getRealPath("/" + diretorio);
+        File diretorioImagens = new File(diretorioAbsoluto);
+        if (!diretorioImagens.exists()) {
+            diretorioImagens.mkdirs();
+        }
+
+        List<Imagem> nomesImagensExistentes = ProdutoDAO.obterImagensPorProdutoId(produtoId);
+        boolean imagemAdicionada = false;
+
+        for (Part filePart : fileParts) {
+            String fileName = extractFileName(filePart);
+            if (!fileName.isEmpty() && !nomesImagensExistentes.contains(fileName)) {
+                String novoNome = "imagem_" + System.currentTimeMillis() + "_" + fileName;
+                String filePath = diretorioAbsoluto + File.separator + novoNome;
+                filePart.write(filePath);
+
+                // Salvar informações da imagem no banco de dados
+                Imagem imagem = new Imagem();
+                imagem.setProdutoId(produtoId);
+                imagem.setDiretorio(diretorio);
+                imagem.setNome(novoNome);
+                imagem.setExtensao(fileName.substring(fileName.lastIndexOf(".") + 1));
+                imagem.setQualificacao(false);
+                ProdutoDAO.AdicionarImagem(imagem);
+
+                imagemAdicionada = true;
+            }
+        }
+
+        return imagemAdicionada;
+    }
+
+
+    private String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
         String[] tokens = contentDisp.split(";");
         for (String token : tokens) {
@@ -174,4 +168,34 @@ public class CadastrarProduto extends HttpServlet {
         }
         return "";
     }
+
+    private boolean excluirImagem(String caminhoImagem) throws IOException {
+        String nomeArquivo = caminhoImagem.substring(caminhoImagem.lastIndexOf("/") + 1);
+        String diretorioImagens = getServletContext().getRealPath("/imagens");
+        File arquivoImagem = new File(diretorioImagens);
+
+        if (arquivoImagem.exists() && arquivoImagem.isDirectory()) {
+            for (File arquivo : arquivoImagem.listFiles()) {
+                if (arquivo.getName().equals(nomeArquivo)) {
+                    if (arquivo.delete()) {
+                        if (ProdutoDAO.ExcluirImagem(nomeArquivo)) {
+                            return true; // Imagem excluída com sucesso
+                        } else {
+                            // Se houver falha ao excluir a imagem do banco de dados, não há necessidade de continuar
+                            return false;
+                        }
+                    } else {
+                        // Se houver falha ao excluir a imagem do sistema de arquivos
+                        return false;
+                    }
+                }
+            }
+        } else {
+            // Diretório de imagens não encontrado
+            return false;
+        }
+        // Imagem não encontrada
+        return false;
+    }
+
 }
