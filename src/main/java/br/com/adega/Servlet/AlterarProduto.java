@@ -42,7 +42,7 @@ public class AlterarProduto extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+
             HttpSession session = request.getSession();
             String usuarioLogado = (String) session.getAttribute("usuarioLogado");
             int pagina = 1;
@@ -126,11 +126,7 @@ public class AlterarProduto extends HttpServlet {
             }
 
             response.sendRedirect(request.getContextPath() + "/listarProdutos");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Ocorreu um erro ao processar a requisição.");
-        }
+
     }
 
     // Método para dividir a lista de produtos em listas de tamanho fixo
