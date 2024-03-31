@@ -42,43 +42,47 @@ public class AlterarProduto extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        List<Produto> produtos = new ArrayList<>();
         HttpSession session = request.getSession();
         String usuarioLogado = (String) session.getAttribute("usuarioLogado");
-        int pagina = 1;
 
-        // Obtém o ID do produto e informações do usuário logado
-        String codProdutoParam = request.getParameter("codProduto");
+        // Obtém os parâmetros enviados pelo formulário
+        String codProduto = request.getParameter("codProduto");
+        String acao = request.getParameter("acao");
+        int pagina = Integer.parseInt(request.getParameter("pagina")); // Obtém o número da página atual
 
-        List<Produto> produtos = null;
+        // Atualiza o status do produto com base na ação
+        boolean isSuccess = ProdutoDAO.AtualizarStatus(codProduto);
 
-        if (codProdutoParam != null) {
-            // Atualiza o status do produto
-            boolean isSuccess = ProdutoDAO.AtualizarStatus(codProdutoParam);
-
-            // Obtém os parâmetros de página da requisição
-            String pageParam = request.getParameter("page");
-            if (pageParam != null && !pageParam.isEmpty()) {
-                pagina = Integer.parseInt(pageParam);
-                request.setAttribute("page", pageParam);
-            } else {
-                request.setAttribute("page", pagina);
-            }
-
-            List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
-
-            List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
-
-            String action = request.getParameter("action");
-            pagina = calcularPagina(listaDeListasDeProdutos, pagina, action);
-
-            if (pagina > 0 && pagina <= listaDeListasDeProdutos.size()) {
-                produtos = listaDeListasDeProdutos.get(pagina - 1);
-            } else {
-                produtos = listaDeListasDeProdutos.get(0);
-                pagina = 1;
-            }
+        // Obtém os parâmetros de página da requisição
+        String pageParam = request.getParameter("pagina");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            pagina = Integer.parseInt(pageParam);
+            request.setAttribute("page", pageParam);
+        } else {
+            request.setAttribute("page", pagina);
         }
+
+        int grupo = UsuarioDAO.ObterGrupo(usuarioLogado);
+        List<Produto> todosOsProdutos = ProdutoDAO.ObterTodosOsProdutos();
+
+        List<List<Produto>> listaDeListasDeProdutos = dividirProdutosEmListas(todosOsProdutos);
+
+
+        pagina = calcularPagina(listaDeListasDeProdutos, pagina, acao);
+
+        if (pagina > 0 && pagina <= listaDeListasDeProdutos.size()) {
+
+            produtos = listaDeListasDeProdutos.get(pagina - 1);
+        } else {
+            produtos = listaDeListasDeProdutos.get(0);
+            pagina = 1;
+        }
+
+        request.setAttribute("grupo", grupo);
+        request.setAttribute("produtos", produtos);
+        request.setAttribute("pagina", pagina);
+        request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);
     }
 
     // Método para dividir a lista de produtos em listas de tamanho fixo
