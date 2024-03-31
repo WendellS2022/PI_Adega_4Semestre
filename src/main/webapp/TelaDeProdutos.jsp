@@ -19,7 +19,7 @@
     <div class="container">
       <!-- Logo -->
       <a class="navbar-brand" href="#">
-        <img src="LogoPrincipal-r.png" alt="Logo" height="70">
+        <img src="logo.png" alt="Logo" height="120">
         Adega E-Dev's
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

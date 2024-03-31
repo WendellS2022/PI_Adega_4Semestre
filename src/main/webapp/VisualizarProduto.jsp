@@ -17,7 +17,7 @@
 
 <!-- Aqui fica o cabeçalho -->
 <header id="cabecalho-site">
-    <h1 id="identificacao-site">e-Commerce e-Devs - Área de BackOffice</h1>
+    <h1 id="identificacao-site">Detalhe do Produto</h1>
 </header>
 
 <body>

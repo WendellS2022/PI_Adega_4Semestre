@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ProdutoDAO {
 
-    public static List<Produto> ObterTodosOsProdutos(){
+    public static List<Produto> ObterTodosOsProdutos() {
         List<Produto> produtos = new ArrayList<>();
 
         String SQL = "SELECT * FROM PRODUTOS ORDER BY PRODUTOID DESC";
@@ -91,6 +91,7 @@ public class ProdutoDAO {
             return false;
         }
     }
+
     public static int AdicionarProdutoRetornandoCodigo(Produto produto) {
         String SQL = "INSERT INTO PRODUTOS (NOME, DESCRICAO, AVALIACAO, QUANTIDADE, VALOR, SITUACAO) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -213,7 +214,6 @@ public class ProdutoDAO {
     }
 
 
-
     public static List<Produto> PesquisarProdutosPorNome(String nomeProduto) {
         List<Produto> produtos = new ArrayList<>();
 
@@ -278,6 +278,7 @@ public class ProdutoDAO {
 
         return produtos;
     }
+
     public static boolean AdicionarImagem(Imagem imagem) {
         String SQL = "INSERT INTO IMAGENS (ProdutoId, Diretorio, Nome, Qualificacao, Extensao) VALUES (?, ?, ?, ?, ?)";
 
@@ -299,25 +300,54 @@ public class ProdutoDAO {
         }
     }
 
-    public static boolean DefinirImagemPrincipal(int produtoId, String nomeImagemPrincipal) {
-        String SQL = "UPDATE IMAGENS SET QUALIFICACAO = ? WHERE PRODUTOID = ? AND NOME = ?";
+    public static boolean atualizarQualificacaoImagem(Imagem imagem) {
+        String selectSQL = "SELECT COUNT(*) FROM IMAGENS WHERE PRODUTOID = ? AND NOME = ?";
+        String updateSQL = "UPDATE IMAGENS SET QUALIFICACAO = ? WHERE PRODUTOID = ? AND NOME = ?";
+        String insertSQL = "INSERT INTO IMAGENS (PRODUTOID, DIRETORIO, NOME, EXTENSAO, QUALIFICACAO) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+             PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
+             PreparedStatement updateStatement = connection.prepareStatement(updateSQL);
+             PreparedStatement insertStatement = connection.prepareStatement(insertSQL)) {
 
-            // Definir a qualificação da imagem para true para torná-la a imagem principal
-            preparedStatement.setBoolean(1, true);
-            preparedStatement.setInt(2, produtoId);
-            preparedStatement.setString(3, nomeImagemPrincipal);
+            // Verificar se a imagem já está cadastrada na tabela
+            selectStatement.setInt(1, imagem.getProdutoId());
+            selectStatement.setString(2, imagem.getDiretorio());
+            selectStatement.setString(3, imagem.getNome());
+            selectStatement.setString(4, imagem.getExtensao());
+            selectStatement.setBoolean(5, imagem.isQualificacao());
+            ResultSet resultSet = selectStatement.executeQuery();
 
-            int rowsAffected = preparedStatement.executeUpdate();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if (count > 0) {
+                    // A imagem já existe na tabela, então atualize sua qualificação
+                    updateStatement.setInt(1, imagem.getProdutoId());
+                    updateStatement.setString(2, imagem.getDiretorio());
+                    updateStatement.setString(3, imagem.getNome());
+                    updateStatement.setString(4, imagem.getExtensao());
+                    updateStatement.setBoolean(5, true);
 
-            return rowsAffected > 0;
+                    int rowsAffected = updateStatement.executeUpdate();
+                    return rowsAffected > 0;
+                } else {
+                    // A imagem não existe na tabela, então insira-a com a qualificação definida como true
+                    insertStatement.setInt(1, imagem.getProdutoId());
+                    insertStatement.setString(2, imagem.getDiretorio());
+                    insertStatement.setString(3, imagem.getNome());
+                    insertStatement.setString(4, imagem.getExtensao());
+                    insertStatement.setBoolean(5, true);
+
+                    int rowsAffected = insertStatement.executeUpdate();
+                    return rowsAffected > 0;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
+
 
     public static boolean ExcluirImagem(String nome) {
         String SQL = "DELETE FROM IMAGENS WHERE NOME = ?";
@@ -365,5 +395,27 @@ public class ProdutoDAO {
         }
 
         return imagens;
+    }
+
+    public static int ObterProdutoIdPorNomeImagem(String nomeImagem) {
+        int produtoId = -1; // Inicializa o produtoId com um valor padrão
+
+        String SQL = "SELECT PRODUTOID FROM IMAGENS WHERE NOME = ?";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setString(1, nomeImagem);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    produtoId = resultSet.getInt("PRODUTOID");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return produtoId;
     }
 }
