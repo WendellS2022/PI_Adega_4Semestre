@@ -63,7 +63,7 @@
                                 <c:choose>
                                     <c:when test="${grupo == 1}">
                                         <td class="alterar-situacao-produto">
-                                            <a href="#" onclick="confirmarAlteracao('${produto.codProduto}', '${produto.situacaoProduto ? 'Inativar' : 'Reativar'}', '${page}')">
+                                            <a href="#" onclick="confirmarAlteracao('${produto.codProduto}', '${produto.situacaoProduto ? 'Inativar' : 'Reativar'}', '${pagina}')">
                                                 ${produto.situacaoProduto ? 'Inativar' : 'Reativar'}
                                             </a>
                                         </td>
@@ -122,34 +122,40 @@
     </article>
 
     <script>
-        function confirmarAlteracao(codProduto, acao, page) {
-            var confirmacao = confirm(`Deseja realmente ${acao} o produto?`);
-            if (confirmacao) {
-                var form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/alterarProduto';
+      function confirmarAlteracao(codProduto, acao, pagina) {
+          var confirmacao = confirm(`Deseja realmente ${acao} o produto?`);
+          if (confirmacao) {
+              var form = document.createElement('form');
+              form.method = 'POST';
+              form.action = '/alterarProduto';
 
-                var codProdutoInput = document.createElement('input');
-                codProdutoInput.type = 'hidden';
-                codProdutoInput.name = 'codProduto';
-                codProdutoInput.value = codProduto;
+              var codProdutoInput = document.createElement('input');
+              codProdutoInput.type = 'hidden';
+              codProdutoInput.name = 'codProduto';
+              codProdutoInput.value = codProduto;
 
-                var acaoInput = document.createElement('input');
-                acaoInput.type = 'hidden';
-                acaoInput.name = 'acao';
-                acaoInput.value = acao;
+              var acaoInput = document.createElement('input');
+              acaoInput.type = 'hidden';
+              acaoInput.name = 'acao';
+              acaoInput.value = acao;
 
-                var pageInput = document.createElement('input'); // Adiciona um input hidden para a variável page
-                pageInput.type = 'hidden';
-                pageInput.name = 'page';
-                pageInput.value = page;
+              var pageInput = document.createElement('input'); // Adiciona um input hidden para a variável page
+              pageInput.type = 'hidden';
+              pageInput.name = 'pagina';
+              pageInput.value = pagina;
 
+              form.appendChild(codProdutoInput);
+              form.appendChild(acaoInput);
+              form.appendChild(pageInput);
+              document.body.appendChild(form);
+              form.submit();
 
-            setTimeout(function() {
-                window.location.href = "/listarProdutos"; // Redireciona após 1 segundo (1000 milissegundos)
-            }, 1000);
-        }
-    }
+              setTimeout(function() {
+                  window.location.href = "/listarProdutos"; // Redireciona após 1 segundo (1000 milissegundos)
+              }, 1000);
+          }
+      }
+
 </script>
 </body>
 </html>
