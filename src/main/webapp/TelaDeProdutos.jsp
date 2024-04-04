@@ -34,7 +34,7 @@
                     <a class="nav-link" href="#">Cadastre-se</a>
                 </li>
                 <li class="nav-item">
-                 <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Carrinho</a>
+                 <a class="nav-link" href="/Carrinho.jsp"><i class="fas fa-shopping-cart"></i> Carrinho</a>
                  </li>
             </ul>
         </div>

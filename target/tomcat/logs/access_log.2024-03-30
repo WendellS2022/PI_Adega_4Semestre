@@ -2523,3 +2523,7 @@
 0:0:0:0:0:0:0:1 - - [30/Mar/2024:21:50:27 -0300] "GET /imagens/imagem_1711843391926_Cachac%CC%A7a%20Ypio%CC%81ca.jpeg HTTP/1.1" 404 1075 http-bio-8080-exec-5 64
 0:0:0:0:0:0:0:1 - - [30/Mar/2024:21:50:27 -0300] "GET /imagens/imagem_1711844249309_HEINEKEN.jpeg HTTP/1.1" 304 - http-bio-8080-exec-1 23
 0:0:0:0:0:0:0:1 - - [30/Mar/2024:21:50:27 -0300] "GET /imagens/imagem_1711844467781_GreenLabel.jpg HTTP/1.1" 304 - http-bio-8080-exec-2 32
+0:0:0:0:0:0:0:1 - - [30/Mar/2024:21:52:25 -0300] "GET /TelaProdutos HTTP/1.1" 200 18147 http-bio-8080-exec-9 258
+0:0:0:0:0:0:0:1 - - [30/Mar/2024:21:52:26 -0300] "GET /imagens/imagem_1711843391926_Cachac%CC%A7a%20Ypio%CC%81ca.jpeg HTTP/1.1" 404 1075 http-bio-8080-exec-9 5
+0:0:0:0:0:0:0:1 - - [30/Mar/2024:21:52:26 -0300] "GET /imagens/imagem_1711843341839_fonteRegia.jpeg HTTP/1.1" 304 - http-bio-8080-exec-4 49
+0:0:0:0:0:0:0:1 - - [30/Mar/2024:21:52:26 -0300] "GET /imagens/imagem_1711843374093_Jagermeister.jpeg HTTP/1.1" 304 - http-bio-8080-exec-10 49
