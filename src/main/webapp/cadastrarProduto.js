@@ -42,7 +42,7 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
         });
 
         // Salva a imagem no diretório da aplicação (substitua '/caminho/para/diretorio' pelo caminho real)
-        salvarImagemNoDiretorio(imagem, novoNome, '/imagens'); // Chamada corrigida
+        //salvarImagemNoDiretorio(imagem, novoNome, '/imagens'); // Chamada corrigida
     }
 
     // Atualiza o total de imagens anexadas
@@ -60,18 +60,41 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
     console.log(imagensArray); // Exemplo de como enviar o array para o backend
 });
 
-function salvarImagemNoDiretorio(imagem, nomeArquivo, diretorio) {
-    var formData = new FormData();
-    formData.append('selImagem', imagem);
+//function salvarImagemNoDiretorio(imagem, nomeArquivo, diretorio) {
+//    var formData = new FormData();
+//    formData.append('selImagem', imagem);
+//
+//    var xhr = new XMLHttpRequest();
+//    xhr.open('POST', '/uploadImagem', true);
+//    xhr.onload = function () {
+//        if (xhr.status === 200) {
+//            console.log('Imagem enviada com sucesso!');
+//        } else {
+//            console.error('Erro ao enviar imagem:', xhr.statusText);
+//        }
+//    };
+//    xhr.send(formData);
+//}
+// Adiciona um manipulador de eventos para os radiobuttons das imagens
+document.querySelectorAll('.imagem-principal').forEach(function(radioButton) {
+    radioButton.addEventListener('change', function(event) {
+        var caminhoImagemPrincipal = this.dataset.caminho;
+        document.getElementById('caminho-imagem-principal').value = caminhoImagemPrincipal;
 
+        // Envie o caminho da imagem selecionada para o backend
+        enviarCaminhoImagemPrincipal(caminhoImagemPrincipal);
+    });
+});
+
+function enviarCaminhoImagemPrincipal(caminhoImagemPrincipal) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/uploadImagem', true);
+    xhr.open('POST', '/cadastrarProduto?caminhoImagemPrincipal=' + encodeURIComponent(caminhoImagemPrincipal), true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log('Imagem enviada com sucesso!');
+            console.log('Caminho da imagem principal enviado com sucesso!');
         } else {
-            console.error('Erro ao enviar imagem:', xhr.statusText);
+            console.error('Erro ao enviar caminho da imagem principal:', xhr.statusText);
         }
     };
-    xhr.send(formData);
+    xhr.send();
 }

@@ -4,10 +4,7 @@ import br.com.adega.Config.ConnectionPoolConfig;
 import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -301,55 +298,33 @@ public class ProdutoDAO {
     }
 
     public static boolean atualizarQualificacaoImagem(Imagem imagem) {
-        String selectSQL = "SELECT COUNT(*) FROM IMAGENS WHERE PRODUTOID = ? AND NOME = ?";
-        String updateSQL = "UPDATE IMAGENS SET QUALIFICACAO = ? WHERE PRODUTOID = ? AND NOME = ?";
-        String insertSQL = "INSERT INTO IMAGENS (PRODUTOID, DIRETORIO, NOME, EXTENSAO, QUALIFICACAO) VALUES (?, ?, ?, ?, ?)";
+        String updateAllImagesSQL = "UPDATE IMAGENS SET QUALIFICACAO = FALSE WHERE PRODUTOID = ?";
+        String updateSpecificImageSQL = "UPDATE IMAGENS SET QUALIFICACAO = TRUE WHERE PRODUTOID = ? AND NOME = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
-             PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
-             PreparedStatement updateStatement = connection.prepareStatement(updateSQL);
-             PreparedStatement insertStatement = connection.prepareStatement(insertSQL)) {
+             PreparedStatement updateAllImagesStatement = connection.prepareStatement(updateAllImagesSQL);
+             PreparedStatement updateSpecificImageStatement = connection.prepareStatement(updateSpecificImageSQL)) {
 
-            // Verificar se a imagem já está cadastrada na tabela
-            selectStatement.setInt(1, imagem.getProdutoId());
-            selectStatement.setString(2, imagem.getDiretorio());
-            selectStatement.setString(3, imagem.getNome());
-            selectStatement.setString(4, imagem.getExtensao());
-            selectStatement.setBoolean(5, imagem.isQualificacao());
-            ResultSet resultSet = selectStatement.executeQuery();
+            // Primeiro, fazemos um UPDATE em todas as imagens do produto para definir a qualificação como FALSE
+            updateAllImagesStatement.setInt(1, imagem.getProdutoId());
+            updateAllImagesStatement.executeUpdate();
 
-            if (resultSet.next()) {
-                int count = resultSet.getInt(1);
-                if (count > 0) {
-                    // A imagem já existe na tabela, então atualize sua qualificação
-                    updateStatement.setInt(1, imagem.getProdutoId());
-                    updateStatement.setString(2, imagem.getDiretorio());
-                    updateStatement.setString(3, imagem.getNome());
-                    updateStatement.setString(4, imagem.getExtensao());
-                    updateStatement.setBoolean(5, true);
+            // Em seguida, fazemos um UPDATE apenas na imagem específica para definir sua qualificação como TRUE
+            updateSpecificImageStatement.setInt(1, imagem.getProdutoId());
+            updateSpecificImageStatement.setString(2, imagem.getNome());
+            int rowsAffected = updateSpecificImageStatement.executeUpdate();
 
-                    int rowsAffected = updateStatement.executeUpdate();
-                    return rowsAffected > 0;
-                } else {
-                    // A imagem não existe na tabela, então insira-a com a qualificação definida como true
-                    insertStatement.setInt(1, imagem.getProdutoId());
-                    insertStatement.setString(2, imagem.getDiretorio());
-                    insertStatement.setString(3, imagem.getNome());
-                    insertStatement.setString(4, imagem.getExtensao());
-                    insertStatement.setBoolean(5, true);
-
-                    int rowsAffected = insertStatement.executeUpdate();
-                    return rowsAffected > 0;
-                }
-            }
-        } catch (Exception e) {
+            return rowsAffected > 0;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
 
-    public static boolean ExcluirImagem(String nome) {
+
+
+        public static boolean ExcluirImagem(String nome) {
         String SQL = "DELETE FROM IMAGENS WHERE NOME = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
