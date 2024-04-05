@@ -78,16 +78,9 @@
                 <button type="button" id="btn-cancelar" onclick="window.location.href='/listarProdutos'">Cancelar</button>
             </form>
 
-            <form action="/gerenciarImagem" method="GET">
-             <input type="hidden" name="codProduto" value="${produto.codProduto}">
-             <button type="submit" id="btn-cancelar">Gerênciar imagem</button>
-             </form>
-
-
         </section>
     </article>
 </body>
 
 <script src="cadastrarProduto.js"></script>
-<script src="excluirImagem.js"></script>
 </html>
