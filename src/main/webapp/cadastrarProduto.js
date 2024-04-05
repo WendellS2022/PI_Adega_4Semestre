@@ -48,6 +48,14 @@ document.getElementById('selecao-imagem').addEventListener('change', function(ev
     // Atualiza o total de imagens anexadas
     document.getElementById('total-imagens').textContent = 'Total de imagens anexadas: ' + imagensArray.length;
 
+    // Adiciona um manipulador de eventos para os radiobuttons das imagens
+    document.querySelectorAll('.imagem-principal').forEach(function(radioButton) {
+        radioButton.addEventListener('change', function(event) {
+            var caminhoImagemPrincipal = this.dataset.caminho;
+            document.getElementById('caminho-imagem-principal').value = caminhoImagemPrincipal;
+        });
+    });
+
     // Aqui você pode fazer o envio do array de caminhos para o backend para posterior salvamento no banco de dados
     console.log(imagensArray); // Exemplo de como enviar o array para o backend
 });
