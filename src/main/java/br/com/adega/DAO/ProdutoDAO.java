@@ -4,16 +4,13 @@ import br.com.adega.Config.ConnectionPoolConfig;
 import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoDAO {
 
-    public static List<Produto> ObterTodosOsProdutos(){
+    public static List<Produto> ObterTodosOsProdutos() {
         List<Produto> produtos = new ArrayList<>();
 
         String SQL = "SELECT * FROM PRODUTOS ORDER BY PRODUTOID DESC";
@@ -91,6 +88,7 @@ public class ProdutoDAO {
             return false;
         }
     }
+
     public static int AdicionarProdutoRetornandoCodigo(Produto produto) {
         String SQL = "INSERT INTO PRODUTOS (NOME, DESCRICAO, AVALIACAO, QUANTIDADE, VALOR, SITUACAO) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -213,7 +211,6 @@ public class ProdutoDAO {
     }
 
 
-
     public static List<Produto> PesquisarProdutosPorNome(String nomeProduto) {
         List<Produto> produtos = new ArrayList<>();
 
@@ -278,6 +275,7 @@ public class ProdutoDAO {
 
         return produtos;
     }
+
     public static boolean AdicionarImagem(Imagem imagem) {
         String SQL = "INSERT INTO IMAGENS (ProdutoId, Diretorio, Nome, Qualificacao, Extensao) VALUES (?, ?, ?, ?, ?)";
 
@@ -299,27 +297,34 @@ public class ProdutoDAO {
         }
     }
 
-    public static boolean DefinirImagemPrincipal(int produtoId, String nomeImagemPrincipal) {
-        String SQL = "UPDATE IMAGENS SET QUALIFICACAO = ? WHERE PRODUTOID = ? AND NOME = ?";
+    public static boolean atualizarQualificacaoImagem(Imagem imagem) {
+        String updateAllImagesSQL = "UPDATE IMAGENS SET QUALIFICACAO = FALSE WHERE PRODUTOID = ?";
+        String updateSpecificImageSQL = "UPDATE IMAGENS SET QUALIFICACAO = TRUE WHERE PRODUTOID = ? AND NOME = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+             PreparedStatement updateAllImagesStatement = connection.prepareStatement(updateAllImagesSQL);
+             PreparedStatement updateSpecificImageStatement = connection.prepareStatement(updateSpecificImageSQL)) {
 
-            // Definir a qualificação da imagem para true para torná-la a imagem principal
-            preparedStatement.setBoolean(1, true);
-            preparedStatement.setInt(2, produtoId);
-            preparedStatement.setString(3, nomeImagemPrincipal);
+            // Primeiro, fazemos um UPDATE em todas as imagens do produto para definir a qualificação como FALSE
+            updateAllImagesStatement.setInt(1, imagem.getProdutoId());
+            updateAllImagesStatement.executeUpdate();
 
-            int rowsAffected = preparedStatement.executeUpdate();
+            // Em seguida, fazemos um UPDATE apenas na imagem específica para definir sua qualificação como TRUE
+            updateSpecificImageStatement.setInt(1, imagem.getProdutoId());
+            updateSpecificImageStatement.setString(2, imagem.getNome());
+            int rowsAffected = updateSpecificImageStatement.executeUpdate();
 
             return rowsAffected > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
-    public static boolean ExcluirImagem(String nome) {
+
+
+
+        public static boolean ExcluirImagem(String nome) {
         String SQL = "DELETE FROM IMAGENS WHERE NOME = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
@@ -365,5 +370,27 @@ public class ProdutoDAO {
         }
 
         return imagens;
+    }
+
+    public static int ObterProdutoIdPorNomeImagem(String nomeImagem) {
+        int produtoId = -1; // Inicializa o produtoId com um valor padrão
+
+        String SQL = "SELECT PRODUTOID FROM IMAGENS WHERE NOME = ?";
+
+        try (Connection connection = ConnectionPoolConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setString(1, nomeImagem);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    produtoId = resultSet.getInt("PRODUTOID");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return produtoId;
     }
 }

@@ -123,7 +123,7 @@
 
     <script>
       function confirmarAlteracao(codProduto, acao, pagina) {
-          var confirmacao = confirm(`Deseja realmente ${acao} o produto?`);
+          var confirmacao = confirm(`Deseja realmente alterar a situação do produto?`);
           if (confirmacao) {
               var form = document.createElement('form');
               form.method = 'POST';

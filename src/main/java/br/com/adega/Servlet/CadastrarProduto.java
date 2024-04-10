@@ -36,6 +36,11 @@ public class CadastrarProduto extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String codProduto = request.getParameter("id");
         String caminhoImagem = request.getParameter("caminhoImagem");
+        String caminhoImagemPrincipal = request.getParameter("caminhoImagemPrincipal");
+
+        if (caminhoImagemPrincipal != null || !caminhoImagemPrincipal.isEmpty()) {
+            setarImagemPrincipal(caminhoImagemPrincipal);
+        }
 
         if ((caminhoImagem == null || !caminhoImagem.isEmpty()) && (!codProduto.isEmpty() || codProduto == null)) {
             boolean imagemAdicionada = processarImagens(request, Integer.parseInt(codProduto), response);
@@ -67,6 +72,7 @@ public class CadastrarProduto extends HttpServlet {
                 }
             } else {
                 preencherProduto(request, produto);
+                produto.setSituacaoProduto(true);
                 produtoId = ProdutoDAO.AdicionarProdutoRetornandoCodigo(produto);
 
                 if (produtoId != 0) {
@@ -136,7 +142,7 @@ public class CadastrarProduto extends HttpServlet {
     }
 
 
-    private String extractFileName(Part part) {
+    public String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
         String[] tokens = contentDisp.split(";");
         for (String token : tokens) {
@@ -195,6 +201,44 @@ public class CadastrarProduto extends HttpServlet {
             request.setAttribute("mensagem", "Produto não encontrado!");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/listarProdutos");
             dispatcher.forward(request, response);
+        }
+    }
+
+    private void setarImagemPrincipal(String nomeImagemPrincipal) {
+        File file = new File(nomeImagemPrincipal);
+        String nomeImagem = file.getName();
+        if (!nomeImagem.isEmpty()) {
+
+            Imagem imagem = new Imagem();
+
+            String diretorio = "imagens";
+            ;
+
+            // Salvar o arquivo no servidor
+
+
+            int codProduto = ProdutoDAO.ObterProdutoIdPorNomeImagem(nomeImagem);
+
+            imagem.setProdutoId(codProduto);
+            imagem.setDiretorio(diretorio);
+            imagem.setNome(nomeImagem);
+            imagem.setQualificacao(true);
+            String extensao;
+
+            int index = nomeImagemPrincipal.lastIndexOf(".");
+            if (index == -1 || index == nomeImagemPrincipal.length() - 1) {
+                // Se não houver ponto na string ou se o ponto for o último caractere, não há extensão
+                imagem.setExtensao(""); // ou poderia lançar uma exceção, dependendo do comportamento desejado
+            } else {
+                extensao = nomeImagemPrincipal.substring(index + 1);
+                imagem.setExtensao(extensao);
+            }
+
+            // Salvar informações da imagem no banco de dados
+            boolean sucesso = ProdutoDAO.atualizarQualificacaoImagem(imagem);
+            if (sucesso) {
+
+            }
         }
     }
 }

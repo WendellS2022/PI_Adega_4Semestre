@@ -28,7 +28,12 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="#">Login</a>
+
+                <form action="/login" method="get">
+                <input type="hidden" name="cliente" value="true">
+                 <a class="nav-link mr-2" href="#">Login</a>
+                </form>
+
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Cadastre-se</a>

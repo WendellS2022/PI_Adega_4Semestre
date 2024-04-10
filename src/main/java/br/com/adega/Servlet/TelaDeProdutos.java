@@ -24,20 +24,16 @@ public class TelaDeProdutos extends HttpServlet {
 
         for (Produto produto : produtos) {
             List<Imagem> imagens = ProdutoDAO.obterImagensPorProdutoId(produto.getCodProduto());
+            List<Imagem> imagensQualificadas = new ArrayList<>();
 
-            // Verifica se existem imagens para o produto
-            if (!imagens.isEmpty()) {
-                // Define a primeira imagem como verdadeira
-                imagens.get(0).setQualificacao(true);
-                // Remove as qualificações das outras imagens
-                for (int i = 1; i < imagens.size(); i++) {
-                    imagens.get(i).setQualificacao(false);
+            for (Imagem imagem : imagens) {
+                if (imagem.isQualificacao()) {
+                    imagensQualificadas.add(imagem);
                 }
             }
 
-            imagensPorProduto.put(produto.getCodProduto(), imagens);
+            imagensPorProduto.put(produto.getCodProduto(), imagensQualificadas);
         }
-
 
         request.setAttribute("imagensPorProduto", imagensPorProduto);
         request.setAttribute("produtos", produtos);

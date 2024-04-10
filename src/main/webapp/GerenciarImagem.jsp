@@ -29,6 +29,10 @@
             <p><%= mensagem %></p>
             <% } %>
 
+<<<<<<< HEAD
+<form action="/cadastrarProduto?codProduto=${codProduto}" method="POST" enctype="multipart/form-data">
+                          <!-- Seção de imagens do produto -->
+=======
 <form action="/gerenciarImagem?codProduto=${codProduto}" method="POST" enctype="multipart/form-data">
                 <div id="informacao-produto">
                     <input type="hidden" name="codProduto" value="${codProduto}">
@@ -52,24 +56,56 @@
                 </div>
 
                 <!-- Seção de imagens do produto -->
+>>>>>>> 18b7ce9a53675b3b827de1f52597abd24fd0eade
                 <div id="imagens-produto">
                     <label for="selImagem" class="titulo-campo">Seleção de Imagem do Produto:</label>
                     <input type="file" name="selImagem" id="selecao-imagem" multiple>
                     <input type="hidden" name="caminhoImagemPrincipal" id="caminho-imagem-principal"> <!-- Adicionando o campo oculto -->
                     <header id="cabecalho-imagem">
+<<<<<<< HEAD
+                        <h5>Imagem(ns) do Produto Salvas</h5>
+=======
                         <h5>Imagem(ns) do Produto</h5>
+>>>>>>> 18b7ce9a53675b3b827de1f52597abd24fd0eade
                     </header>
 <c:forEach var="imagem" items="${imagensProduto}">
     <div class="informacao-imagem">
         <!-- Formulário para excluir a imagem -->
+<<<<<<< HEAD
+        <form action="/excluirImagem" method="POST" enctype="multipart/form-data">
+
+            <input type="hidden" name="caminhoImagem" value="${imagem.diretorio}/${imagem.nome}">
+<button type="submit" onclick="excluirImagem('${imagem.nome}')">Excluir</button>
+
+        </form>
+=======
             <input type="hidden" name="caminhoImagem" value="${imagem.diretorio}/${imagem.nome}">
             <button type="submit">Excluir</button>
 
+>>>>>>> 18b7ce9a53675b3b827de1f52597abd24fd0eade
         <!-- Imagem do Produto -->
         <img src="${imagem.diretorio}/${imagem.nome}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
     </div>
 </c:forEach>
 
+<<<<<<< HEAD
+<h5>Imagem(ns) Adicionadas</h5>
+<img src="${imagemTempProdutoDir}" alt="Imagem do Produto" style="width: 100px; height: 100px;">
+<c:forEach var="imagem" items="${imagensTempProduto}">
+    <div class="informacao-imagem">
+        <!-- Formulário para excluir a   imagem -->
+        <form action="/excluirImagem" method="POST" enctype="multipart/form-data">
+
+            <input type="hidden" name="caminhoImagemAdcionadas" value="${imagem.diretorio}/${imagem.nome}">
+<button type="submit" onclick="excluirImagem('${imagem.nome}')">Excluir</button>
+
+        </form>
+        <!-- Imagem do Produto -->
+        <img src="${imagem.diretorio}/${imagem.nome}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
+    </div>
+</c:forEach>
+=======
+>>>>>>> 18b7ce9a53675b3b827de1f52597abd24fd0eade
 
 
                 <!-- <p id="total-imagens">Total de imagens anexadas: 0</p> -->
@@ -88,5 +124,9 @@
 </body>
 
 <script src="cadastrarProduto.js"></script>
+<<<<<<< HEAD
+
+=======
 <script src="excluirImagem.js"></script>
+>>>>>>> 18b7ce9a53675b3b827de1f52597abd24fd0eade
 </html>

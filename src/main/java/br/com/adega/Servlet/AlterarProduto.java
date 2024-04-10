@@ -33,7 +33,8 @@ public class AlterarProduto extends HttpServlet {
         List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProdutoParam));
 
         // Passa as imagens e o produto para o JSP
-        request.setAttribute("produto", produto);
+     request.setAttribute("produto", produto);
+
         request.setAttribute("imagensProduto", imagensProduto);
 
         // Encaminha para a página de cadastro/edição de produtos
