@@ -30,13 +30,12 @@
                 <li class="nav-item">
 
                 <form action="/login" method="get">
-                <input type="hidden" name="cliente" value="true">
-                 <a class="nav-link mr-2" href="#">Login</a>
+                <a class="nav-link mr-2" href="/login?cliente=true">Login</a>
                 </form>
 
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cadastre-se</a>
+                    <a class="nav-link" href="/CadastrarCliente">Cadastre-se</a>
                 </li>
                 <li class="nav-item">
                  <a class="nav-link" href="/Carrinho.jsp"><i class="fas fa-shopping-cart"></i> Carrinho</a>

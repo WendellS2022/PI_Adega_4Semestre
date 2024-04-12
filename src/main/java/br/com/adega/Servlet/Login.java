@@ -33,8 +33,11 @@ public class Login extends HttpServlet {
             request.setAttribute("isCliente", isCliente);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+
             dispatcher.forward(request, response);
+            return;
         }
+
 
 
         usuarios = UsuarioDAO.ObterUsuarios();
