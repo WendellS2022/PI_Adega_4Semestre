@@ -21,24 +21,8 @@ public class ExcluirImagem extends HttpServlet {
         // Obter o nome da imagem a ser excluída dos parâmetros da solicitação
 
         String caminhoImagem = request.getParameter("nomeImagem");
-        Boolean isTemp = Boolean.parseBoolean(request.getParameter("temp"));
 
-        if (isTemp && caminhoImagem != null) {
-            List<Imagem> images = (List<Imagem>) request.getAttribute("imagensTempProduto");
-            String diretorioImagens = getServletContext().getRealPath("/imagens-temp");
-            File arquivoImagem = new File(diretorioImagens, caminhoImagem);
-            if (arquivoImagem.exists()) {
-                if(arquivoImagem.delete()) {
-                    Imagem imagemTemp = images.stream().filter(image -> image.getNome().equals(caminhoImagem)).toList().get(0);
-                    if (imagemTemp != null) {
-                        images.remove(imagemTemp);
-                        request.setAttribute("imagensTempProduto", images);
-                    }
-                }
-            }
 
-            return;
-        }
 
         if (caminhoImagem != null) {
             String diretorioImagens = getServletContext().getRealPath("/imagens");

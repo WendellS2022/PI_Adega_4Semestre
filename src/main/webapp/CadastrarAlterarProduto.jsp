@@ -29,7 +29,7 @@
                 <p><%= mensagem %></p>
             <% } %>
 
-            <form action="/cadastrarProduto?id=${produto.codProduto}" method="POST" enctype="multipart/form-data">
+            <form action="/cadastrarProduto?id=${produto.codProduto}" method="POST">
                 <div id="informacao-produto">
                     <input type="hidden" name="codProduto" value="${produto != null ? produto.codProduto : ''}">
                     <input type="hidden" name="situacao" value="${produto != null ? produto.situacaoProduto : ''}">
@@ -52,38 +52,16 @@
                     <input type="number" name="qtdEstoque" id="qtd-Estoque" required min="0" max="99999" step="1" value="${produto != null ? produto.qtdEstoque : ''}">
                 </div>
 
-                <!-- Seção de imagens do produto -->
-                <div id="imagens-produto">
-                    <label for="selImagem" class="titulo-campo">Seleção de Imagem do Produto:</label>
-                    <input type="file" name="selImagem" id="selecao-imagem" multiple>
-                    <header id="cabecalho-imagem">
-                        <h5>Imagem(ns) do Produto</h5>
-                    </header>
-                    <c:forEach var="imagem" items="${imagensProduto}">
-                        <div class="informacao-imagem">
-                            <!-- Formulário para excluir a imagem -->
-                            <form action="/excluirImagem" method="POST">
-                                <input type="hidden" name="caminhoImagem" value="${imagem.diretorio}/${imagem.nome}">
-                                <button type="submit">Excluir</button>
-                            </form>
-
-                            <!-- Imagem do Produto -->
-                            <img src="${imagem.diretorio}/${imagem.nome}" alt="Imagem do Produto" style="max-width: 100px; max-height: 100px;">
-                            <input type="radio" name="imagemPrincipal" class="imagem-principal" data-caminho="${imagem.diretorio}/${imagem.nome}" ${imagem.qualificacao ? 'checked' : ''}>
-                        </div>
-                    </c:forEach>
-                </div>
-
                 <button type="submit" id="btn-salvar">Salvar</button>
                 <button type="button" id="btn-cancelar" onclick="window.location.href='/listarProdutos'">Cancelar</button>
             </form>
 
-     <!--
-     <form action="/gerenciarImagem" method="GET">
+
+     <form action="/gerenciarImagens" method="GET">
          <input type="hidden" name="codProduto" value="${produto.codProduto}">
          <button type="submit" id="btn-cancelar">Gerênciar imagem</button>
      </form>
-     -->
+
 
 
 
@@ -91,6 +69,5 @@
     </article>
 </body>
 
-<script src="cadastrarProduto.js"></script>
-<script src="excluirImagem.js"></script>
+
 </html>
