@@ -36,7 +36,8 @@
     <h1 class="my-4 text-center" >Cadastre-se</h1>
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <form id="cadastroForm" action="/cadastrarUsuario" method="POST" class="needs-validation" novalidate>
+
+            <form id="cadastroForm" action="/CadastrarCliente" method="POST" class="needs-validation" novalidate>
                 <div class="form-group">
                     <label for="nome" class="titulo-campo">Nome:</label>
                     <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome completo" required maxlength="200">
@@ -47,10 +48,18 @@
                     <input type="date" name="dataNascimento" id="dataNascimento" class="form-control" required>
                 </div>
 
+               <div class="form-group">
+                   <div id="cpf-error-message" style="color: red;"></div>
+
+                   <label for="cpf" class="titulo-campo">CPF:</label>
+                   <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF" required maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}">
+               </div>
+
                 <div class="form-group">
-                    <label for="cpf" class="titulo-campo">CPF:</label>
-                    <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF" required maxlength="11" pattern="[0-9]{11}">
-                </div>
+                 <label for="genero" class="titulo-campo">Genero:</label>
+                 <input type="txt" name="genero" id="genero" class="form-control" placeholder="Genero" required maxlength="200">
+                 </div>
+
 
                 <div class="form-group">
                     <label for="email" class="titulo-campo">Email:</label>
@@ -72,28 +81,11 @@
 </div>
 
 <!-- Bootstrap JS e dependências opcionais -->
+<script src="Cpf.js"</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script>
-    $(document).ready(function() {
-        // Evento de entrada para os campos do formulário
-        $('input').keyup(function() {
-            // Verifica se todos os campos estão preenchidos
-            var isAllFieldsFilled = true;
-            $('input').each(function() {
-                if ($(this).val() === '') {
-                    isAllFieldsFilled = false;
-                    return false; // Sai do loop se encontrar algum campo vazio
-                }
-            });
 
-            if (isAllFieldsFilled) {
-                // Mostra a aba "Cadastrar Endereço"
-                $('#enderecoTab').show();
-            }
-        });
-    });
-</script>
+
 </body>
 </html>

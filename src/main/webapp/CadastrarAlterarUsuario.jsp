@@ -37,7 +37,7 @@
                         value="${usuario != null ? usuario.CPF : ''}"> <!-- Verifica se há um objeto User presente e preenche o campo de CPF -->
                     <label for="email" class="titulo-campo">Grupo:</label>
                     <!-- Verifica se o campo "sessao" tem valor -->
-                    <select name="grupo" id="grupo-usuario" ${not empty sessao ? 'disabled' : ''}>
+                    <select name="grupo" id="grupo-usuario" ${not empty sessao  ? 'disabled' : ''}>
                         <option value="1" ${usuario != null && usuario.grupo == 1 ? 'selected' : ''}>Administrador</option>
                         <option value="2" ${usuario != null && usuario.grupo == 2 ? 'selected' : ''}>Estoquista</option>
                     </select>

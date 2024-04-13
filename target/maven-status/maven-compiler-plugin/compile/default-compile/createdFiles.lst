@@ -1,4 +1,5 @@
 br/com/adega/DAO/ClienteDAO.class
+br/com/adega/Servlet/ListarEndereco.class
 br/com/adega/Servlet/CadastrarCliente.class
 br/com/adega/Servlet/CadastrarProduto.class
 br/com/adega/Model/Imagem.class

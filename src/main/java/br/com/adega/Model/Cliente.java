@@ -1,11 +1,12 @@
 package br.com.adega.Model;
 
 import java.text.DateFormat;
+import java.util.Date;
 
 public class Cliente {
     private int idCliente;
     private String nome;
-    private DateFormat dataNascimento;
+    private String dataNascimento;
     private String cpf;
     private String email;
     private  String senha;
@@ -35,11 +36,11 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public DateFormat getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(DateFormat dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -66,7 +67,7 @@ public class Cliente {
     public void setGenero(String genero) {
         this.genero = genero;
     }
-    public Cliente(int idCliente, String nome, DateFormat dataNascimento, String cpf, String email, String senha, String genero) {
+    public Cliente(int idCliente, String nome, String dataNascimento, String cpf, String email, String senha, String genero) {
         this.idCliente = idCliente;
         this.nome = nome;
         this.dataNascimento = dataNascimento;

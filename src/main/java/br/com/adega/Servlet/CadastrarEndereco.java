@@ -1,8 +1,8 @@
 package br.com.adega.Servlet;
-
 import br.com.adega.Model.Endereco;
-import br.com.adega.API.EnderecoService;
+
 import br.com.adega.DAO.EnderecoDAO;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 
 @WebServlet("/CadastrarEndereco")
 public class CadastrarEndereco extends HttpServlet {
@@ -48,7 +49,12 @@ public class CadastrarEndereco extends HttpServlet {
         request.setAttribute("endereco", endereco);
 
         // Redireciona o usuário de volta para a página de cadastro de endereço
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
+//        List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
+//        Map<Integer, List<Imagem>> imagensPorProduto = new HashMap<>();
+//
+//        request.setAttribute("imagensPorProduto", imagensPorProduto);
+//        request.setAttribute("produtos", produtos);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaDeProdutos.jsp");
         dispatcher.forward(request, response);
     }
 }
