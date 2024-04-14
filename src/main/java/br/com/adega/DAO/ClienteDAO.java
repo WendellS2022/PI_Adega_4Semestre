@@ -7,6 +7,7 @@ import br.com.adega.Model.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -44,9 +45,10 @@ public class ClienteDAO {
         return cliente; // Retorne o objeto Usuario
     }
 
-    public static boolean CadastrarCliente(Cliente cliente) {
+    public static int CadastrarCliente(Cliente cliente) {
         if (VerificarEmailExistente(cliente.getEmail())) {
-            return false;
+            // Retornar -1 indicando que o cliente já existe com o mesmo e-mail
+            return -1;
         }
 
         String SQL = "INSERT INTO CLIENTES (email, nome, cpf, genero, dataNascimento, senha) VALUES (?, ?, ?, ?, ?, ?)";
@@ -54,7 +56,8 @@ public class ClienteDAO {
         try {
             Connection connection = ConnectionPoolConfig.getConnection();
 
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            // Informa que queremos obter a chave gerada pelo INSERT
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, cliente.getEmail());
             preparedStatement.setString(2, cliente.getNome());
             preparedStatement.setString(3, cliente.getCpf());
@@ -62,19 +65,28 @@ public class ClienteDAO {
             preparedStatement.setString(5, cliente.getDataNascimento());
             preparedStatement.setString(6, cliente.getSenha());
 
-
+            // Executa o INSERT
             int rowsAffected = preparedStatement.executeUpdate();
-            connection.close();
 
             // Verifica se a inserção foi bem-sucedida
             if (rowsAffected > 0) {
-                return true;
+                // Recupera a chave gerada
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int idCliente = generatedKeys.getInt(1);
+                    connection.close();
+                    return idCliente; // Retorna o IdCliente
+                } else {
+                    connection.close();
+                    return -1; // Se não foi possível recuperar o IdCliente, retorna -1
+                }
             } else {
-                return false;
+                connection.close();
+                return -1; // Se não houve inserção, retorna -1
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return -1; // Se ocorreu uma exceção, retorna -1
         }
     }
 

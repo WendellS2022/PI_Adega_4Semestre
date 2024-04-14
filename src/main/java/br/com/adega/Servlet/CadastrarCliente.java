@@ -44,12 +44,14 @@ public class CadastrarCliente extends HttpServlet {
         cliente.setDataNascimento(request.getParameter("dataNascimento"));
 
 
-        boolean sucesso = ClienteDAO.CadastrarCliente(cliente);
-         if(sucesso ){
-             RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
-             dispatcher.forward(request, response);
+        int idCliente = ClienteDAO.CadastrarCliente(cliente);
+        if(idCliente > 0){
 
-         }
+            request.setAttribute("idCliente", idCliente);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
+            dispatcher.forward(request, response);
+
+        }
 
 
     }

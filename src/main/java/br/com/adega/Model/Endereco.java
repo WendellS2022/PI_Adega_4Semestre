@@ -1,3 +1,5 @@
+
+
 package br.com.adega.Model;
 
 public class Endereco {
@@ -9,10 +11,10 @@ public class Endereco {
     private String bairro;
     private String cidade;
     private String uf;
-
-    public String getCep() {
-        return cep;
-    }
+    private boolean status;
+    private boolean padrao;
+    private boolean enderecoFaturamento;
+    private int idCliente;
 
     public Endereco() {
         this.cep = cep;
@@ -22,6 +24,13 @@ public class Endereco {
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
+        this.status = status;
+        this.padrao = padrao;
+        this.enderecoFaturamento = enderecoFaturamento;
+        this.idCliente = idCliente;
+    }
+    public String getCep() {
+        return cep;
     }
 
     public void setCep(String cep) {
@@ -75,4 +84,22 @@ public class Endereco {
     public void setUf(String uf) {
         this.uf = uf;
     }
+
+    public boolean isStatus() {return status;}
+
+    public void setStatus(boolean status) { this.status = status;}
+
+    public boolean isPadrao() { return padrao;}
+
+    public void setPadrao(boolean padrao) { this.padrao = padrao;}
+
+    public boolean isEnderecoFaturamento() { return enderecoFaturamento;}
+
+    public void setEnderecoFaturamento(boolean enderecoFaturamento) { this.enderecoFaturamento = enderecoFaturamento;}
+
+    public int getIdCliente() {return idCliente;}
+
+    public void setIdCliente(int idCliente) {this.idCliente = idCliente;}
+
+
 }
