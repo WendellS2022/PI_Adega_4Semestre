@@ -2,7 +2,6 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Usuario;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

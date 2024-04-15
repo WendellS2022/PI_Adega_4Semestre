@@ -2,7 +2,6 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Usuario;
-
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -12,13 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @WebServlet("/cadastrar")
 public class CadastrarUsuario extends HttpServlet {
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -70,7 +67,6 @@ public class CadastrarUsuario extends HttpServlet {
             if (!senha.equals(senhaConfirmacao)) {
                 request.setAttribute("mensagem", "Senhas não correspondem");
 
-
                 usuario.setSenha("");
                 request.setAttribute("usuario", usuario);
                 request.setAttribute("usuarioLogado", usuarioLogado);
@@ -79,6 +75,7 @@ public class CadastrarUsuario extends HttpServlet {
                 dispatcher.forward(request, response);
 
                 return;
+
             } else {
                 senhasCorrespondem = true;
                 String senhaCriptografada = encoder.encode(senha);

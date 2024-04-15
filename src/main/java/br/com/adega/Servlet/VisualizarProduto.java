@@ -3,7 +3,6 @@ package br.com.adega.Servlet;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +22,7 @@ public class VisualizarProduto extends HttpServlet {
         Produto produto = ProdutoDAO.ObterProdutoPorId(codProdutoParam);
 
         if (produto != null) {
-            // Buscar imagens correspondentes ao produto
+
             List<Imagem> imagens = ProdutoDAO.obterImagensPorProdutoId(produto.getCodProduto());
 
             request.setAttribute("produto", produto);
