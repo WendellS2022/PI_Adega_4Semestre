@@ -4,7 +4,10 @@ import br.com.adega.Model.Endereco;
 import br.com.adega.Config.ConnectionPoolConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EnderecoDAO {
     // Método para salvar o endereço no banco de dados
@@ -24,16 +27,15 @@ public class EnderecoDAO {
             // Define os parâmetros da query com os dados do endereço
             statement.setString(1, endereco.getCep());
             statement.setString(2, endereco.getLogradouro());
-            statement.setString(3, endereco.getNumero());
+            statement.setInt(3, endereco.getNumero());
             statement.setString(4, endereco.getComplemento());
             statement.setString(5, endereco.getBairro());
             statement.setString(6, endereco.getCidade());
             statement.setString(7, endereco.getUf());
-            statement.setBoolean(8,endereco.isStatus());
-            statement.setBoolean(9,endereco.isPadrao());
-            statement.setBoolean(10,endereco.isEnderecoFaturamento());
+            statement.setBoolean(8, endereco.isStatus());
+            statement.setBoolean(9, endereco.isPadrao());
+            statement.setBoolean(10, endereco.isEnderecoFaturamento());
             statement.setInt(11, endereco.getIdCliente());
-
 
 
             // Executa a query para inserir o endereço no banco de dados
@@ -59,3 +61,6 @@ public class EnderecoDAO {
         }
     }
 }
+
+
+

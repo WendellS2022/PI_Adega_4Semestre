@@ -17,6 +17,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
+    <input type="hidden" name="clienteLogado" value="${clienteLogado}"
         <!-- Logo -->
         <a class="navbar-brand" href="#">
             <img src="LOGO1.png" alt="Logo" height="70">
@@ -37,9 +38,23 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/CadastrarCliente">Cadastre-se</a>
                 </li>
+
                 <li class="nav-item">
                  <a class="nav-link" href="/Carrinho.jsp"><i class="fas fa-shopping-cart"></i> Carrinho</a>
                  </li>
+                 <li class="nav-item dropdown">
+
+                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Gerenciar dados
+                         </a>
+
+                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                           <a class="dropdown-item" href="/CadastrarCliente">Dados pessoais</a>
+                           <a class="dropdown-item" href="/Enderecos">Endereços</a>
+                           <a class="dropdown-item" href="#">Reservado</a>
+                         </div>
+                       </li>
+
             </ul>
         </div>
     </div>
