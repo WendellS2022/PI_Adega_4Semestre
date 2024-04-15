@@ -81,7 +81,7 @@ public class Login extends HttpServlet {
 //                    }
 
                     HttpSession session = request.getSession(true);
-                    session.setAttribute("ClienteLogado", email);
+                    session.setAttribute("clienteLogado", email);
                     emailToSessionMap.put(email, session);
 //                    request.setAttribute("grupo", autenticacaoC.getGrupo());
 

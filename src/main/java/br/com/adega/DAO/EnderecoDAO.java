@@ -60,7 +60,75 @@ public class EnderecoDAO {
             }
         }
     }
+
+    public List<Endereco> obterEnderecosPorEmailCliente(String emailCliente) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Endereco> enderecos = new ArrayList<>();
+
+        try {
+            // Obtém a conexão do pool de conexões
+            connection = ConnectionPoolConfig.getConnection();
+
+            // Prepara a query SQL para buscar os endereços pelo e-mail do cliente
+            String sql = "SELECT * FROM ENDERECO INNER JOIN CLIENTES ON ENDERECO.idCliente = CLIENTES.idCliente WHERE CLIENTES.email = ? AND STATUS = TRUE";
+
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, emailCliente);
+
+            // Executa a query
+            resultSet = statement.executeQuery();
+
+            // Percorre os resultados e adiciona os endereços à lista
+            while (resultSet.next()) {
+                Endereco endereco = new Endereco();
+                endereco.setIdEndereco(resultSet.getInt("idEndereco"));
+                endereco.setCep(resultSet.getString("cep"));
+                endereco.setLogradouro(resultSet.getString("logradouro"));
+                endereco.setNumero(resultSet.getInt("numero"));
+                endereco.setComplemento(resultSet.getString("complemento"));
+                endereco.setBairro(resultSet.getString("bairro"));
+                endereco.setCidade(resultSet.getString("cidade"));
+                endereco.setUf(resultSet.getString("uf"));
+                endereco.setStatus(resultSet.getBoolean("status"));
+                endereco.setPadrao(resultSet.getBoolean("padrao"));
+                endereco.setEnderecoFaturamento(resultSet.getBoolean("enderecoFaturamento"));
+                endereco.setIdCliente(resultSet.getInt("idCliente"));
+                enderecos.add(endereco);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Fecha a conexão, o statement e o resultSet
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return enderecos;
+    }
 }
+
+
 
 
 
