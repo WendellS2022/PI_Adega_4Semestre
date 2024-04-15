@@ -1,3 +1,5 @@
+
+
 package br.com.adega.Model;
 
 public class Endereco {

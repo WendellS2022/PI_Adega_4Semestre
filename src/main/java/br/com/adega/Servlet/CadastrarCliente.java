@@ -45,13 +45,13 @@ public class CadastrarCliente extends HttpServlet {
 
 
         int idCliente = ClienteDAO.CadastrarCliente(cliente);
-         if(idCliente > 0){
+        if(idCliente > 0){
 
-             request.setAttribute("idCliente", idCliente);
-             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
-             dispatcher.forward(request, response);
+            request.setAttribute("idCliente", idCliente);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
+            dispatcher.forward(request, response);
 
-         }
+        }
 
 
     }

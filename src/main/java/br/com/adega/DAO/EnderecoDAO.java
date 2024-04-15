@@ -17,8 +17,8 @@ public class EnderecoDAO {
             connection = ConnectionPoolConfig.getConnection();
 
             // Prepara a query SQL para inserção do endereço
-            String sql = "INSERT INTO ENDERECO (cep, logradouro, numero, complemento, bairro, cidade, uf) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO ENDERECO (cep, logradouro, numero, complemento, bairro, cidade, uf , status, padrao, enderecoFaturamento, idCliente) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?)";
             statement = connection.prepareStatement(sql);
 
             // Define os parâmetros da query com os dados do endereço
@@ -29,6 +29,12 @@ public class EnderecoDAO {
             statement.setString(5, endereco.getBairro());
             statement.setString(6, endereco.getCidade());
             statement.setString(7, endereco.getUf());
+            statement.setBoolean(8,endereco.isStatus());
+            statement.setBoolean(9,endereco.isPadrao());
+            statement.setBoolean(10,endereco.isEnderecoFaturamento());
+            statement.setInt(11, endereco.getIdCliente());
+
+
 
             // Executa a query para inserir o endereço no banco de dados
             statement.executeUpdate();
