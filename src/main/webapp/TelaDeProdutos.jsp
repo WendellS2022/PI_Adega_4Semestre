@@ -17,6 +17,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
+     <input type="hidden" name="clienteLogado" value="${clienteLogado}"
         <!-- Logo -->
         <a class="navbar-brand" href="#">
             <img src="LOGO1.png" alt="Logo" height="70">
