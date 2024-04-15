@@ -28,10 +28,14 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="#">Login</a>
+
+                <form action="/login" method="get">
+                <a class="nav-link mr-2" href="/login?cliente=true">Login</a>
+                </form>
+
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cadastre-se</a>
+                    <a class="nav-link" href="/CadastrarCliente">Cadastre-se</a>
                 </li>
                 <li class="nav-item">
                  <a class="nav-link" href="/Carrinho.jsp"><i class="fas fa-shopping-cart"></i> Carrinho</a>

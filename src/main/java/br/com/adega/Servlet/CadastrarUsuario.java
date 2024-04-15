@@ -18,13 +18,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @WebServlet("/cadastrar")
 public class CadastrarUsuario extends HttpServlet {
+
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
+             String usuarioLogado = (String) session.getAttribute("usuarioLogado");
 
-        List<Usuario> usuarios;
-
-        usuarios = UsuarioDAO.ObterUsuarios();
+         List<Usuario> usuarios;
+             usuarios = UsuarioDAO.ObterUsuarios();
 
         if (usuarioLogado != null || usuarios.isEmpty()) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarUsuario.jsp");

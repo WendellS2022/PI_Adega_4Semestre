@@ -52,3 +52,20 @@
         });
 
 
+         // Adiciona a máscara de CPF e valida o CPF quando o usuário digita no campo
+                document.getElementById('cpf').addEventListener('input', function (e) {
+                    var input = e.target;
+                    var valor = input.value;
+                    input.value = formatarCPF(valor);
+
+                    if (!validarCPF(valor)) {
+                        input.setCustomValidity('CPF inválido');
+                    } else {
+                        input.setCustomValidity('');
+                    }
+                });
+
+
+
+
+

@@ -9,6 +9,7 @@
 <body>
 
 <form action="/login" method="POST"> <!-- Alterado para method="POST" -->
+    <input type="hidden" name="cliente" value="${isCliente}">
     <input type="email" name="email" placeholder="E-MAIL" required><br> <!-- Alterado para name="email" -->
     <input type="password" name="password" placeholder="SENHA" required><br> <!-- Alterado para name="password" -->
     <button type="submit" class="btn">Entrar</button>
