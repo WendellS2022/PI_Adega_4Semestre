@@ -3,13 +3,10 @@ package br.com.adega.Servlet;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -32,20 +29,20 @@ public class GerenciarImagens extends HttpServlet {
 
         if (imagensProduto.size() > 0) {
 
-
             request.setAttribute("produto", produto);
+            request.setAttribute("codProduto", codProduto);
             request.setAttribute("imagensProdutoBase", imagensProduto);
 
-            // Encaminha para a página de cadastro/edição de produtos
             RequestDispatcher dispatcher = request.getRequestDispatcher("/GerenciarImagens.jsp");
             dispatcher.forward(request, response);
+
         } else {
             request.setAttribute("produto", produto);
+            request.setAttribute("codProduto", codProduto);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/GerenciarImagens.jsp");
             dispatcher.forward(request, response);
         }
     }
-
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String codProduto = request.getParameter("codProduto");
@@ -85,9 +82,16 @@ public class GerenciarImagens extends HttpServlet {
             }
         }
 
-        // return imagemAdicionada;
-    }
+        if (!imagemAdicionada) {
+            response.sendRedirect("/GerenciarImagens.jsp");
+        } else {
+            List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProduto));
+            request.setAttribute("imagensProdutoBase", imagensProduto);
 
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/GerenciarImagens.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
 
     public String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
@@ -100,33 +104,5 @@ public class GerenciarImagens extends HttpServlet {
         return "";
     }
 
-    private boolean excluirImagem(String caminhoImagem) throws IOException {
-        String nomeArquivo = caminhoImagem.substring(caminhoImagem.lastIndexOf("/") + 1);
-        String diretorioImagens = getServletContext().getRealPath("/imagens");
-        File arquivoImagem = new File(diretorioImagens);
-
-        if (arquivoImagem.exists() && arquivoImagem.isDirectory()) {
-            for (File arquivo : arquivoImagem.listFiles()) {
-                if (arquivo.getName().equals(nomeArquivo)) {
-                    if (arquivo.delete()) {
-                        if (ProdutoDAO.ExcluirImagem(nomeArquivo)) {
-                            return true; // Imagem excluída com sucesso
-                        } else {
-                            // Se houver falha ao excluir a imagem do banco de dados, não há necessidade de continuar
-                            return false;
-                        }
-                    } else {
-                        // Se houver falha ao excluir a imagem do sistema de arquivos
-                        return false;
-                    }
-                }
-            }
-        } else {
-            // Diretório de imagens não encontrado
-            return false;
-        }
-        // Imagem não encontrada
-        return false;
-    }
 }
 

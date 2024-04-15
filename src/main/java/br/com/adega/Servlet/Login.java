@@ -4,7 +4,6 @@ import br.com.adega.Autenticacao.AutenticacaoService;
 import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Cliente;
 import br.com.adega.Model.Usuario;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +18,6 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/login")
 public class Login extends HttpServlet {
-
-    // Mapa para rastrear emails logados
     private static final Map<String, HttpSession> emailToSessionMap = new HashMap<>();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,10 +32,10 @@ public class Login extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
 
             dispatcher.forward(request, response);
+
             return;
+
         }
-
-
 
         usuarios = UsuarioDAO.ObterUsuarios();
         if (usuarios.isEmpty()) {
@@ -72,25 +69,17 @@ public class Login extends HttpServlet {
                 if (autenticacaoCliente.getIdCliente() > 0) {
                     if (emailToSessionMap.containsKey(email)) {
                         response.sendRedirect("TelaLogin.jsp?mensagem=Você já está logado. Por favor, faça logout antes de tentar novamente.");
+
                         return;
+
                     }
-
-//                    if (!autenticacaoCliente.isSituacao()) {
-//                        response.sendRedirect("TelaLogin.jsp?mensagem=Usuário inativo!");
-//                        return;
-//                    }
-
                     HttpSession session = request.getSession(true);
                     session.setAttribute("clienteLogado", email);
                     emailToSessionMap.put(email, session);
-//                    request.setAttribute("grupo", autenticacaoC.getGrupo());
 
                     RequestDispatcher dispatcher = request.getRequestDispatcher("TelaDeProdutos.jsp");
                     dispatcher.forward(request, response);
                 } else {
-
-                    //Adicionar a tela de cadastro de cliente
-
                     response.sendRedirect("TelaLogin.jsp?mensagem=Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
                 }
             } catch (Exception e) {
@@ -100,17 +89,20 @@ public class Login extends HttpServlet {
         } else {
             autenticacao = autenticacaoService.autenticarUsuario(email, senha);
 
-
             try {
                 if (autenticacao.getUsuarioId() > 0) {
                     if (emailToSessionMap.containsKey(email)) {
                         response.sendRedirect("TelaLogin.jsp?mensagem=Você já está logado. Por favor, faça logout antes de tentar novamente.");
+
                         return;
+
                     }
 
                     if (!autenticacao.isSituacao()) {
                         response.sendRedirect("TelaLogin.jsp?mensagem=Usuário inativo!");
+
                         return;
+
                     }
 
                     HttpSession session = request.getSession(true);

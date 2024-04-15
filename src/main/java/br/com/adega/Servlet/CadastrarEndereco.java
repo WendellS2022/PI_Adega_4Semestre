@@ -1,12 +1,10 @@
 package br.com.adega.Servlet;
+
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Endereco;
-
 import br.com.adega.DAO.EnderecoDAO;
 import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
-
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @WebServlet("/CadastrarEndereco")
 public class CadastrarEndereco extends HttpServlet {
 
@@ -31,8 +28,6 @@ public class CadastrarEndereco extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<Integer, List<Imagem>> imagensPorProduto = new HashMap<>();
 
-
-        // Obtém os parâmetros do formulário
         String idCliente = (request.getParameter("idCliente"));
         String cep = request.getParameter("cep");
         String logradouro = request.getParameter("logradouro");
@@ -42,7 +37,6 @@ public class CadastrarEndereco extends HttpServlet {
         String cidade = request.getParameter("cidade");
         String estado = request.getParameter("estado");
 
-        // Cria um objeto Endereco com os dados do formulário
         Endereco endereco = new Endereco();
         endereco.setCep(cep);
         endereco.setLogradouro(logradouro);
@@ -56,16 +50,12 @@ public class CadastrarEndereco extends HttpServlet {
         endereco.setEnderecoFaturamento(true);
         endereco.setIdCliente(Integer.parseInt(idCliente));
 
-
-        // Salva o endereço no banco de dados
         EnderecoDAO enderecoDAO = new EnderecoDAO();
         enderecoDAO.salvarEndereco(endereco);
 
-        // Define os atributos no request para que possam ser acessados na página JSP
         request.setAttribute("endereco", endereco);
 
         List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
-
 
         for (Produto produto : produtos) {
             List<Imagem> imagens = ProdutoDAO.obterImagensPorProdutoId(produto.getCodProduto());

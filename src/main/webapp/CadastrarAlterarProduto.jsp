@@ -57,10 +57,13 @@
             </form>
 
 
-     <form action="/gerenciarImagens" method="GET">
-         <input type="hidden" name="codProduto" value="${produto.codProduto}">
-         <button type="submit" id="btn-cancelar">Gerênciar imagem</button>
-     </form>
+    <c:if test="${not empty produto.codProduto}">
+        <form action="/gerenciarImagens" method="GET">
+            <input type="hidden" name="codProduto" value="${produto.codProduto}">
+            <button type="submit" id="btn-cancelar">Gerênciar imagem(ns)</button>
+        </form>
+    </c:if>
+
 
 
 
