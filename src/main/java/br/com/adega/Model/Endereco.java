@@ -4,6 +4,8 @@ package br.com.adega.Model;
 
 public class Endereco {
 
+
+    private int idEndereço;
     private String cep;
     private String logradouro;
     private int numero;
@@ -17,6 +19,7 @@ public class Endereco {
     private int idCliente;
 
     public Endereco() {
+        this.idEndereço = idEndereço;
         this.cep = cep;
         this.logradouro = logradouro;
         this.numero = numero;
@@ -29,6 +32,12 @@ public class Endereco {
         this.enderecoFaturamento = enderecoFaturamento;
         this.idCliente = idCliente;
     }
+
+
+    public int getIdEndereço() {return idEndereço;}
+
+    public void setIdEndereço(int idEndereço) {this.idEndereço = idEndereço;}
+
     public String getCep() {
         return cep;
     }
