@@ -46,7 +46,7 @@ public class CadastrarEndereco extends HttpServlet {
         Endereco endereco = new Endereco();
         endereco.setCep(cep);
         endereco.setLogradouro(logradouro);
-        endereco.setNumero(numero);
+        endereco.setNumero(Integer.parseInt(numero));
         endereco.setComplemento(complemento);
         endereco.setBairro(bairro);
         endereco.setCidade(cidade);
