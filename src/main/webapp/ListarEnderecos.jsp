@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +28,6 @@
 </nav>
 
 <div class="container mt-5">
-  <input type="hidden" name="clienteLogado" value="${clienteLogado}"
     <h1 class="my-4 text-center">Gerenciamento de Endereços</h1>
     <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -65,7 +65,7 @@
                         </c:forEach>
                     </p>
                 </div>
-                //pegando id cliente para a tela de cadastroDeEndereco
+
                 <button class="btn btn-primary" onclick="window.location.href='/CadastrarEndereco?clienteLogado=${clienteLogado}'">Adicionar</button>
 
             </div>
