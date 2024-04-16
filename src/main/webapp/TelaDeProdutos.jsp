@@ -28,13 +28,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
 
+                <li class="nav-item">
                 <form action="/login" method="get">
                 <a class="nav-link mr-2" href="/login?cliente=true">Login</a>
                 </form>
-
                 </li>
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="/CadastrarCliente">Cadastre-se</a>
                 </li>
@@ -42,20 +43,23 @@
                 <li class="nav-item">
                  <a class="nav-link" href="/Carrinho.jsp"><i class="fas fa-shopping-cart"></i> Carrinho</a>
                  </li>
-                 <li class="nav-item dropdown">
 
+
+                 <c:if test="${not empty clienteLogado}">
+                     <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           Gerenciar dados
+                             Gerenciar dados
                          </a>
-
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                           <a class="dropdown-item" href="/alterarCliente?email=${clienteLogado}">Dados pessoais</a>
-                           <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
-                           <a class="dropdown-item" href="#">Reservado</a>
+                             <a class="dropdown-item" href="/alterarCliente?email=${clienteLogado}">Dados pessoais</a>
+                             <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
+                             <a class="dropdown-item" href="#">Reservado</a>
                          </div>
-                       </li>
+                     </li>
+                 </c:if>
 
-            </ul>
+             </ul>
+
         </div>
     </div>
 </nav>

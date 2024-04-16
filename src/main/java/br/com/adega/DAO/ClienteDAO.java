@@ -4,10 +4,7 @@ import br.com.adega.Config.ConnectionPoolConfig;
 import br.com.adega.Model.Cliente;
 import br.com.adega.Model.Usuario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -110,6 +107,46 @@ public class ClienteDAO {
         return false;
     }
 
+
+    public int buscarIdCliente(String emailCliente) {
+        int idCliente = -1; // Valor padrão para indicar que o cliente não foi encontrado
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Obtém a conexão do pool de conexões
+            connection = ConnectionPoolConfig.getConnection();
+
+            // Prepara a query SQL para buscar o idCliente pelo email do cliente
+            String sql = "SELECT idCliente FROM CLIENTES WHERE email = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, emailCliente);
+
+            // Executa a query
+            resultSet = statement.executeQuery();
+
+            // Verifica se o cliente foi encontrado e recupera o ID
+            if (resultSet.next()) {
+                idCliente = resultSet.getInt("idCliente");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Aqui você pode lidar com exceções SQL de acordo com a necessidade do seu sistema
+        } finally {
+            // Fecha a conexão, o statement e o resultSet
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Aqui você pode lidar com exceções de fechamento de recursos
+            }
+        }
+
+        return idCliente;
+    }
 
 
 }
