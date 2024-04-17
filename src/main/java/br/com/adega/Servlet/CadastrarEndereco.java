@@ -31,7 +31,8 @@ public class CadastrarEndereco extends HttpServlet {
         Map<Integer, List<Imagem>> imagensPorProduto = new HashMap<>();
 
         // Obtém o email do cliente logado a partir do atributo da sessão
-        String emailCliente = (String) request.getSession().getAttribute("clienteLogado");
+        String emailCliente = request.getParameter("clienteLogado");
+
 
         // Busca o ID do cliente com base no email
         int idCliente = new ClienteDAO().buscarIdClienteEmail(emailCliente);

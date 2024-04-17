@@ -2,7 +2,6 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.EnderecoDAO;
 import br.com.adega.Model.Endereco;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

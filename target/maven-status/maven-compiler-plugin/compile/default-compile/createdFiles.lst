@@ -5,6 +5,7 @@ br/com/adega/Servlet/CadastrarProduto.class
 br/com/adega/Model/Imagem.class
 br/com/adega/Servlet/AlterarProduto.class
 br/com/adega/Servlet/CadastrarEndereco.class
+br/com/adega/Servlet/AlterarCliente.class
 br/com/adega/Servlet/VisualizarProduto.class
 br/com/adega/Servlet/Home.class
 br/com/adega/Servlet/ListarUsuario.class
@@ -23,5 +24,8 @@ br/com/adega/Autenticacao/AutenticacaoService.class
 br/com/adega/DAO/EnderecoDAO.class
 br/com/adega/Servlet/CadastrarUsuario.class
 br/com/adega/API/EnderecoService.class
+br/com/adega/Servlet/AlterarEndereco.class
+br/com/adega/Servlet/GerenciarImagens.class
+br/com/adega/Servlet/SetarImagemPrincipal.class
 br/com/adega/Servlet/ExcluirImagem.class
 br/com/adega/Servlet/ListarProdutos.class

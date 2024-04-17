@@ -36,7 +36,7 @@
             <form id="enderecoForm" action="/CadastrarEndereco" method="POST" class="needs-validation" novalidate>
 
                 <div class="form-group">
-                   <input type="hidden" name="idCliente" value="${idCliente}">
+                   <input type="hidden" name="clienteLogado" value="${clienteLogado}">
                     <label for="cep" class="titulo-campo">CEP:</label>
                     <div class="input-group">
                         <input type="text" name="cep" id="cep" class="form-control" placeholder="CEP" maxlength="8">

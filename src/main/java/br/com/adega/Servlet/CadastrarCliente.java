@@ -44,10 +44,11 @@ public class CadastrarCliente extends HttpServlet {
         cliente.setDataNascimento(request.getParameter("dataNascimento"));
 
 
-        int idCliente = ClienteDAO.CadastrarCliente(cliente);
-        if(idCliente > 0){
+        String clienteLogado = ClienteDAO.CadastrarCliente(cliente);
+        if(!clienteLogado.isEmpty()){
 
-            request.setAttribute("idCliente", idCliente);
+            request.setAttribute("clienteLogado", clienteLogado);
+
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
             dispatcher.forward(request, response);
 

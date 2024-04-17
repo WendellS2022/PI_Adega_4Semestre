@@ -19,7 +19,7 @@ import java.util.List;
 public class ListarProdutos extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int pagina = 1; // Página padrão
+        int pagina = 1;
         HttpSession session = request.getSession();
         String pagInicial = request.getParameter("pagina");
         String usuarioLogado = (String) session.getAttribute("usuarioLogado");

@@ -2,18 +2,15 @@ package br.com.adega.Servlet;
 
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.DAO.UsuarioDAO;
-import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @WebServlet("/alterarProduto")
 public class AlterarProduto extends HttpServlet {
@@ -25,19 +22,11 @@ public class AlterarProduto extends HttpServlet {
         int grupo = UsuarioDAO.ObterGrupo(usuarioLogado);
         request.setAttribute("grupo", grupo);
 
-        // Obtém o ID do produto a ser alterado
         String codProdutoParam = request.getParameter("id");
         Produto produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProdutoParam));
 
-        // Obtém as imagens associadas ao produto
-        List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProdutoParam));
+        request.setAttribute("produto", produto);
 
-        // Passa as imagens e o produto para o JSP
-     request.setAttribute("produto", produto);
-
-        request.setAttribute("imagensProduto", imagensProduto);
-
-        // Encaminha para a página de cadastro/edição de produtos
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarAlterarProduto.jsp");
         dispatcher.forward(request, response);
     }
