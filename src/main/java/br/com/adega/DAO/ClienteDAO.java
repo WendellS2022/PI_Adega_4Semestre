@@ -42,10 +42,10 @@ public class ClienteDAO {
         return cliente; // Retorne o objeto Usuario
     }
 
-    public static int CadastrarCliente(Cliente cliente) {
+    public static String CadastrarCliente(Cliente cliente) {
         if (VerificarEmailExistente(cliente.getEmail())) {
             // Retornar -1 indicando que o cliente já existe com o mesmo e-mail
-            return -1;
+            return null;
         }
 
         String SQL = "INSERT INTO CLIENTES (email, nome, cpf, genero, dataNascimento, senha) VALUES (?, ?, ?, ?, ?, ?)";
@@ -70,20 +70,20 @@ public class ClienteDAO {
                 // Recupera a chave gerada
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    int idCliente = generatedKeys.getInt(1);
+                    String  clienteLogado = cliente.getEmail();
                     connection.close();
-                    return idCliente; // Retorna o IdCliente
+                    return clienteLogado; // Retorna o IdCliente
                 } else {
                     connection.close();
-                    return -1; // Se não foi possível recuperar o IdCliente, retorna -1
+                    return null; // Se não foi possível recuperar o IdCliente, retorna -1
                 }
             } else {
                 connection.close();
-                return -1; // Se não houve inserção, retorna -1
+                return null; // Se não houve inserção, retorna -1
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return -1; // Se ocorreu uma exceção, retorna -1
+            return null; // Se ocorreu uma exceção, retorna -1
         }
     }
 
@@ -108,45 +108,47 @@ public class ClienteDAO {
     }
 
 
-    public int buscarIdCliente(String emailCliente) {
-        int idCliente = -1; // Valor padrão para indicar que o cliente não foi encontrado
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
+    public int buscarIdClienteEmail(String emailCliente) {
 
-        try {
-            // Obtém a conexão do pool de conexões
-            connection = ConnectionPoolConfig.getConnection();
+            int idCliente = -1; // Valor padrão para indicar que o cliente não foi encontrado
+            Connection connection = null;
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
 
-            // Prepara a query SQL para buscar o idCliente pelo email do cliente
-            String sql = "SELECT idCliente FROM CLIENTES WHERE email = ?";
-            statement = connection.prepareStatement(sql);
-            statement.setString(1, emailCliente);
-
-            // Executa a query
-            resultSet = statement.executeQuery();
-
-            // Verifica se o cliente foi encontrado e recupera o ID
-            if (resultSet.next()) {
-                idCliente = resultSet.getInt("idCliente");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Aqui você pode lidar com exceções SQL de acordo com a necessidade do seu sistema
-        } finally {
-            // Fecha a conexão, o statement e o resultSet
             try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                // Obtém a conexão do pool de conexões
+                connection = ConnectionPoolConfig.getConnection();
+
+                // Prepara a query SQL para buscar o idCliente pelo email do cliente
+                String sql = "SELECT idCliente FROM CLIENTES WHERE email = ?";
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, emailCliente);
+
+                // Executa a query
+                resultSet = statement.executeQuery();
+
+                // Verifica se o cliente foi encontrado e recupera o ID
+                if (resultSet.next()) {
+                    idCliente = resultSet.getInt("idCliente");
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
-                // Aqui você pode lidar com exceções de fechamento de recursos
+                // Aqui você pode lidar com exceções SQL de acordo com a necessidade do seu sistema
+            } finally {
+                // Fecha a conexão, o statement e o resultSet
+                try {
+                    if (resultSet != null) resultSet.close();
+                    if (statement != null) statement.close();
+                    if (connection != null) connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    // Aqui você pode lidar com exceções de fechamento de recursos
+                }
             }
+
+            return idCliente;
         }
 
-        return idCliente;
+
     }
 
-
-}
