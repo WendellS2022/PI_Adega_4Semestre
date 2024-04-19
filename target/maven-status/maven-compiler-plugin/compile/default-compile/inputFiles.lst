@@ -4,6 +4,7 @@
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/ListarUsuario.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/DAO/UsuarioDAO.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/DAO/ClienteDAO.java
+/Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/IndicarEndereco.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/ListarProdutos.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Autenticacao/AutenticacaoService.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/SetarImagemPrincipal.java
@@ -22,11 +23,11 @@
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Model/Produto.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/CadastrarProduto.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/GerenciarImagens.java
+/Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/DesativarEndereco.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/Carrinho.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/Login.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/AlterarUsuario.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/ListarEndereco.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/CadastrarCliente.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Model/Cliente.java
-/Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/API/EnderecoService.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/Home.java

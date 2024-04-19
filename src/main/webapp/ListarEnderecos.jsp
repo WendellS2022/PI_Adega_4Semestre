@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gerenciamento de Endereços</title>
   <!-- Bootstrap CSS -->
@@ -36,33 +35,41 @@
                     <h5 class="card-title">Endereço de Faturamento</h5>
                     <p class="card-text">
                         <!-- Lista de endereços de faturamento -->
-                        <c:forEach items="${enderecos}" var="endereco">
-                            <c:if test="${endereco.enderecoFaturamento eq true}">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="enderecoFaturamento" id="enderecoFaturamento${endereco.idEndereco}" value="${endereco.idEndereco}" checked>
-                                    <label class="form-check-label" for="enderecoFaturamento${endereco.idEndereco}">
-                                        ${endereco.logradouro}, ${endereco.numero}, ${endereco.complemento}, ${endereco.bairro}, ${endereco.cidade}, ${endereco.uf}, ${endereco.cep}
-                                    </label>
-                                </div>
-                            </c:if>
-                        </c:forEach>
+                        <c:if test="${not empty enderecoFaturamento}">
+                            <div class="form-check">
+                                <label class="form-check-label" for="enderecoFaturamento${enderecoFaturamento.idEndereco}">
+                                    ${enderecoFaturamento.logradouro}, ${enderecoFaturamento.numero}, ${enderecoFaturamento.complemento}, ${enderecoFaturamento.bairro}, ${enderecoFaturamento.cidade}, ${enderecoFaturamento.uf}, ${enderecoFaturamento.cep}
+                                </label>
+                            </div>
+                        </c:if>
                     </p>
                 </div>
             </div>
             <br>
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Endereço de Entrega</h5>
+                    <h5 class="card-title">Endereço(s) de Entrega</h5>
                     <p class="card-text">
                         <!-- Lista de endereços de entrega -->
-                        <c:forEach items="${enderecos}" var="endereco">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="endereco" value="${endereco.idEndereco}">
-                                <label class="form-check-label" for="endereco${endereco.idEndereco}">
-                                    ${endereco.logradouro}, ${endereco.numero}, ${endereco.complemento}, ${endereco.bairro}, ${endereco.cidade}, ${endereco.uf}, ${endereco.cep}
-                                </label>
-                            </div>
-                        </c:forEach>
+                 <c:forEach items="${enderecos}" var="endereco">
+                     <c:if test="${endereco.status == true}">
+                         <div class="endereco" data-cliente-logado="${clienteLogado}">
+                             <label class="form-check-label" for="endereco${endereco.idEndereco}">
+                                 ${endereco.logradouro}, ${endereco.numero}, ${endereco.complemento}, ${endereco.bairro}, ${endereco.cidade}, ${endereco.uf}, ${endereco.cep}
+
+                                 <div class="form-check">
+
+                                     <input class="form-check-input" type="radio" name="enderecoPadrao" value="${endereco.idEndereco}" id="enderecoPadrao${endereco.idEndereco}" ${endereco.padrao ? 'checked' : ''} required>
+
+                                     <label class="form-check-label font-weight-bold" for="enderecoPadrao${endereco.idEndereco}">Endereço padrão</label>
+                                                                      <a href="/desativarEndereco?idEndereco=${endereco.idEndereco}&clienteLogado=${clienteLogado}">Desativar</a>
+                                 </div>
+                             </label>
+                         </div>
+                     </c:if>
+                 </c:forEach>
+
+
                     </p>
                 </div>
 
@@ -78,6 +85,7 @@
 <!-- Bootstrap JS e dependências opcionais -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="IndicarEndereco.js"></script>
 
 </body>
 </html>

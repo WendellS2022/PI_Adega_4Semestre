@@ -18,13 +18,14 @@ br/com/adega/Servlet/Carrinho.class
 br/com/adega/Model/Endereco.class
 br/com/adega/Model/Cliente.class
 br/com/adega/Model/Produto.class
+br/com/adega/Servlet/DesativarEndereco.class
 br/com/adega/DAO/UsuarioDAO.class
+br/com/adega/Servlet/IndicarEndereco.class
 br/com/adega/Servlet/AlterarUsuario.class
 br/com/adega/Autenticacao/AutenticacaoService.class
 br/com/adega/DAO/EnderecoDAO.class
 br/com/adega/Servlet/CadastrarUsuario.class
 br/com/adega/Servlet/Sair.class
-br/com/adega/API/EnderecoService.class
 br/com/adega/Servlet/AlterarEndereco.class
 br/com/adega/Servlet/GerenciarImagens.class
 br/com/adega/Servlet/SetarImagemPrincipal.class

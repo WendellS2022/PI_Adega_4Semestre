@@ -23,6 +23,9 @@ import java.util.Map;
 public class CadastrarEndereco extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String emailCliente = request.getParameter("clienteLogado");
+
+        request.setAttribute("clienteLogado", emailCliente);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
         dispatcher.forward(request, response);
     }
@@ -34,10 +37,11 @@ public class CadastrarEndereco extends HttpServlet {
         String emailCliente = request.getParameter("clienteLogado");
 
 
-        // Busca o ID do cliente com base no email
         int idCliente = new ClienteDAO().buscarIdClienteEmail(emailCliente);
 
-        // Verifica se o ID do cliente foi encontrado
+        List<Endereco> enderecos = EnderecoDAO.obterEnderecosPorEmailCliente(emailCliente);
+
+
         if (idCliente != -1) {
             // Obtém os parâmetros do formulário
             String cep = request.getParameter("cep");
@@ -58,8 +62,17 @@ public class CadastrarEndereco extends HttpServlet {
             endereco.setCidade(cidade);
             endereco.setUf(estado);
             endereco.setStatus(true);
-            endereco.setPadrao(true);
-            endereco.setEnderecoFaturamento(true);
+
+            if (enderecos == null || enderecos.isEmpty()) {
+                endereco.setPadrao(true);
+                Endereco enderecoFaturamento = EnderecoDAO.obterEnderecoFaturamentoPorEmailCliente(emailCliente);
+                if (enderecoFaturamento != null)
+                    endereco.setEnderecoFaturamento(false);
+            } else {
+                endereco.setPadrao(false);
+                endereco.setEnderecoFaturamento(false);
+            }
+
             endereco.setIdCliente(idCliente); // Define o ID do cliente
 
             // Salva o endereço no banco de dados
