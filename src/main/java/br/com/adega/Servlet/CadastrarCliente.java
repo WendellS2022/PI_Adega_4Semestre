@@ -45,13 +45,18 @@ public class CadastrarCliente extends HttpServlet {
 
 
         String clienteLogado = ClienteDAO.CadastrarCliente(cliente);
-        if(!clienteLogado.isEmpty()){
+        if(clienteLogado != null){
 
             request.setAttribute("clienteLogado", clienteLogado);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
             dispatcher.forward(request, response);
 
+        }else{
+            request.setAttribute("mensagem", "O email já está sendo utilizado! .");
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarCliente.jsp");
+            dispatcher.forward(request, response);
         }
 
 

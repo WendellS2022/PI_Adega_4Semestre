@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+#cabecalho-site {
+    background-color: #0070c9;
+    padding: 20px 0;
+    width: 100%;
+    position: fixed;
+    top: 0;
+}
+
+#identificacao-site {
+    color: white;
+    text-align: center;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Isso fará com que o contêiner ocupe toda a altura da tela */
+}
+
+.options-container button {
+    padding: 10px 20px;
+    width: 300px;
+    margin: 10px;
+    font-size: 16px;
+    background-color: #0070c9;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+}
+
+.options-container button:hover {
+    background-color: #005fba;
+}
