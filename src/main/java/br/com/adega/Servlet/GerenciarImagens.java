@@ -25,12 +25,19 @@ public class GerenciarImagens extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String codProduto = request.getParameter("codProduto");
         Produto produto = ProdutoDAO.ObterProdutoPorId(Integer.parseInt(codProduto));
+
         List<Imagem> imagensProduto = ProdutoDAO.obterImagensPorProdutoId(Integer.parseInt(codProduto));
 
         if (imagensProduto.size() > 0) {
 
             request.setAttribute("produto", produto);
             request.setAttribute("codProduto", codProduto);
+            if (imagensProduto.size() == 1) {
+                Imagem imagem = imagensProduto.get(0);
+                imagem.setQualificacao(true);
+                ProdutoDAO.atualizarQualificacaoImagem(imagem);
+            }
+
             request.setAttribute("imagensProdutoBase", imagensProduto);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/GerenciarImagens.jsp");

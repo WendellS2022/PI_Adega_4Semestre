@@ -3,8 +3,10 @@ package br.com.adega.Servlet;
 import br.com.adega.Autenticacao.AutenticacaoService;
 import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Cliente;
+import br.com.adega.Model.Produto;
 import br.com.adega.Model.Usuario;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,7 @@ public class Login extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        List<Produto> produtos = new ArrayList<>();
         Usuario autenticacao;
         Cliente autenticacaoCliente;
 
@@ -68,6 +70,7 @@ public class Login extends HttpServlet {
             try {
                 if (autenticacaoCliente.getIdCliente() > 0) {
                     if (emailToSessionMap.containsKey(email)) {
+                        request.setAttribute("produtos", produtos);
                         response.sendRedirect("TelaLogin.jsp?mensagem=Você já está logado. Por favor, faça logout antes de tentar novamente.");
 
                         return;

@@ -39,6 +39,7 @@
 
             <form id="cadastroForm" action="/CadastrarCliente" method="POST" class="needs-validation" novalidate>
                 <div class="form-group">
+                    <div id="nome-error-message" style="color: red;"></div>
                     <label for="nome" class="titulo-campo">Nome:</label>
                     <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome completo" required maxlength="200">
                 </div>
@@ -81,11 +82,11 @@
 </div>
 
 <!-- Bootstrap JS e dependências opcionais -->
+<script src="ValidaNome.js"</script>
 <script src="Cpf.js"</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-
 </body>
+
 </html>
