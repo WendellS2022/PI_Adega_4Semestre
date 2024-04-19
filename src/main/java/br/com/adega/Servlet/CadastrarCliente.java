@@ -48,6 +48,7 @@ public class CadastrarCliente extends HttpServlet {
         if(clienteLogado != null){
 
             request.setAttribute("clienteLogado", clienteLogado);
+            request.setAttribute("adicionar", false);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
             dispatcher.forward(request, response);
