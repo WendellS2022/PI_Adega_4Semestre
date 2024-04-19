@@ -16,7 +16,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand mr-auto" href="#">
+        <a class="navbar-brand mr-auto" href="/TelaProdutos">
             <img src="LOGO1.png" alt="Logo" height="70">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@
                     </p>
                 </div>
 
-                <button class="btn btn-primary" onclick="window.location.href='/CadastrarEndereco?clienteLogado=${clienteLogado}'">Adicionar</button>
+                <button class="btn btn-primary" onclick="window.location.href='/alterarEndereco?clienteLogado=${clienteLogado}'">Adicionar</button>
 
             </div>
         </div>

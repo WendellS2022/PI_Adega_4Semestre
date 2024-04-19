@@ -17,11 +17,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-    <input type="hidden" name="clienteLogado" value="${clienteLogado}"
+
         <!-- Logo -->
         <a class="navbar-brand" href="#">
             <img src="LOGO1.png" alt="Logo" height="70">
-            Adega E-Dev's
+
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,6 +34,7 @@
                         <form action="/login" method="get">
                             <a class="nav-link mr-2" href="/login?cliente=true">Login</a>
                         </form>
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/CadastrarCliente">Cadastre-se</a>
@@ -48,9 +49,9 @@
                             <i class="fas fa-user"></i> ${clienteLogado}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/alterarCliente?email=${clienteLogado}">Dados pessoais</a>
+                            <a class="dropdown-item" href="/AlterarCliente?email=${clienteLogado}">Dados pessoais</a>
                             <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
-                            <a class="dropdown-item" href="/sair">Sair</a>
+                            <a class="dropdown-item" href="/sair?email=${clienteLogado}">Sair</a>
                         </div>
                     </li>
                 </c:if>

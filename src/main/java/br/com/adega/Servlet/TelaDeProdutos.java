@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,9 +17,19 @@ import br.com.adega.Model.Produto;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Imagem;
 
+
+
 @WebServlet("/TelaProdutos")
 public class TelaDeProdutos extends HttpServlet {
+    private static final Map<String, HttpSession> emailToSessionMap = new HashMap<>();
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String clienteLogado = request.getParameter("clienteLogado");
+        HttpSession session = request.getSession(true);
+        session.setAttribute("clienteLogado", clienteLogado);
+        request.setAttribute("clienteLogado", clienteLogado);
+        emailToSessionMap.put(clienteLogado, session);
+
+
         List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
         Map<Integer, List<Imagem>> imagensPorProduto = new HashMap<>();
 
@@ -37,6 +48,7 @@ public class TelaDeProdutos extends HttpServlet {
 
         request.setAttribute("imagensPorProduto", imagensPorProduto);
         request.setAttribute("produtos", produtos);
+        request.setAttribute("clienteLogado", clienteLogado);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaDeProdutos.jsp");
         dispatcher.forward(request, response);

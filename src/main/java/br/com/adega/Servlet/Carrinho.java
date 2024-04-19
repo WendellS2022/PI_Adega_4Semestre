@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
     @WebServlet("/Carrinho")
-    public class Carrinho extends HttpServlet {
-
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public class Carrinho extends HttpServlet { protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/Carrinho.jsp");
             dispatcher.forward(request, response);
