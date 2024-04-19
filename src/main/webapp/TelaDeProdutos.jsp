@@ -33,6 +33,7 @@
                         <form action="/login" method="get">
                             <a class="nav-link mr-2" href="/login?cliente=true">Login</a>
                         </form>
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/CadastrarCliente">Cadastre-se</a>
@@ -47,7 +48,7 @@
                             <i class="fas fa-user"></i> ${clienteLogado}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/alterarCliente?email=${clienteLogado}">Dados pessoais</a>
+                            <a class="dropdown-item" href="/AlterarCliente?email=${clienteLogado}">Dados pessoais</a>
                             <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
                             <a class="dropdown-item" href="#">Reservado</a>
                         </div>

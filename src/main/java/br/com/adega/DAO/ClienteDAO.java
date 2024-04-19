@@ -23,8 +23,6 @@ public class ClienteDAO {
 
             // Se houver pelo menos uma linha no ResultSet, as credenciais são válidas
             if (resultSet.next()) {
-                // Crie um objeto Usuario com os dados do ResultSet
-
                 cliente.setIdCliente(resultSet.getInt("IdCliente"));
                 cliente.setNome(resultSet.getString("Nome"));
                 cliente.setEmail(resultSet.getString("Email"));
@@ -110,45 +108,65 @@ public class ClienteDAO {
 
     public int buscarIdClienteEmail(String emailCliente) {
 
-            int idCliente = -1; // Valor padrão para indicar que o cliente não foi encontrado
-            Connection connection = null;
-            PreparedStatement statement = null;
-            ResultSet resultSet = null;
+        int idCliente = -1; // Valor padrão para indicar que o cliente não foi encontrado
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
 
+        try {
+            // Obtém a conexão do pool de conexões
+            connection = ConnectionPoolConfig.getConnection();
+
+            // Prepara a query SQL para buscar o idCliente pelo email do cliente
+            String sql = "SELECT idCliente FROM CLIENTES WHERE email = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, emailCliente);
+
+            // Executa a query
+            resultSet = statement.executeQuery();
+
+            // Verifica se o cliente foi encontrado e recupera o ID
+            if (resultSet.next()) {
+                idCliente = resultSet.getInt("idCliente");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Aqui você pode lidar com exceções SQL de acordo com a necessidade do seu sistema
+        } finally {
+            // Fecha a conexão, o statement e o resultSet
             try {
-                // Obtém a conexão do pool de conexões
-                connection = ConnectionPoolConfig.getConnection();
-
-                // Prepara a query SQL para buscar o idCliente pelo email do cliente
-                String sql = "SELECT idCliente FROM CLIENTES WHERE email = ?";
-                statement = connection.prepareStatement(sql);
-                statement.setString(1, emailCliente);
-
-                // Executa a query
-                resultSet = statement.executeQuery();
-
-                // Verifica se o cliente foi encontrado e recupera o ID
-                if (resultSet.next()) {
-                    idCliente = resultSet.getInt("idCliente");
-                }
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                // Aqui você pode lidar com exceções SQL de acordo com a necessidade do seu sistema
-            } finally {
-                // Fecha a conexão, o statement e o resultSet
-                try {
-                    if (resultSet != null) resultSet.close();
-                    if (statement != null) statement.close();
-                    if (connection != null) connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    // Aqui você pode lidar com exceções de fechamento de recursos
-                }
+                // Aqui você pode lidar com exceções de fechamento de recursos
             }
-
-            return idCliente;
         }
 
-
+        return idCliente;
     }
+    public static boolean AtualizarCliente(Cliente cliente) {
+        String SQL = "UPDATE CLIENTES SET nome = ?, genero = ?, dataNascimento = ?, senha = ? WHERE email = ?";
+
+        try {
+            Connection connection = ConnectionPoolConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setString(1, cliente.getNome());
+            preparedStatement.setString(2, cliente.getGenero());
+            preparedStatement.setString(3, cliente.getDataNascimento());
+            preparedStatement.setString(4, cliente.getSenha());
+            preparedStatement.setString(5, cliente.getEmail());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            connection.close();
+
+            // Se pelo menos uma linha foi afetada, significa que a atualização foi bem-sucedida
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Retorna false em caso de exceção ou falha na atualização
+        }
+    }
+}
 

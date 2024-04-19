@@ -1,6 +1,6 @@
 package br.com.adega.Servlet;
 
-import br.com.adega.DAO.ClienteDAO; // Importe a classe ClienteDAO
+import br.com.adega.DAO.ClienteDAO;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Endereco;
 import br.com.adega.DAO.EnderecoDAO;

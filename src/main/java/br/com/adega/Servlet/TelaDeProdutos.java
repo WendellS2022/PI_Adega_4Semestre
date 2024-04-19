@@ -19,6 +19,7 @@ import br.com.adega.Model.Imagem;
 @WebServlet("/TelaProdutos")
 public class TelaDeProdutos extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String clienteLogado = request.getParameter("clienteLogado");
         List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
         Map<Integer, List<Imagem>> imagensPorProduto = new HashMap<>();
 
@@ -37,6 +38,7 @@ public class TelaDeProdutos extends HttpServlet {
 
         request.setAttribute("imagensPorProduto", imagensPorProduto);
         request.setAttribute("produtos", produtos);
+        request.setAttribute("clienteLogado", clienteLogado);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaDeProdutos.jsp");
         dispatcher.forward(request, response);
