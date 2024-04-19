@@ -50,7 +50,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="/alterarCliente?email=${clienteLogado}">Dados pessoais</a>
                             <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
-                            <a class="dropdown-item" href="#">Reservado</a>
+                            <a class="dropdown-item" href="/sair">Sair</a>
                         </div>
                     </li>
                 </c:if>

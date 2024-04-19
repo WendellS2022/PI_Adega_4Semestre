@@ -24,7 +24,9 @@ public class ListarEndereco extends HttpServlet {
 
         List<Endereco> enderecos = enderecoDAO.obterEnderecosPorEmailCliente(clienteLogado);
 
+        Endereco enderecoFaturamento =  EnderecoDAO.obterEnderecoFaturamentoPorEmailCliente(clienteLogado);
 
+        request.setAttribute("enderecoFaturamento", enderecoFaturamento);
         request.setAttribute("enderecos", enderecos);
         request.setAttribute("clienteLogado", clienteLogado);
 
