@@ -20,7 +20,7 @@
         <!-- Logo -->
         <a class="navbar-brand" href="/TelaProdutos">
             <img src="LOGO1.png" alt="Logo" height="70">
-            Adega E-Dev's
+
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

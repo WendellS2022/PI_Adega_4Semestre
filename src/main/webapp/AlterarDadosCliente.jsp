@@ -16,7 +16,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand mr-auto" href="#">
+        <a class="navbar-brand mr-auto" href="/TelaProdutos">
             <img src="LOGO1.png" alt="Logo" height="70">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,12 +37,12 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
 
-            <form id="alterarDadosForm" action="/alterarCliente" method="POST" class="needs-validation" novalidate>
-               <div id="nome-error-message" style="color: red;"></div>
+            <form id="alterarDadosForm" action="/AlterarCliente" method="POST" class="needs-validation" novalidate>
                 <input type="hidden" name="clienteLogado" value="${clienteLogado}">
                 <div class="form-group">
-                    <label for="nome" class="titulo-campo" placeholder = >Nome:</label>
-                    <input type="text" name="nome" id="nome" class="form-control" "Nome completo" required maxlength="200" value="${cliente.nome}">
+                <div id="nome-error-message" style="color: red;"></div>
+                    <label for="nome" class="titulo-campo">Nome:</label>
+                    <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome completo" required maxlength="200" value="${cliente.nome}">
                 </div>
 
                 <div class="form-group">
@@ -72,16 +72,21 @@
 </div>
 
 <!-- Bootstrap JS e dependências opcionais -->
+<script src="ValidaNome.js"></script>
 <script src="Cpf.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
 </body>
 
 <script>
+
+// validaNome.js
+function validarNome() {
     $(document).ready(function() {
         // Função para verificar se o nome do cliente atende aos requisitos
-        function validarNome(nome) {
+        function nomeAtendeRequisitos(nome) {
             var palavras = nome.split(" "); // Divide o nome em palavras
             if (palavras.length >= 2) { // Verifica se há pelo menos duas palavras
                 // Verifica se cada palavra tem pelo menos 3 letras
@@ -103,7 +108,7 @@
             var mensagemErro = $("#nome-error-message"); // Obtém o elemento para a mensagem de erro
 
             // Verifica se o nome atende aos requisitos
-            if (validarNome(nome)) {
+            if (nomeAtendeRequisitos(nome)) {
                 botaoSalvar.prop("disabled", false); // Habilita o botão de salvar
                 mensagemErro.text(""); // Limpa a mensagem de erro
             } else {
@@ -122,12 +127,19 @@
             var nome = $("#nome").val(); // Obtém o valor do campo de nome
 
             // Se o nome não atender aos requisitos, impedir o envio do formulário
-            if (!validarNome(nome)) {
+            if (!nomeAtendeRequisitos(nome)) {
                 event.preventDefault(); // Impede o envio do formulário
                 // Exibe uma mensagem de erro na tela
                 $("#nome-error-message").text("O nome deve conter pelo menos duas palavras com no mínimo três letras cada.");
             }
         });
     });
+}
+
+// Chama a função validarNome quando o documento estiver pronto
+validarNome();
 </script>
+
+
+
 </html>

@@ -17,10 +17,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
+
         <!-- Logo -->
         <a class="navbar-brand" href="#">
             <img src="LOGO1.png" alt="Logo" height="70">
-            Adega E-Dev's
+
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -50,7 +51,11 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="/AlterarCliente?email=${clienteLogado}">Dados pessoais</a>
                             <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
-                            <a class="dropdown-item" href="#">Reservado</a>
+
+
+
+                            <a class="dropdown-item" href="/sair?email=${clienteLogado}">Sair</a>
+
                         </div>
                     </li>
                 </c:if>

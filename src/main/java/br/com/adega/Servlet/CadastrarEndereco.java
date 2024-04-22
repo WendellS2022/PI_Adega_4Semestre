@@ -65,6 +65,7 @@ public class CadastrarEndereco extends HttpServlet {
 
             if (enderecos == null || enderecos.isEmpty()) {
                 endereco.setPadrao(true);
+                endereco.setEnderecoFaturamento(true);
                 Endereco enderecoFaturamento = EnderecoDAO.obterEnderecoFaturamentoPorEmailCliente(emailCliente);
                 if (enderecoFaturamento != null)
                     endereco.setEnderecoFaturamento(false);
@@ -79,29 +80,10 @@ public class CadastrarEndereco extends HttpServlet {
             EnderecoDAO enderecoDAO = new EnderecoDAO();
             enderecoDAO.salvarEndereco(endereco);
 
-            // Define os atributos no request para que possam ser acessados na página JSP
-            request.setAttribute("endereco", endereco);
+            request.setAttribute("isCliente", true);
 
-            List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();
+            response.sendRedirect(request.getContextPath() + "/TelaProdutos?clienteLogado=" + emailCliente);
 
-            for (Produto produto : produtos) {
-                List<Imagem> imagens = ProdutoDAO.obterImagensPorProdutoId(produto.getCodProduto());
-                List<Imagem> imagensQualificadas = new ArrayList<>();
-
-                for (Imagem imagem : imagens) {
-                    if (imagem.isQualificacao()) {
-                        imagensQualificadas.add(imagem);
-                    }
-                }
-
-                imagensPorProduto.put(produto.getCodProduto(), imagensQualificadas);
-            }
-
-            request.setAttribute("imagensPorProduto", imagensPorProduto);
-            request.setAttribute("produtos", produtos);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaDeProdutos.jsp");
-            dispatcher.forward(request, response);
         } else {
             // Se o ID do cliente não foi encontrado, redirecione para uma página de erro ou trate de outra forma
             response.sendRedirect("/erro.jsp");

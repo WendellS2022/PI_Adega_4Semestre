@@ -37,6 +37,8 @@
 
                 <div class="form-group">
                    <input type="hidden" name="clienteLogado" value="${clienteLogado}">
+                   <input type="hidden" name="adcionar" value="${adcionar}">
+
                     <label for="cep" class="titulo-campo">CEP:</label>
                     <div class="input-group">
                         <input type="text" name="cep" id="cep" class="form-control" placeholder="CEP" maxlength="8">
@@ -85,6 +87,8 @@
     </div>
 </div>
 
+
+
 <!-- Bootstrap JS e dependências opcionais -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -92,4 +96,5 @@
 <script src="APIViaCEP.js"></script>
 
 </body>
+
 </html>
