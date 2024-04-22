@@ -17,9 +17,9 @@ public class VisualizarProduto extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        int codProdutoParam = Integer.parseInt(request.getParameter("codProduto"));
+        int codProduto= Integer.parseInt(request.getParameter("codProduto"));
 
-        Produto produto = ProdutoDAO.ObterProdutoPorId(codProdutoParam);
+        Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
 
         if (produto != null) {
 
@@ -27,6 +27,7 @@ public class VisualizarProduto extends HttpServlet {
 
             request.setAttribute("produto", produto);
             request.setAttribute("imagens", imagens);
+
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/VisualizarProduto.jsp");
