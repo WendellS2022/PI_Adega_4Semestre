@@ -16,7 +16,7 @@ public class VisualizarProduto extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
+        String clienteLogado = request.getParameter("clienteLogado");
         int codProduto= Integer.parseInt(request.getParameter("codProduto"));
 
         Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
@@ -25,6 +25,7 @@ public class VisualizarProduto extends HttpServlet {
 
             List<Imagem> imagens = ProdutoDAO.obterImagensPorProdutoId(produto.getCodProduto());
 
+            request.setAttribute("clienteLogado", clienteLogado);
             request.setAttribute("produto", produto);
             request.setAttribute("imagens", imagens);
 

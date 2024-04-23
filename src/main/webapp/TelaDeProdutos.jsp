@@ -41,7 +41,7 @@
                     </li>
                 </c:if>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Carrinho.jsp"><i class="fas fa-shopping-cart"></i> Carrinho</a>
+                    <a class="nav-link" href="/carrinho?clienteLogado=${clienteLogado}"><i class="fas fa-shopping-cart"></i> Carrinho</a>
                 </li>
                 <c:if test="${not empty clienteLogado}">
                     <li class="nav-item dropdown">
@@ -74,9 +74,10 @@
                             </c:forEach>
                         </div>
                         <div class="mt-auto">
+
                             <p class="card-title">${produto.nomeProduto}</p>
                             <p class="card-text">Preço: R$ ${produto.vlrVendaProduto}</p>
-                            <a href="/visualizarProduto?codProduto=${produto.codProduto}" class="btn btn-primary btn-block">Detalhes</a>
+                          <a href="/visualizarProduto?codProduto=${produto.codProduto}&clienteLogado=${clienteLogado}" class="btn btn-primary btn-block">Detalhes</a>
                         </div>
                     </div>
                 </div>

@@ -66,6 +66,8 @@
              <form action="/carrinho" method="POST">
                <div class="informacao-produto">
                    <input type="hidden" name="codProduto" value="${produto.codProduto}">
+                   <input type="hidden" name="clienteLogado" value="${clienteLogado}">
+
                    <label for="nomeProduto" class="titulo-campo">Nome do Produto</label>
                    <textarea name="nomeProduto" id="nome-Produto" readonly>${produto != null ? produto.getNomeProduto() : ''}</textarea>
 
