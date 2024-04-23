@@ -63,25 +63,26 @@
                     </div>
                 </div>
 
-                <div class="informacao-produto">
+             <form action="/carrinho" method="POST">
+               <div class="informacao-produto">
+                   <input type="hidden" name="codProduto" value="${produto.codProduto}">
+                   <label for="nomeProduto" class="titulo-campo">Nome do Produto</label>
+                   <textarea name="nomeProduto" id="nome-Produto" readonly>${produto != null ? produto.getNomeProduto() : ''}</textarea>
 
-                    <label for="nomeProduto" class="titulo-campo"></label>
-                    <textarea name="nomeProduto" id="nome-Produto" readonly>${produto != null ? produto.getNomeProduto() : ''}
-                    </textarea>
+                   <label for="dscDetalhadaProduto" class="titulo-campo">Descrição Detalhada do Produto</label>
+                   <textarea name="dscDetalhadaProduto" id="descricao-Produto" readonly>${produto != null ? produto.getDscDetalhadaProduto() : ''}</textarea>
 
-                    <label for="dscDetalhadaProduto" class="titulo-campo">Descrição Detalhada do Produto</label>
-                    <textarea name="dscDetalhadaProduto" id="descricao-Produto" readonly>${produto != null ? produto.getDscDetalhadaProduto() : ''}
-                    </textarea>
+                   <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto</label>
+                   <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" readonly value="${produto != null ? produto.avaliacaoProduto : ''}">
 
-                    <label for="avaliacaoProduto" class="titulo-campo">Avaliação do Produto</label>
-                    <input type="number" name="avaliacaoProduto" id="avaliacao-Produto" readonly
-                           value="${produto != null ? produto.avaliacaoProduto : ''}">
+                   <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto</label>
+                   <input type="number" name="vlrVendaProduto" id="vlr-VendaProduto" readonly value="${produto != null ? produto.vlrVendaProduto : ''}">
 
-                    <label for="vlrVendaProduto" class="titulo-campo">Preço do Produto</label>
-                    <input type="number" name="vlrVendaProduto" id="vlr-VendaProduto" readonly
-                           value="${produto != null ? produto.vlrVendaProduto : ''}">
+                   <!-- Botão Comprar dentro do loop for -->
 
-                  <button id="btn-comprar" class="btn btn-primary" style="margin-top: 25px;">Comprar</button>
+                       <button class="btn btn-primary" style="margin-top: 25px;" onclick="comprarProduto(${produto.codProduto})">Comprar</button>
+                   </form>
+               </div>
 
                 </div>
             </section>

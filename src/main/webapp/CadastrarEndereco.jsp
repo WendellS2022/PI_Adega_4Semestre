@@ -33,11 +33,10 @@
     <h1 class="my-4 text-center">Cadastre seu Endereço</h1>
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <form id="enderecoForm" action="/CadastrarEndereco" method="POST" class="needs-validation" novalidate>
-
-                <div class="form-group">
+           <form id="enderecoForm" method="post">
+                <div class="needs-validation" novalidate>
                    <input type="hidden" name="clienteLogado" value="${clienteLogado}">
-                   <input type="hidden" name="adcionar" value="${adcionar}">
+                   <input type="hidden" name="adicionar" value="${adicionar}">
 
                     <label for="cep" class="titulo-campo">CEP:</label>
                     <div class="input-group">
@@ -46,55 +45,56 @@
                             <button class="btn btn-primary" type="button" id="btn-buscar-cep">Buscar</button>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="logradouro" class="titulo-campo">Logradouro:</label>
-                    <input type="text" name="logradouro" id="logradouro" class="form-control" placeholder="Rua, Avenida, etc." required maxlength="200">
-                </div>
+                    <div class="form-group">
+                        <label for="logradouro" class="titulo-campo">Logradouro:</label>
+                        <input type="text" name="logradouro" id="logradouro" class="form-control" placeholder="Rua, Avenida, etc." required maxlength="200">
+                    </div>
 
-                <div class="form-group">
-                    <label for="numero" class="titulo-campo">Número:</label>
-                    <input type="text" name="numero" id="numero" class="form-control" placeholder="Número" required maxlength="20">
-                </div>
+                    <div class="form-group">
+                        <label for="numero" class="titulo-campo">Número:</label>
+                        <input type="text" name="numero" id="numero" class="form-control" placeholder="Número" required maxlength="20">
+                    </div>
 
-                <div class="form-group">
-                    <label for="complemento" class="titulo-campo">Complemento:</label>
-                    <input type="text" name="complemento" id="complemento" class="form-control" placeholder="Complemento (opcional)" maxlength="200">
-                </div>
+                    <div class="form-group">
+                        <label for="complemento" class="titulo-campo">Complemento:</label>
+                        <input type="text" name="complemento" id="complemento" class="form-control" placeholder="Complemento (opcional)" maxlength="200">
+                    </div>
 
-                <div class="form-group">
-                    <label for="bairro" class="titulo-campo">Bairro:</label>
-                    <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro" required maxlength="100">
-                </div>
+                    <div class="form-group">
+                        <label for="bairro" class="titulo-campo">Bairro:</label>
+                        <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro" required maxlength="100">
+                    </div>
 
-                <div class="form-group">
-                    <label for="cidade" class="titulo-campo">Cidade:</label>
-                    <input type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade" required maxlength="100">
-                </div>
+                    <div class="form-group">
+                        <label for="cidade" class="titulo-campo">Cidade:</label>
+                        <input type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade" required maxlength="100">
+                    </div>
 
-                <div class="form-group">
-                    <label for="estado" class="titulo-campo">Estado:</label>
-                    <input type="text" name="estado" id="estado" class="form-control" placeholder="Estado" required maxlength="2">
-                </div>
+                    <div class="form-group">
+                        <label for="estado" class="titulo-campo">Estado:</label>
+                        <input type="text" name="estado" id="estado" class="form-control" placeholder="Estado" required maxlength="2">
+                    </div>
 
-                <div class="text-center">
-                    <button type="submit" id="btn-salvar" class="btn btn-primary">Cadastrar</button>
-
+                    <div class="text-center">
+                        <button type="submit" id="btn-salvar" name="adicionar" class="btn btn-primary">Cadastrar</button>
+                    </div>
                 </div>
-            </form>
+           </form>
         </div>
     </div>
 </div>
 
-
-
 <!-- Bootstrap JS e dependências opcionais -->
+<script src="CadastrarEndereco.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="APIViaCEP.js"></script>
 
 </body>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0acb9d860622c37b2a65b7f1394e304e7058879a
 </html>

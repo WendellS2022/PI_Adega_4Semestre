@@ -24,7 +24,7 @@ public class AlterarEndereco extends HttpServlet {
 
         boolean adcionar = true;
         request.setAttribute("clienteLogado", emailCliente);
-        request.setAttribute("adcionar", adcionar);
+        request.setAttribute("adicionar", adcionar);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
         dispatcher.forward(request, response);
     }
