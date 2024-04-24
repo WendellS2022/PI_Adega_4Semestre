@@ -244,38 +244,38 @@ public class ProdutoDAO {
         return produtos;
     }
 
-    public static List<Carrinho> obterProdutosCarrinhoPorEmail(String clienteLogado) {
-        List<Carrinho> produtosCarrinho = new ArrayList<>();
-
-        String SQL = "SELECT * FROM CARRINHO INNER JOIN CLIENTES ON CARRINHO.IDCLIENTE = CLIENTES.IDCLIENTE WHERE CLIENTES.EMAIL = ?";
-
-        try (Connection connection = ConnectionPoolConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
-
-            preparedStatement.setString(1, clienteLogado);
-
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Carrinho produtoCarrinho = new Carrinho();
-
-                    produtoCarrinho.setCodProduto(resultSet.getInt("ProdutoID"));
-                    produtoCarrinho.setNomeProduto(resultSet.getString("Nome"));
-                    produtoCarrinho.setDscDetalhadaProduto(resultSet.getString("Descricao"));
-                    produtoCarrinho.setAvaliacaoProduto(resultSet.getInt("Avaliacao"));
-                    produtoCarrinho.setQtdEstoque(resultSet.getInt("Quantidade"));
-                    produtoCarrinho.setVlrVendaProduto(resultSet.getBigDecimal("Valor"));
-                    produtoCarrinho.setSituacaoProduto(resultSet.getBoolean("Situacao"));
-
-                    produtosCarrinho.add(produtoCarrinho);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return produtosCarrinho;
-    }
+//    public static List<Carrinho> obterProdutosCarrinhoPorEmail(String clienteLogado) {
+//        List<Carrinho> produtosCarrinho = new ArrayList<>();
+//
+//        String SQL = "SELECT * FROM CARRINHO INNER JOIN CLIENTES ON CARRINHO.IDCLIENTE = CLIENTES.IDCLIENTE WHERE CLIENTES.EMAIL = ?";
+//
+//        try (Connection connection = ConnectionPoolConfig.getConnection();
+//             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+//
+//            preparedStatement.setString(1, clienteLogado);
+//
+//
+//            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+//                while (resultSet.next()) {
+//                    Carrinho produtoCarrinho = new Carrinho();
+//
+//                    produtoCarrinho.setCodProduto(resultSet.getInt("ProdutoID"));
+//                    produtoCarrinho.setNomeProduto(resultSet.getString("Nome"));
+//                    produtoCarrinho.setDscDetalhadaProduto(resultSet.getString("Descricao"));
+//                    produtoCarrinho.setAvaliacaoProduto(resultSet.getInt("Avaliacao"));
+//                    produtoCarrinho.setQtdEstoque(resultSet.getInt("Quantidade"));
+//                    produtoCarrinho.setVlrVendaProduto(resultSet.getBigDecimal("Valor"));
+//                    produtoCarrinho.setSituacaoProduto(resultSet.getBoolean("Situacao"));
+//
+//                    produtosCarrinho.add(produtoCarrinho);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return produtosCarrinho;
+//    }
 
     public static boolean AdicionarImagem(Imagem imagem) {
         String SQL = "INSERT INTO IMAGENS (ProdutoId, Diretorio, Nome, Qualificacao, Extensao) VALUES (?, ?, ?, ?, ?)";

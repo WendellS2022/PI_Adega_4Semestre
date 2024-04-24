@@ -1,5 +1,6 @@
 br\com\adega\Servlet\ListarProdutos.class
 br\com\adega\Servlet\VisualizarProduto.class
+br\com\adega\Model\Carrinho.class
 br\com\adega\DAO\ProdutoDAO.class
 br\com\adega\Servlet\ExcluirImagem.class
 br\com\adega\DAO\ClienteDAO.class

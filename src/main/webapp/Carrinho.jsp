@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +23,6 @@
         <!-- Logo -->
         <a class="navbar-brand" href="/TelaProdutos">
             <img src="LOGO1.png" alt="Logo" height="70">
-
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -58,14 +60,16 @@
                 </thead>
                 <tbody>
                 <!-- Exibir os itens do carrinho -->
-                <tr>
-                    <th scope="row">${produto.idProduto}</th>
-                    <td>${produto.nomeProduto}</td>
-                    <td>R$ ${produto.vlrVendaProduto}</td>
-                    <td>1</td> <!-- Quantidade fixa, você pode modificar conforme necessário -->
-                    <td>R$ ${produto.vlrVendaProduto}</td>
-                    <td><button class="btn btn-danger btn-sm">Remover</button></td>
-                </tr>
+                <c:forEach items="${produtos}" var="produto">
+                    <tr>
+                        <th scope="row">${produto.codProduto}</th>
+                        <td>${produto.nomeProduto}</td>
+                        <td>R$ ${produto.vlrVendaProduto}</td>
+                        <td>1</td> <!-- Quantidade fixa, você pode modificar conforme necessário -->
+                        <td>R$ ${produto.vlrVendaProduto}</td>
+                        <td><button class="btn btn-danger btn-sm">Remover</button></td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -73,8 +77,8 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Resumo do Pedido</h5>
-                    <p class="card-text">Total de itens: 1</p> <!-- Quantidade de itens fixa, você pode modificar conforme necessário -->
-                    <p class="card-text">Total a pagar: R$ ${produto.vlrVendaProduto}</p>
+                    <p class="card-text">Total de itens: ${fn:length(sessionScope[clienteLogado])}</p>
+                    <p class="card-text">Total a pagar: R$ <c:out value="${fn:length(sessionScope[clienteLogado]) * sessionScope[clienteLogado][0].vlrVendaProduto}"/></p>
                     <a href="#" class="btn btn-primary btn-block">Finalizar Compra</a>
                 </div>
             </div>

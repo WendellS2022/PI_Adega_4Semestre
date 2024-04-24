@@ -1,22 +1,29 @@
 package br.com.adega.Model;
 
-public class Carrinho extends Produto{
-   private int quatidadeCompra;
-   private  int idCliente;
+public class Carrinho {
+   private int produtoId;
+   private int quantidadeComprada;
 
-    public int getQuatidadeCompra() {
-        return quatidadeCompra;
+    public Carrinho(int produtoId) {
+        this.produtoId = produtoId;
     }
 
-    public void setQuatidadeCompra(int quatidadeCompra) {
-        this.quatidadeCompra = quatidadeCompra;
+    public Carrinho() {
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public int getProdutoId() {
+        return produtoId;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setProdutoId(int produtoId) {
+        this.produtoId = produtoId;
+    }
+
+    public int getQuantidadeComprada() {
+        return quantidadeComprada;
+    }
+
+    public void setQuantidadeComprada(int quantidadeComprada) {
+        this.quantidadeComprada = quantidadeComprada;
     }
 }

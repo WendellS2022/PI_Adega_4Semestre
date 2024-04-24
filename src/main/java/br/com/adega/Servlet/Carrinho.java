@@ -3,6 +3,7 @@ package br.com.adega.Servlet;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Produto;
 
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +38,7 @@ import java.util.Map;
 
 
         } else {
-            produtosCarrinho = ProdutoDAO.obterProdutosCarrinhoPorEmail(clienteLogado);
+          //  produtosCarrinho = ProdutoDAO.obterProdutosCarrinhoPorEmail(clienteLogado);
 
             request.setAttribute("produtos", produtosCarrinho);
 
@@ -56,17 +58,39 @@ import java.util.Map;
             String clienteLogado = request.getParameter("clienteLogado");
             session.setAttribute("clienteLogado", clienteLogado);
 
-            List<br.com.adega.Model.Carrinho> produtos = null;
-            Produto produto = null;
+
+
             int produtoId = Integer.parseInt(request.getParameter("codProduto"));
 
-            if(clienteLogado == null){
-                produtos = Session[Integer.parseInt("ListaProdutos")];
-            }else{
-                produto = ProdutoDAO.ObterProdutoPorId(produtoId);
-            }
 
-            String codProduto = request.getParameter("codProduto");
+            if(clienteLogado == null || clienteLogado.isEmpty()){
+               br.com.adega.Model.Carrinho item = new br.com.adega.Model.Carrinho(produtoId);
+
+                session = request.getSession(true);
+
+                List<Object> itensCarrinho = (List<Object>) session.getAttribute("itensCarrinho");
+                if (itensCarrinho == null) {
+                    itensCarrinho = new ArrayList<>();
+                }
+
+                itensCarrinho.add(item);
+
+                session.setAttribute("itensCarrinho", itensCarrinho);
+
+                Produto produto = ProdutoDAO.ObterProdutoPorId(produtoId);
+                List<Produto> produtos = new ArrayList<>();
+
+                produtos.add(produto);
+                request.setAttribute("produtos", produtos);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/Carrinho.jsp");
+                dispatcher.forward(request, response);
+            }
+//            }else{
+//                produto = ProdutoDAO.ObterProdutoPorId(produtoId);
+//            }
+//
+//            String codProduto = request.getParameter("codProduto");
         }
     }
 
