@@ -82,8 +82,8 @@ public class CadastrarEndereco extends HttpServlet {
 
             request.setAttribute("isCliente", true);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
-            dispatcher.forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/TelaProdutos?clienteLogado=" + emailCliente);
+
         } else {
             // Se o ID do cliente não foi encontrado, redirecione para uma página de erro ou trate de outra forma
             response.sendRedirect("/erro.jsp");
