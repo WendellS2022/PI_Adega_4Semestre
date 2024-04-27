@@ -7,6 +7,7 @@ C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\CadastrarCliente.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\CadastrarEndereco.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ListarUsuario.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\TelaDeProdutos.java
+C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Carrinho.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Sair.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Home.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\ProdutoDAO.java
@@ -18,6 +19,7 @@ C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Login.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\UsuarioDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\IndicarEndereco.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\SetarImagemPrincipal.java
+C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\CarrinhoDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Carrinho.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AlterarProduto.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\GerenciarImagens.java

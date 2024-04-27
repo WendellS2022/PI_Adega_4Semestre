@@ -31,3 +31,41 @@ Nome varchar(100),
 Qualificacao bit,
 Extensao varchar(10)
 );
+
+create table Clientes (
+    IdCliente int primary key auto_increment,
+    Nome varchar(255),
+    DataNascimento Date,
+    CPF varchar(11),
+    EMAIL varchar(80),
+    SENHA varchar(100),
+    GENERO varchar(20)
+);
+
+create table Endereco (
+    IdEndereco int primary key auto_increment,
+    CEP varchar(10),
+    Logradouro varchar(255),
+    Numero int,
+    Complemento varchar(255),
+    Bairro varchar(80),
+    Cidade varchar(100),
+    UF varchar(2),
+    Status bit,
+    PADRAO bit,
+    EnderecoFaturamento bit,
+    IdCliente int,
+    foreign key (IdCliente) references Clientes(IdCliente)
+);
+
+create table Carrinho (
+    IdCarrinho int not null,
+    ProdutoId int not null,
+    foreign key (ProdutoID) references Produtos(ProdutoID),
+    IdCliente int,
+    foreign key (IdCliente) references Clientes(IdCliente),
+    Quantidade int,
+    NomeProduto varchar(100),
+    Descricao varchar(2000),
+    Valor decimal(20, 2)
+);

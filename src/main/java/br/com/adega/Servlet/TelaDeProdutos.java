@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.adega.DAO.CarrinhoDAO;
+import br.com.adega.DAO.ClienteDAO;
 import br.com.adega.Model.Produto;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Imagem;

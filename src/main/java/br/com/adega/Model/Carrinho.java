@@ -1,23 +1,31 @@
 package br.com.adega.Model;
 
 public class Carrinho {
-   private int produtoId;
+   private Produto produto;
+   private int idCliente;
    private int quantidadeComprada;
 
-    public Carrinho(int produtoId) {
-        this.produtoId = produtoId;
+
+    public Carrinho(Produto produto, int idCliente, int quantidadeComprada) {
+        this.produto = produto;
+        this.idCliente = idCliente;
+        this.quantidadeComprada = quantidadeComprada;
     }
 
     public Carrinho() {
     }
 
-    public int getProdutoId() {
-        return produtoId;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setProdutoId(int produtoId) {
-        this.produtoId = produtoId;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
+
+    public int getIdCliente() {return idCliente;}
+
+    public void setIdCliente(int idCliente) {this.idCliente = idCliente;}
 
     public int getQuantidadeComprada() {
         return quantidadeComprada;

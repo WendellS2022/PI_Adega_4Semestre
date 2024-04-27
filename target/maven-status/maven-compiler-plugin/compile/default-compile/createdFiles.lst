@@ -1,5 +1,6 @@
 br\com\adega\Servlet\ListarProdutos.class
 br\com\adega\Servlet\VisualizarProduto.class
+br\com\adega\Model\Carrinho.class
 br\com\adega\DAO\ProdutoDAO.class
 br\com\adega\Servlet\ExcluirImagem.class
 br\com\adega\DAO\ClienteDAO.class
@@ -13,6 +14,7 @@ br\com\adega\DAO\EnderecoDAO.class
 br\com\adega\Servlet\IndicarEndereco.class
 br\com\adega\Servlet\AlterarUsuario.class
 br\com\adega\Config\ConnectionPoolConfig.class
+br\com\adega\DAO\CarrinhoDAO.class
 br\com\adega\Servlet\Carrinho.class
 br\com\adega\DAO\UsuarioDAO.class
 br\com\adega\Servlet\DesativarEndereco.class
