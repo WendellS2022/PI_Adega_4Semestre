@@ -16,3 +16,8 @@
 0:0:0:0:0:0:0:1 - - [26/Apr/2024:10:38:20 -0300] "GET /imagens/imagem_1713301953584_WhatsApp%20Image%202024-02-19%20at%2013.59.52.jpeg HTTP/1.1" 404 1109 http-bio-8080-exec-7 4
 0:0:0:0:0:0:0:1 - - [26/Apr/2024:10:38:20 -0300] "GET /VisualizarProduto.js HTTP/1.1" 404 991 http-bio-8080-exec-8 2
 0:0:0:0:0:0:0:1 - - [26/Apr/2024:10:38:35 -0300] "POST /carrinho HTTP/1.1" 200 3464 http-bio-8080-exec-9 11402
+0:0:0:0:0:0:0:1 - - [26/Apr/2024:10:51:34 -0300] "GET /TelaProdutos HTTP/1.1" 200 8591 http-bio-8080-exec-1 4454
+0:0:0:0:0:0:0:1 - - [26/Apr/2024:10:51:38 -0300] "GET /visualizarProduto?codProduto=157&clienteLogado= HTTP/1.1" 200 6596 http-bio-8080-exec-4 2051
+0:0:0:0:0:0:0:1 - - [26/Apr/2024:10:51:38 -0300] "GET /imagens/imagem_1713301953584_WhatsApp%20Image%202024-02-19%20at%2013.59.52.jpeg HTTP/1.1" 404 1109 http-bio-8080-exec-6 3
+0:0:0:0:0:0:0:1 - - [26/Apr/2024:10:51:38 -0300] "GET /VisualizarProduto.js HTTP/1.1" 404 991 http-bio-8080-exec-7 1
+0:0:0:0:0:0:0:1 - - [26/Apr/2024:10:51:46 -0300] "POST /carrinho HTTP/1.1" 200 3464 http-bio-8080-exec-8 4479
