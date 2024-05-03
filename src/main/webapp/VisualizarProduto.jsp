@@ -20,7 +20,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary vh-100">
     <div class="container">
       <!-- Logo -->
-      <a class="navbar-brand h-100%" href="/TelaProdutos">
+      <a class="navbar-brand h-100%" href="/TelaProdutos?clienteLogado=${clienteLogado}">
         <img src="LOGO1.png" alt="Logo" height="300">
       </a>
 

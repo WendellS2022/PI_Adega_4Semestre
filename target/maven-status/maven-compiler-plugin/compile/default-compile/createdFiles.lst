@@ -1,4 +1,6 @@
 br\com\adega\Servlet\ListarProdutos.class
+br\com\adega\Servlet\RemoverProdutoDoCarrinho.class
+br\com\adega\Servlet\AtualizarQuantidade.class
 br\com\adega\Servlet\VisualizarProduto.class
 br\com\adega\Model\Carrinho.class
 br\com\adega\DAO\ProdutoDAO.class
@@ -6,6 +8,7 @@ br\com\adega\Servlet\ExcluirImagem.class
 br\com\adega\DAO\ClienteDAO.class
 br\com\adega\Model\Endereco.class
 br\com\adega\Servlet\Sair.class
+br\com\adega\Servlet\TelaPagamento.class
 br\com\adega\Autenticacao\AutenticacaoService.class
 br\com\adega\Model\Produto.class
 br\com\adega\Model\Cliente.class

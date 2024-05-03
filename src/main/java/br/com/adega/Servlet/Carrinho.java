@@ -4,6 +4,7 @@ import br.com.adega.DAO.CarrinhoDAO;
 import br.com.adega.DAO.ClienteDAO;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Produto;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +28,7 @@ public class Carrinho extends HttpServlet {
         request.setAttribute("clienteLogado", clienteLogado);
         emailToSessionMap.put(clienteLogado, session);
 
-        List<Produto> produtos = new ArrayList<>();
+        List<Produto> produtos;
 
 
         if (clienteLogado.isEmpty() || clienteLogado.isBlank()) {
@@ -49,16 +50,15 @@ public class Carrinho extends HttpServlet {
 
         } else {
 
-            List<Integer> idsProdutos;
+            List<br.com.adega.Model.Carrinho> produtosCarrinho;
             int idCliente = ClienteDAO.buscarIdClienteEmail(clienteLogado);
-            idsProdutos = CarrinhoDAO.obterProdutosCarrinhoPorIdCliente(idCliente);
+            produtosCarrinho = CarrinhoDAO.obterProdutosCarrinhoPorIdCliente(idCliente);
 
-            for (Integer idProduto : idsProdutos) {
-                Produto produto = ProdutoDAO.ObterProdutoPorId(idProduto);
-                produtos.add(produto);
-            }
+            List<Integer> idsProdutosCarrinho = new ArrayList<>();
+            produtosCarrinho.forEach(produtoCarrinho -> idsProdutosCarrinho.add(produtoCarrinho.getProduto().getCodProduto()));
 
-            session.setAttribute("carrinho", produtos);
+
+            session.setAttribute("carrinho", produtosCarrinho);
 
             response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
         }
@@ -70,32 +70,65 @@ public class Carrinho extends HttpServlet {
         HttpSession session = request.getSession(true);
 
         String clienteLogado = (String) session.getAttribute("clienteLogado");
-        List<Produto> produtos;
+        List<br.com.adega.Model.Carrinho> produtosCarrinho;
+        br.com.adega.Model.Carrinho produtoCarrinho = new br.com.adega.Model.Carrinho();
 
         if (clienteLogado == null || clienteLogado.isEmpty()) {
 
-            produtos = (List<Produto>) session.getAttribute("carrinho");
+            produtosCarrinho = (List<br.com.adega.Model.Carrinho>) session.getAttribute("carrinho");
 
-            if (produtos == null) {
-                produtos = new ArrayList<>();
-                session.setAttribute("carrinho", produtos);
+            if (produtosCarrinho == null) {
+                produtosCarrinho = new ArrayList<>();
+                session.setAttribute("carrinho", produtosCarrinho);
 
             }
             int produtoId = Integer.parseInt(request.getParameter("codProduto"));
             Produto produto = ProdutoDAO.ObterProdutoPorId(produtoId);
-            produtos.add(produto);
 
-            session.setAttribute("carrinho", produtos);
 
-            response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+            if (produtosCarrinho.size() > 0) {
+                for (br.com.adega.Model.Carrinho carrinho : produtosCarrinho) {
+                    int produtoIdCarrinho = carrinho.getProduto().getCodProduto(); // Obtém o produto do carrinho
+
+                    if (produtoIdCarrinho == produtoId) {
+                        int quantidadeComprada = carrinho.getQuantidadeComprada();
+                        quantidadeComprada += 1; // Incrementa a quantidade comprada
+                        carrinho.setQuantidadeComprada(quantidadeComprada);
+
+                        session.setAttribute("carrinho", produtosCarrinho);
+
+                        response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+                        return;
+                    } else {
+                        produtoCarrinho.setProduto(produto);
+                        produtoCarrinho.setQuantidadeComprada(1);
+
+                        produtosCarrinho.add(produtoCarrinho);
+
+                        session.setAttribute("carrinho", produtosCarrinho);
+
+                        response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+                        return;
+                    }
+                }
+            } else {
+                produtoCarrinho.setProduto(produto);
+                produtoCarrinho.setQuantidadeComprada(1);
+
+                produtosCarrinho.add(produtoCarrinho);
+
+                session.setAttribute("carrinho", produtosCarrinho);
+
+                response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+            }
 
         } else {
-            produtos = (List<Produto>) session.getAttribute("carrinho");
+            produtosCarrinho = (List<br.com.adega.Model.Carrinho>) session.getAttribute("carrinho");
 
 
-            if (produtos == null) {
-                produtos = new ArrayList<>();
-                session.setAttribute("carrinho", produtos);
+            if (produtosCarrinho == null) {
+                produtosCarrinho = new ArrayList<>();
+                session.setAttribute("carrinho", produtosCarrinho);
 
             }
 
@@ -103,12 +136,18 @@ public class Carrinho extends HttpServlet {
             Produto produto = ProdutoDAO.ObterProdutoPorId(produtoId);
 
             // Adicionar o produto à lista de produtos
-            produtos.add(produto);
-            session.setAttribute("carrinho", produtos);
+            produtoCarrinho.setProduto(produto);
+            produtosCarrinho.add(produtoCarrinho);
+
+
 
             int idCliente = ClienteDAO.buscarIdClienteEmail(clienteLogado);
 
-            CarrinhoDAO.inserirProdutosCarrinho(produtos, idCliente);
+            CarrinhoDAO.inserirProdutosCarrinho(produtosCarrinho, idCliente);
+
+            produtosCarrinho = CarrinhoDAO.obterProdutosCarrinhoPorIdCliente(idCliente);
+
+            session.setAttribute("carrinho", produtosCarrinho);
 
             request.setAttribute("clienteLogado", clienteLogado);
             response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
