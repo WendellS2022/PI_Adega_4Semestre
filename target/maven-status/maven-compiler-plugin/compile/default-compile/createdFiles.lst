@@ -4,6 +4,7 @@ br/com/adega/Servlet/CadastrarCliente.class
 br/com/adega/Servlet/CadastrarProduto.class
 br/com/adega/Model/Imagem.class
 br/com/adega/Servlet/AlterarProduto.class
+br/com/adega/Servlet/TelaPagamento.class
 br/com/adega/Servlet/CadastrarEndereco.class
 br/com/adega/Servlet/AlterarCliente.class
 br/com/adega/Servlet/VisualizarProduto.class
@@ -31,3 +32,5 @@ br/com/adega/Servlet/GerenciarImagens.class
 br/com/adega/Servlet/SetarImagemPrincipal.class
 br/com/adega/Servlet/ExcluirImagem.class
 br/com/adega/Servlet/ListarProdutos.class
+br/com/adega/DAO/CarrinhoDAO.class
+br/com/adega/Model/Carrinho.class

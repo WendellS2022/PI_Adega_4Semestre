@@ -20,6 +20,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary vh-100">
     <div class="container">
       <!-- Logo -->
+
+
       <a class="navbar-brand h-100%" href="/TelaProdutos">
         <img src="LOGO1.png" alt="Logo" height="300">
       </a>
@@ -66,6 +68,8 @@
              <form action="/carrinho" method="POST">
                <div class="informacao-produto">
                    <input type="hidden" name="codProduto" value="${produto.codProduto}">
+                   <input type="hidden" name="clienteLogado" value="${clienteLogado}">
+
                    <label for="nomeProduto" class="titulo-campo">Nome do Produto</label>
                    <textarea name="nomeProduto" id="nome-Produto" readonly>${produto != null ? produto.getNomeProduto() : ''}</textarea>
 
@@ -80,7 +84,7 @@
 
                    <!-- Botão Comprar dentro do loop for -->
 
-                       <button class="btn btn-primary" style="margin-top: 25px;" onclick="comprarProduto(${produto.codProduto})">Comprar</button>
+                       <button class="btn btn-primary" style="margin-top: 25px;" onclick="comprarProduto(${produto.codProduto})">Adicionar</button>
                    </form>
                </div>
 

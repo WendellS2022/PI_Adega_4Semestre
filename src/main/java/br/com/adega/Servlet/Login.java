@@ -1,6 +1,8 @@
 package br.com.adega.Servlet;
 
 import br.com.adega.Autenticacao.AutenticacaoService;
+import br.com.adega.DAO.CarrinhoDAO;
+import br.com.adega.DAO.ClienteDAO;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.DAO.UsuarioDAO;
 import br.com.adega.Model.Cliente;
@@ -86,6 +88,7 @@ public class Login extends HttpServlet {
 
     private void autenticarCliente(String email, String senha, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         AutenticacaoService autenticacaoService = new AutenticacaoService();
+        List<Produto> produtos = new ArrayList<>();
 
         Cliente autenticacaoCliente = autenticacaoService.autenticarCliente(email, senha);
 
@@ -94,6 +97,12 @@ public class Login extends HttpServlet {
             session.setAttribute("clienteLogado", email);
             request.setAttribute("clienteLogado", email);
             emailToSessionMap.put(email, session);
+
+            produtos = (List<Produto>) session.getAttribute("carrinho");
+
+            int idCliente = ClienteDAO.buscarIdClienteEmail((String) session.getAttribute("clienteLogado"));
+
+            CarrinhoDAO.inserirProdutosCarrinho(produtos, idCliente);
 
             response.sendRedirect(request.getContextPath() + "/TelaProdutos?clienteLogado=" + email);
         } else {
@@ -130,5 +139,3 @@ public class Login extends HttpServlet {
     }
 
 }
-
-

@@ -1,6 +1,7 @@
 package br.com.adega.DAO;
 
 import br.com.adega.Config.ConnectionPoolConfig;
+import br.com.adega.Model.Carrinho;
 import br.com.adega.Model.Imagem;
 import br.com.adega.Model.Produto;
 
@@ -243,38 +244,38 @@ public class ProdutoDAO {
         return produtos;
     }
 
-    public static List<Produto> obterPaginaDeProdutos(int page, int pageSize) {
-        List<Produto> produtos = new ArrayList<>();
-
-        String SQL = "SELECT * FROM PRODUTOS ORDER BY produtoID DESC LIMIT ? OFFSET ?";
-
-        try (Connection connection = ConnectionPoolConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
-
-            preparedStatement.setInt(1, pageSize);
-            preparedStatement.setInt(2, (page - 1) * pageSize);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Produto produto = new Produto();
-
-                    produto.setCodProduto(resultSet.getInt("ProdutoID"));
-                    produto.setNomeProduto(resultSet.getString("Nome"));
-                    produto.setDscDetalhadaProduto(resultSet.getString("Descricao"));
-                    produto.setAvaliacaoProduto(resultSet.getInt("Avaliacao"));
-                    produto.setQtdEstoque(resultSet.getInt("Quantidade"));
-                    produto.setVlrVendaProduto(resultSet.getBigDecimal("Valor"));
-                    produto.setSituacaoProduto(resultSet.getBoolean("Situacao"));
-
-                    produtos.add(produto);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return produtos;
-    }
+//    public static List<Carrinho> obterProdutosCarrinhoPorEmail(String clienteLogado) {
+//        List<Carrinho> produtosCarrinho = new ArrayList<>();
+//
+//        String SQL = "SELECT * FROM CARRINHO INNER JOIN CLIENTES ON CARRINHO.IDCLIENTE = CLIENTES.IDCLIENTE WHERE CLIENTES.EMAIL = ?";
+//
+//        try (Connection connection = ConnectionPoolConfig.getConnection();
+//             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+//
+//            preparedStatement.setString(1, clienteLogado);
+//
+//
+//            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+//                while (resultSet.next()) {
+//                    Carrinho produtoCarrinho = new Carrinho();
+//
+//                    produtoCarrinho.setCodProduto(resultSet.getInt("ProdutoID"));
+//                    produtoCarrinho.setNomeProduto(resultSet.getString("Nome"));
+//                    produtoCarrinho.setDscDetalhadaProduto(resultSet.getString("Descricao"));
+//                    produtoCarrinho.setAvaliacaoProduto(resultSet.getInt("Avaliacao"));
+//                    produtoCarrinho.setQtdEstoque(resultSet.getInt("Quantidade"));
+//                    produtoCarrinho.setVlrVendaProduto(resultSet.getBigDecimal("Valor"));
+//                    produtoCarrinho.setSituacaoProduto(resultSet.getBoolean("Situacao"));
+//
+//                    produtosCarrinho.add(produtoCarrinho);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return produtosCarrinho;
+//    }
 
     public static boolean AdicionarImagem(Imagem imagem) {
         String SQL = "INSERT INTO IMAGENS (ProdutoId, Diretorio, Nome, Qualificacao, Extensao) VALUES (?, ?, ?, ?, ?)";
@@ -324,7 +325,7 @@ public class ProdutoDAO {
 
 
 
-        public static boolean ExcluirImagem(String nome) {
+    public static boolean ExcluirImagem(String nome) {
         String SQL = "DELETE FROM IMAGENS WHERE NOME = ?";
 
         try (Connection connection = ConnectionPoolConfig.getConnection();
@@ -393,4 +394,5 @@ public class ProdutoDAO {
 
         return produtoId;
     }
+
 }

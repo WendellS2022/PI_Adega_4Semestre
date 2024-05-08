@@ -106,7 +106,7 @@ public class ClienteDAO {
     }
 
 
-    public int buscarIdClienteEmail(String emailCliente) {
+    public static int buscarIdClienteEmail(String emailCliente) {
 
         int idCliente = -1; // Valor padrão para indicar que o cliente não foi encontrado
         Connection connection = null;

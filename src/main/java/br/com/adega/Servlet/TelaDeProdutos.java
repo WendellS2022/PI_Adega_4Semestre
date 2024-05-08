@@ -25,11 +25,11 @@ public class TelaDeProdutos extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String clienteLogado = request.getParameter("clienteLogado");
 
+
         HttpSession session = request.getSession(true);
         session.setAttribute("clienteLogado", clienteLogado);
         request.setAttribute("clienteLogado", clienteLogado);
         emailToSessionMap.put(clienteLogado, session);
-
 
 
         List<Produto> produtos = ProdutoDAO.ObterTodosOsProdutos();

@@ -45,6 +45,8 @@
         <div class="col-md-6 offset-md-3">
 
             <form id="cadastroForm" action="/CadastrarCliente" method="POST" class="needs-validation" novalidate>
+                                   <input type="hidden" name="clienteLogado" value="${clienteLogado}">
+
                 <div class="form-group">
                     <div id="nome-error-message" style="color: red;"></div>
                     <label for="nome" class="titulo-campo">Nome:</label>
