@@ -104,7 +104,12 @@ public class Login extends HttpServlet {
             int idCliente = ClienteDAO.buscarIdClienteEmail((String) session.getAttribute("clienteLogado"));
 
             if(produtosCarrinho != null) {
-                CarrinhoDAO.inserirProdutosCarrinho(produtosCarrinho, idCliente);
+                boolean login = true;
+                CarrinhoDAO.inserirProdutosCarrinho(produtosCarrinho, idCliente, login);
+
+                produtosCarrinho = CarrinhoDAO.obterProdutosCarrinhoPorIdCliente(idCliente);
+
+                session.setAttribute("carrinho", produtosCarrinho);
             }
 
             response.sendRedirect(request.getContextPath() + "/TelaProdutos?clienteLogado=" + email);
