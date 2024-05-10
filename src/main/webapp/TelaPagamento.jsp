@@ -61,24 +61,55 @@
 
 <div class="container mt-4">
     <h1 class="mb-4">Resumo do carrinho</h1>
+
     <div class="row">
         <div class="col-md-8">
-            <!-- Tabela de itens do carrinho -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Produto</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${sessionScope.carrinho}" var="produtoCarrinho" varStatus="loop">
+                        <tr>
+                            <th scope="row">${produtoCarrinho.produto.codProduto}</th>
+                            <td>${produtoCarrinho.produto.nomeProduto}</td>
+                            <td>R$ ${produtoCarrinho.produto.vlrVendaProduto}</td>
+                            <td>${produtoCarrinho.quantidadeComprada}</td>
+
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
+
         <div class="col-md-4">
             <div class="card">
                 <h5 class="card-title">Resumo do Pedido</h5>
                 <!-- Informações do resumo do pedido -->
                 <div class="form-group">
-                    <label for="frete">Selecionar Frete:</label>
-                    <!-- Select para seleção de frete -->
+                    <label for="frete">Frete:</label>
+                    <p class="card-text">${sessionScope.frete}</p>
                 </div>
+                <div class="form-group">
+                    <label for="endereco">Endereço:</label>
+                    <p class="card-text">${sessionScope.endereco}</p>
+                </div>
+                <div class="form-group">
+                    <label for="subTotal">Subtotal: R$ ${sessionScope.subtotal}</label>
+                </div>
+
                 <form action="/FinalizarCompra" method="post">
                     <div class="form-group">
                         <label for="pagamento">Selecionar Pagamento:</label>
                         <select class="form-control" id="pagamento" name="pagamento">
-                            <option value="cartao">Cartão</option>
                             <option value="boleto">Boleto</option>
+                            <option value="cartao">Cartão</option>
                         </select>
                     </div>
                     <!-- Campos adicionais para pagamento com cartão -->
@@ -111,12 +142,9 @@
     </div>
 </div>
 
-
-
 <!-- Bootstrap JS e dependências opcionais -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
 <script>
     // Mostrar ou esconder campos adicionais
     $(document).ready(function(){
@@ -129,4 +157,5 @@
         });
     });
 </script>
+</body>
 </html>
