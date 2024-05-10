@@ -51,9 +51,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="/AlterarCliente?email=${clienteLogado}">Dados pessoais</a>
                             <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
-
-
-
+                            <a class="dropdown-item" href="/listarPedidos?email=${clienteLogado}">Meus pedidos</a>
                             <a class="dropdown-item" href="/sair?email=${clienteLogado}">Sair</a>
 
                         </div>
@@ -69,23 +67,25 @@
     <div class="row">
         <!-- Iterar sobre a lista de produtos -->
         <c:forEach var="produto" items="${produtos}">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <div>
-                            <c:forEach var="imagem" items="${imagensPorProduto[produto.codProduto]}">
-                                <img src="${imagem.diretorio}/${imagem.nome}" alt="${produto.nomeProduto}" class="img-fluid" style="max-height: 210px;">
-                            </c:forEach>
-                        </div>
-                        <div class="mt-auto">
+            <c:if test="${produto.situacaoProduto}">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <div>
+                                <c:forEach var="imagem" items="${imagensPorProduto[produto.codProduto]}">
+                                    <img src="${imagem.diretorio}/${imagem.nome}" alt="${produto.nomeProduto}" class="img-fluid" style="max-height: 210px;">
+                                </c:forEach>
+                            </div>
+                            <div class="mt-auto">
 
-                            <p class="card-title">${produto.nomeProduto}</p>
-                            <p class="card-text">Preço: R$ ${produto.vlrVendaProduto}</p>
-                          <a href="/visualizarProduto?codProduto=${produto.codProduto}&clienteLogado=${clienteLogado}" class="btn btn-primary btn-block">Detalhes</a>
+                                <p class="card-title">${produto.nomeProduto}</p>
+                                <p class="card-text">Preço: R$ ${produto.vlrVendaProduto}</p>
+                                <a href="/visualizarProduto?codProduto=${produto.codProduto}&clienteLogado=${clienteLogado}" class="btn btn-primary btn-block">Detalhes</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </c:if>
         </c:forEach>
     </div>
 </div>

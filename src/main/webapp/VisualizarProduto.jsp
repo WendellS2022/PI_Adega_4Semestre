@@ -3,7 +3,7 @@
 <%@ page import="br.com.adega.Model.Imagem" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary vh-100">
     <div class="container">
       <!-- Logo -->
-      <a class="navbar-brand h-100%" href="/TelaProdutos?clienteLogado=${clienteLogado}">
+
+
+      <a class="navbar-brand h-100%" href="/TelaProdutos">
         <img src="LOGO1.png" alt="Logo" height="300">
       </a>
 
@@ -82,7 +84,7 @@
 
                    <!-- Botão Comprar dentro do loop for -->
 
-                       <button class="btn btn-primary" style="margin-top: 25px;" onclick="comprarProduto(${produto.codProduto})">Comprar</button>
+                       <button class="btn btn-primary" style="margin-top: 25px;" onclick="comprarProduto(${produto.codProduto})">Adicionar</button>
                    </form>
                </div>
 

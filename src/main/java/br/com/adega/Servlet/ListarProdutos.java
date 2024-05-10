@@ -60,6 +60,9 @@ public class ListarProdutos extends HttpServlet {
             }
         }
 
+        boolean backOffice = true;
+
+        request.setAttribute("isBackOffice", backOffice);
         request.setAttribute("produtos", produtos);
         request.setAttribute("pagina", pagina);
         request.getRequestDispatcher("/ListarProdutos.jsp").forward(request, response);

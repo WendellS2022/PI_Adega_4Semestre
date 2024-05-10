@@ -417,6 +417,70 @@ public class EnderecoDAO {
         return endereco;
     }
 
+    public static Endereco obterEnderecoPadraoPorIdCliente(String idCliente) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Endereco endereco = null; // Alteração aqui para iniciar como null
+
+        try {
+            // Obtém a conexão do pool de conexões
+            connection = ConnectionPoolConfig.getConnection();
+
+            // Prepara a query SQL para buscar o endereço padrão pelo id do cliente
+            String sql = "SELECT * FROM ENDERECO INNER JOIN CLIENTES ON ENDERECO.idCliente = CLIENTES.idCliente WHERE CLIENTES.idCliente = ? AND padrao = TRUE AND STATUS = TRUE";
+
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, idCliente);
+
+            // Executa a query
+            resultSet = statement.executeQuery();
+
+            // Se houver um resultado, atribua o endereço
+            if (resultSet.next()) {
+                endereco = new Endereco();
+                endereco.setIdEndereco(resultSet.getInt("idEndereco"));
+                endereco.setCep(resultSet.getString("cep"));
+                endereco.setLogradouro(resultSet.getString("logradouro"));
+                endereco.setNumero(resultSet.getInt("numero"));
+                endereco.setComplemento(resultSet.getString("complemento"));
+                endereco.setBairro(resultSet.getString("bairro"));
+                endereco.setCidade(resultSet.getString("cidade"));
+                endereco.setUf(resultSet.getString("uf"));
+                endereco.setStatus(resultSet.getBoolean("status"));
+                endereco.setPadrao(resultSet.getBoolean("padrao"));
+                endereco.setEnderecoFaturamento(resultSet.getBoolean("enderecoFaturamento"));
+                endereco.setIdCliente(resultSet.getInt("idCliente"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Fecha a conexão, o statement e o resultSet
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return endereco; // Retorna o endereço encontrado ou null se não houver nenhum endereço padrão
+    }
 
 
 }

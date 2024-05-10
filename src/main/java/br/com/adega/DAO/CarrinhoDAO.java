@@ -7,10 +7,11 @@ import br.com.adega.Model.Produto;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class CarrinhoDAO {
-    public static void inserirProdutosCarrinho(List<Carrinho> produtosCarrinho, int idCliente) {
+    public static void inserirProdutosCarrinho(List<Carrinho> produtosCarrinho, int idCliente, boolean login) {
         Connection connection = null;
         PreparedStatement produtoCarrinhoStatement = null;
 
@@ -19,7 +20,7 @@ public class CarrinhoDAO {
             int idCarrinho = obterCarrinhoIdPorIdCliente(idCliente);
 
             if (idCarrinho <= 0) {
-                idCarrinho += 1;
+                idCarrinho += 1; // Incrementa o idCarrinho para criar um novo
 
                 String sqlInsertProdutoCarrinho = "INSERT INTO CARRINHO (IDCARRINHO, PRODUTOID, IDCLIENTE, QUANTIDADE, NOMEPRODUTO, DESCRICAO, VALOR) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 produtoCarrinhoStatement = connection.prepareStatement(sqlInsertProdutoCarrinho);
@@ -28,7 +29,11 @@ public class CarrinhoDAO {
                     produtoCarrinhoStatement.setInt(1, idCarrinho);
                     produtoCarrinhoStatement.setInt(2, produtoCarrinho.getProduto().getCodProduto());
                     produtoCarrinhoStatement.setInt(3, idCliente);
-                    produtoCarrinhoStatement.setInt(4, 1);
+                    if (produtoCarrinho.getQuantidadeComprada() > 1) {
+                        produtoCarrinhoStatement.setInt(4, produtoCarrinho.getQuantidadeComprada());
+                    } else {
+                        produtoCarrinhoStatement.setInt(4, 1);
+                    }
                     produtoCarrinhoStatement.setString(5, produtoCarrinho.getProduto().getNomeProduto());
                     produtoCarrinhoStatement.setString(6, produtoCarrinho.getProduto().getDscDetalhadaProduto());
                     produtoCarrinhoStatement.setBigDecimal(7, produtoCarrinho.getProduto().getVlrVendaProduto());
@@ -41,31 +46,57 @@ public class CarrinhoDAO {
             }
 
             if (idCarrinho > 0) {
+                // Verificar produtos existentes no carrinho
                 produtosCarrinho = verificarProdutosExistenteNoCarrinho(produtosCarrinho, idCliente);
-                if (produtosCarrinho == null) {
+                if (produtosCarrinho == null || produtosCarrinho.isEmpty()) {
                     return;
                 }
 
                 String sqlInsertProdutoCarrinho = "INSERT INTO CARRINHO (IDCARRINHO, PRODUTOID, IDCLIENTE, QUANTIDADE, NOMEPRODUTO, DESCRICAO, VALOR) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 produtoCarrinhoStatement = connection.prepareStatement(sqlInsertProdutoCarrinho);
 
-                for (Carrinho produtoCarrinho : produtosCarrinho) {
+                // Se não estiver logado, inserir apenas o último produto
+                if (!login) {
+                    Carrinho produtoCarrinho = produtosCarrinho.get(produtosCarrinho.size() - 1);
                     produtoCarrinhoStatement.setInt(1, idCarrinho);
                     produtoCarrinhoStatement.setInt(2, produtoCarrinho.getProduto().getCodProduto());
                     produtoCarrinhoStatement.setInt(3, idCliente);
-                    produtoCarrinhoStatement.setInt(4, 1); // Quantidade fixa em 1, ajuste conforme necessário
+                    if (produtoCarrinho.getQuantidadeComprada() > 1) {
+                        produtoCarrinhoStatement.setInt(4, produtoCarrinho.getQuantidadeComprada());
+                    } else {
+                        produtoCarrinhoStatement.setInt(4, 1);
+                    }
                     produtoCarrinhoStatement.setString(5, produtoCarrinho.getProduto().getNomeProduto());
                     produtoCarrinhoStatement.setString(6, produtoCarrinho.getProduto().getDscDetalhadaProduto());
                     produtoCarrinhoStatement.setBigDecimal(7, produtoCarrinho.getProduto().getVlrVendaProduto());
 
-                    produtoCarrinhoStatement.addBatch();
-                }
+                    produtoCarrinhoStatement.executeUpdate(); // Executa o insert do último produto
 
-                // Executa o batch de inserção dos produtos
-                produtoCarrinhoStatement.executeBatch();
+                    // Não há necessidade de continuar, pois já inserimos o produto
+                    return;
+                }
             }
+
+            // Se chegarmos aqui, significa que não estamos logados ou há mais produtos para inserir
+            for (Carrinho carrinho : produtosCarrinho) {
+                produtoCarrinhoStatement.setInt(1, idCarrinho);
+                produtoCarrinhoStatement.setInt(2, carrinho.getProduto().getCodProduto());
+                produtoCarrinhoStatement.setInt(3, idCliente);
+                if (carrinho.getQuantidadeComprada() > 1) {
+                    produtoCarrinhoStatement.setInt(4, carrinho.getQuantidadeComprada());
+                } else {
+                    produtoCarrinhoStatement.setInt(4, 1);
+                }
+                produtoCarrinhoStatement.setString(5, carrinho.getProduto().getNomeProduto());
+                produtoCarrinhoStatement.setString(6, carrinho.getProduto().getDscDetalhadaProduto());
+                produtoCarrinhoStatement.setBigDecimal(7, carrinho.getProduto().getVlrVendaProduto());
+
+                produtoCarrinhoStatement.addBatch();
+            }
+
+            produtoCarrinhoStatement.executeBatch();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Trata a exceção imprimindo o stack trace
         } finally {
             // Fecha o statement e a conexão
             if (produtoCarrinhoStatement != null) {
@@ -84,6 +115,7 @@ public class CarrinhoDAO {
             }
         }
     }
+
 
     private static int obterCarrinhoIdPorIdCliente(int idCliente) {
         int idCarrinho = 0;
@@ -109,28 +141,34 @@ public class CarrinhoDAO {
 
     public static List<Carrinho> verificarProdutosExistenteNoCarrinho(List<Carrinho> produtosCarrinho, int idCliente) {
         List<Carrinho> produtosCarrinhoDaBase = obterProdutosCarrinhoPorIdCliente(idCliente);
-        boolean encontrado = false;
+        List<Carrinho> produtosNaoEncontrados = new ArrayList<>();
 
-        int lastIndex = produtosCarrinho.size() - 1;
-        Carrinho carrinho = produtosCarrinho.get(lastIndex); // Pegando o último item de produtosCarrinho
+        for (Iterator<Carrinho> iterator = produtosCarrinho.iterator(); iterator.hasNext();) {
+            Carrinho produtoASerVerificado = iterator.next();
 
-        for (Carrinho produtoDaBase : produtosCarrinhoDaBase) {
-            // Se os IDs dos produtos forem iguais, atualize a quantidade
-            if (carrinho.getProduto().getCodProduto() == produtoDaBase.getProduto().getCodProduto()) {
-                int novaQuantidade = carrinho.getQuantidadeComprada() + 1;
-                atualizarQuantidadeNoCarrinho(carrinho.getProduto().getCodProduto(), novaQuantidade);
-                encontrado = true;
-                break;
+            boolean encontrado = false;
+
+            for (Carrinho produtoDaBase : produtosCarrinhoDaBase) {
+                // Se os IDs dos produtos forem iguais, atualize a quantidade
+                if (produtoASerVerificado.getProduto().getCodProduto() == produtoDaBase.getProduto().getCodProduto()) {
+                    int novaQuantidade = produtoDaBase.getQuantidadeComprada() + 1;
+                    atualizarQuantidadeNoCarrinho(produtoASerVerificado.getProduto().getCodProduto(), novaQuantidade);
+                    encontrado = true;
+                    iterator.remove(); // Remove o produto da lista de entrada
+                    break;
+                }
+            }
+
+            // Se o produto não foi encontrado na lista da base, adicioná-lo à lista de produtos não encontrados
+            if (!encontrado) {
+                produtosNaoEncontrados.add(produtoASerVerificado);
             }
         }
 
-        if (!encontrado) {
-            return null;
-        }
-
-        // Se nenhum produto correspondente foi encontrado, retorna a lista original de produtos
-        return produtosCarrinho;
+        // Retorne a lista de produtos não encontrados
+        return produtosNaoEncontrados;
     }
+
 
     // Método para atualizar a quantidade na tabela carrinho
     public static void atualizarQuantidadeNoCarrinho(int produtoId, int novaQuantidade) {
@@ -185,7 +223,7 @@ public class CarrinhoDAO {
                 produtoCarrinho.setQuantidadeComprada(resultSet.getInt("quantidade"));
                 produto.setNomeProduto(resultSet.getString("nomeProduto"));
                 produto.setDscDetalhadaProduto(resultSet.getString("descricao"));
-                produto.setVlrVendaProduto(BigDecimal.valueOf(resultSet.getInt("valor")));
+                produto.setVlrVendaProduto(resultSet.getBigDecimal("valor"));
 
                 produtoCarrinho.setProduto(produto);
                 produtosCarrinho.add(produtoCarrinho);
@@ -253,7 +291,7 @@ public class CarrinhoDAO {
         return produtoCarrinho;
     }
 
-    public static boolean removerProdutoDoCarrinho(int produtoId){
+    public static boolean removerProdutoDoCarrinho(int produtoId) {
         boolean sucesso = false;
 
         String SQL = "DELETE FROM CARRINHO WHERE PRODUTOID = ?";
@@ -279,5 +317,38 @@ public class CarrinhoDAO {
         return sucesso;
     }
 
+    public static void excluirCarrinhoPorIdCliente(int idCliente) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = ConnectionPoolConfig.getConnection();
+
+
+            String sql = "DELETE FROM Carrinho WHERE IDCLIENTE = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, idCliente);
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Trata a exceção imprimindo o stack trace
+        } finally {
+            // Fecha o statement e a conexão
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
+
 

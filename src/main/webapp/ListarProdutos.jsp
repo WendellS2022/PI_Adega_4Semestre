@@ -74,7 +74,8 @@
                                         <td class="visualizar-produto">
                                             <form id="visualizarForm" action="/visualizarProduto" method="GET">
                                                 <input type="hidden" value="${produto.codProduto}">
-                                                  <a href="/visualizarProduto?codProduto=${produto.codProduto}">Visualizar</a>
+                                               <a href="/visualizarProduto?codProduto=${produto.codProduto}&isBackOffice=${isBackOffice}">Visualizar</a>
+
                                             </form>
                                         </td>
                                     </c:when>

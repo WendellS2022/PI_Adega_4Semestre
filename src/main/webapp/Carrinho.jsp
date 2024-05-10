@@ -90,7 +90,7 @@
                                   <td>
                                       <form action="/atualizarQuantidade" method="post">
                                           <input type="hidden" name="produtoId" value="${produtoCarrinho.produto.codProduto}">
-                                          <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary">
+                                       <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary" ${produtoCarrinho.quantidadeComprada eq 1 ? 'disabled' : ''}>
                                               <i class="fas fa-minus"></i>
                                           </button>
                                           <span>${produtoCarrinho.quantidadeComprada}</span> <!-- Mostra a quantidade atual -->
@@ -99,7 +99,7 @@
                                           </button>
                                       </form>
                                   </td>
-                                  <td>R$ ${produtoCarrinho.produto.vlrVendaProduto}</td>
+                                  <td>R$ ${produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada}</td>
                                   <td>
                                    <a href="/removerProdutoDoCarrinho?produtoId=${produtoCarrinho.produto.codProduto}" class="btn btn-danger btn-sm remover-produto">Remover</a>
                               </td>
@@ -113,18 +113,19 @@
                                 <td>${produtoCarrinho.produto.nomeProduto}</td>
                                 <td>R$ ${produtoCarrinho.produto.vlrVendaProduto}</td>
                                 <td>
-                                    <form action="/atualizarQuantidade" method="post">
-                                        <input type="hidden" name="produtoId" value="${produtoCarrinho.produto.codProduto}">
-                                        <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <span>${produtoCarrinho.quantidadeComprada}</span> <!-- Mostra a quantidade atual -->
-                                        <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
+                                   <form action="/atualizarQuantidade" method="post">
+                                       <input type="hidden" name="produtoId" value="${produtoCarrinho.produto.codProduto}">
+                                       <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary" ${produtoCarrinho.quantidadeComprada eq 1 ? 'disabled' : ''}>
+                                           <i class="fas fa-minus"></i>
+                                       </button>
+                                       <span>${produtoCarrinho.quantidadeComprada}</span> <!-- Mostra a quantidade atual -->
+                                       <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">
+                                           <i class="fas fa-plus"></i>
+                                       </button>
+                                   </form>
                                     </form>
                                 </td>
-                                <td>R$ ${produtoCarrinho.produto.vlrVendaProduto}</td>
+                                <td>R$ ${produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada}</td>
                                 <td>
                                    <a href="/removerProdutoDoCarrinho?produtoId=${produtoCarrinho.produto.codProduto}" class="btn btn-danger btn-sm remover-produto">Remover</a>
                                 </td>
@@ -138,27 +139,42 @@
         </div>
         <div class="col-md-4">
 
-                    <div class="card">
-                       <h5 class="card-title">Resumo do Pedido</h5>
-                       <div class="card-body">
-                           <p class="card-text">Total de itens: ${fn:length(sessionScope.carrinho)}</p>
-                            <c:set var="totalPrice" value="0" />
-                           <c:forEach items="${sessionScope.carrinho}" var="produtoCarrinho">
-                            <c:set var="totalPrice" value="${totalPrice + (produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada)}" />
-
-                           </c:forEach>
-                           <p class="card-text">Total a pagar: R$ ${totalPrice}</p>
-                           <div class="form-group">
-                               <label for="frete">Selecionar Frete:</label>
-                               <select class="form-control" id="frete" name="frete">
-                                   <option value="normal">Entrega Normal - R$ 15,00</option>
-                                   <option value="expresso">Entrega Expressa - R$ 30,00</option>
-                                   <option value="urgente">Entrega Urgente - R$ 150,00</option>
-                               </select>
-                           </div>
-                           <a href="/pagamento" class="btn btn-primary btn-block">Pagamento</a>
-                       </div>
-                   </div>
+                  <div class="card">
+                      <h5 class="card-title">Resumo do Pedido</h5>
+                      <div class="card-body">
+<c:set var="totalItensComprados" value="0" />
+<c:forEach var="produtoCarrinho" items="${sessionScope.carrinho}">
+    <c:set var="totalItensComprados" value="${totalItensComprados + produtoCarrinho.quantidadeComprada}" />
+ </c:forEach>
+ <p class="card-text">Total de itens comprados: ${totalItensComprados}</p>
+            <c:set var="subtotal" value="0" />
+                          <c:forEach items="${sessionScope.carrinho}" var="produtoCarrinho">
+                              <c:set var="subtotal" value="${subtotal + (produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada)}" />
+                          </c:forEach>
+                          <p class="card-text">Subtotal: R$ ${subtotal}</p> <!-- Adicione esta linha para exibir o subtotal -->
+                          <div class="form-group">
+                             <form action="/pagamento" method="GET"> <!-- Formulário para enviar frete selecionado -->
+                                        <div class="form-group">
+                                            <label for="frete">Selecionar Frete:</label>
+                                            <select class="form-control" id="frete" name="frete">
+                                                <option value="Entrega Normal - R$ 15,00">Entrega Normal - R$ 15,00</option>
+                                                <option value="Entrega Expressa - R$ 30,00">Entrega Expressa - R$ 30,00</option>
+                                                <option value="Entrega Urgente - R$ 150,00">Entrega Urgente - R$ 150,00</option>
+                                            </select>
+                                        </div>
+                                            <input type="hidden" name="subtotal" value="${subtotal}"> <!-- Campo oculto para enviar o subtotal -->
+                                            <input type="hidden" name="totalItensComprados" value="${totalItensComprados}"> <!-- Campo oculto para enviar o subtotal -->
+<c:choose>
+    <c:when test="${empty sessionScope.carrinho}">
+        <button type="submit" class="btn btn-primary btn-block" disabled>Pagamento</button>
+    </c:when>
+    <c:otherwise>
+        <button type="submit" class="btn btn-primary btn-block">Pagamento</button>
+    </c:otherwise>
+</c:choose>
+                                    </form>
+                      </div>
+                  </div>
 
         </div>
     </div>

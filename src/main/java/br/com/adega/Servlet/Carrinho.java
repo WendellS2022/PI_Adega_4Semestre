@@ -87,6 +87,8 @@ public class Carrinho extends HttpServlet {
 
 
             if (produtosCarrinho.size() > 0) {
+                boolean encontrado = false;
+
                 for (br.com.adega.Model.Carrinho carrinho : produtosCarrinho) {
                     int produtoIdCarrinho = carrinho.getProduto().getCodProduto(); // Obtém o produto do carrinho
 
@@ -95,22 +97,21 @@ public class Carrinho extends HttpServlet {
                         quantidadeComprada += 1; // Incrementa a quantidade comprada
                         carrinho.setQuantidadeComprada(quantidadeComprada);
 
-                        session.setAttribute("carrinho", produtosCarrinho);
-
-                        response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
-                        return;
-                    } else {
-                        produtoCarrinho.setProduto(produto);
-                        produtoCarrinho.setQuantidadeComprada(1);
-
-                        produtosCarrinho.add(produtoCarrinho);
-
-                        session.setAttribute("carrinho", produtosCarrinho);
-
-                        response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
-                        return;
+                        encontrado = true;
+                        break;
                     }
                 }
+
+                if (!encontrado) {
+                    // Se o produto não estiver no carrinho, adicione-o
+                    produtoCarrinho.setProduto(produto);
+                    produtoCarrinho.setQuantidadeComprada(1);
+                    produtosCarrinho.add(produtoCarrinho);
+                }
+                session.setAttribute("carrinho", produtosCarrinho);
+
+                response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+
             } else {
                 produtoCarrinho.setProduto(produto);
                 produtoCarrinho.setQuantidadeComprada(1);
@@ -140,10 +141,10 @@ public class Carrinho extends HttpServlet {
             produtosCarrinho.add(produtoCarrinho);
 
 
-
             int idCliente = ClienteDAO.buscarIdClienteEmail(clienteLogado);
 
-            CarrinhoDAO.inserirProdutosCarrinho(produtosCarrinho, idCliente);
+            boolean login = false;
+            CarrinhoDAO.inserirProdutosCarrinho(produtosCarrinho, idCliente, login);
 
             produtosCarrinho = CarrinhoDAO.obterProdutosCarrinhoPorIdCliente(idCliente);
 

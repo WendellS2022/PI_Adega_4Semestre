@@ -27,9 +27,7 @@ public class Carrinho {
 
     public void setIdCliente(int idCliente) {this.idCliente = idCliente;}
 
-    public int getQuantidadeComprada() {
-        return quantidadeComprada;
-    }
+    public int getQuantidadeComprada() {return quantidadeComprada;}
 
     public void setQuantidadeComprada(int quantidadeComprada) {
         this.quantidadeComprada = quantidadeComprada;
