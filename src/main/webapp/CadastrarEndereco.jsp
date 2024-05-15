@@ -93,8 +93,6 @@
 <script src="APIViaCEP.js"></script>
 
 </body>
-<<<<<<< HEAD
 
-=======
->>>>>>> 0acb9d860622c37b2a65b7f1394e304e7058879a
+
 </html>

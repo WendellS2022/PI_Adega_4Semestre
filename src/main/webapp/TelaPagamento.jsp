@@ -92,19 +92,25 @@
             <div class="card">
                 <h5 class="card-title">Resumo do Pedido</h5>
                 <!-- Informações do resumo do pedido -->
+              <div class="form-group">
+               <form action="/finalizarCompra" method="post">
+                  <input type="hidden" name="clienteLogado" value="${clienteLogado}">
+                  <label for="frete">Frete:</label>
+                  <p class="card-text">${frete}</p>
+              </div>
+               <div class="form-group">
+                   <label for="${endereco}">Endereço:</label>
+                   <p class="card-text">${endereco.logradouro}, ${endereco.numero}, ${endereco.bairro}, ${endereco.cidade}, ${endereco.uf}</p>
+                   <a href="/Enderecos?email=${clienteLogado}" class="btn btn-primary btn-block btn-sm">Mudar Endereço</a>
+               </div>
+
+
+
                 <div class="form-group">
-                    <label for="frete">Frete:</label>
-                    <p class="card-text">${sessionScope.frete}</p>
-                </div>
-                <div class="form-group">
-                    <label for="endereco">Endereço:</label>
-                    <p class="card-text">${sessionScope.endereco}</p>
-                </div>
-                <div class="form-group">
-                    <label for="subTotal">Subtotal: R$ ${sessionScope.subtotal}</label>
+                    <label for="subtotal">Subtotal: R$ ${subtotal} + ${frete}</label>
                 </div>
 
-                <form action="/FinalizarCompra" method="post">
+
                     <div class="form-group">
                         <label for="pagamento">Selecionar Pagamento:</label>
                         <select class="form-control" id="pagamento" name="pagamento">
@@ -135,7 +141,8 @@
                             <input type="number" class="form-control" id="quantidadeParcelas" name="quantidadeParcelas">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Finalizar Compra</button>
+                    <button type="submit" id="finalizarCompraBtn" class="btn btn-primary btn-block" disabled>Finalizar Compra</button>
+
                 </form>
             </div>
         </div>
@@ -154,8 +161,26 @@
             }else{
                 $('#camposCartao').hide();
             }
+            // Verifica se o método de pagamento selecionado é "boleto"
+            verificarMetodoPagamento();
         });
     });
+
+    function verificarMetodoPagamento() {
+        var metodoPagamento = document.getElementById("pagamento").value;
+        if (metodoPagamento === "boleto") {
+            // Se o método de pagamento for "boleto", habilitar o botão de finalizar compra
+            document.getElementById("finalizarCompraBtn").disabled = false;
+        } else {
+            // Caso contrário, desabilitar o botão de finalizar compra
+            document.getElementById("finalizarCompraBtn").disabled = true;
+        }
+    }
+
+    // Executar a função de verificação quando a página carregar e sempre que houver uma mudança no método de pagamento
+    document.addEventListener("DOMContentLoaded", verificarMetodoPagamento);
+    document.getElementById("pagamento").addEventListener("change", verificarMetodoPagamento);
 </script>
+
 </body>
 </html>

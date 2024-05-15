@@ -80,54 +80,97 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${sessionScope[clienteLogado] == null ? sessionScope.carrinho : sessionScope[clienteLogado]}" var="produto" varStatus="loop">
-                        <tr>
-                            <th scope="row">${produto.codProduto}</th>
-                            <td>${produto.nomeProduto}</td>
-                            <td>R$ ${produto.vlrVendaProduto}</td>
-                            <td>
-                                <form action="/AtualizarQuantidade" method="post">
-                                    <input type="hidden" name="produtoId" value="${produto.codProduto}">
-                                    <input type="hidden" name="quantidadeAtual" value="1"> <!-- Quantidade fixa inicial -->
-                                    <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <span>${loop.index}</span> <!-- Mostra a quantidade atual -->
-                                    <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </form>
-                            </td>
-                            <td>R$ ${produto.vlrVendaProduto}</td>
-                            <td><button class="btn btn-danger btn-sm">Remover</button></td>
-                        </tr>
-                    </c:forEach>
+                  <c:choose>
+                      <c:when test="${empty sessionScope.clienteLogado or sessionScope.clienteLogado eq ''}">
+                          <c:forEach items="${sessionScope.carrinho}" var="produtoCarrinho" varStatus="loop">
+                              <tr>
+                                  <th scope="row">${produtoCarrinho.produto.codProduto}</th>
+                                  <td>${produtoCarrinho.produto.nomeProduto}</td>
+                                  <td>R$ ${produtoCarrinho.produto.vlrVendaProduto}</td>
+                                  <td>
+                                      <form action="/atualizarQuantidade" method="post">
+                                          <input type="hidden" name="produtoId" value="${produtoCarrinho.produto.codProduto}">
+                                       <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary" ${produtoCarrinho.quantidadeComprada eq 1 ? 'disabled' : ''}>
+                                              <i class="fas fa-minus"></i>
+                                          </button>
+                                          <span>${produtoCarrinho.quantidadeComprada}</span> <!-- Mostra a quantidade atual -->
+                                          <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">
+                                              <i class="fas fa-plus"></i>
+                                          </button>
+                                      </form>
+                                  </td>
+                                  <td>R$ ${produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada}</td>
+                                  <td>
+                                   <a href="/removerProdutoDoCarrinho?produtoId=${produtoCarrinho.produto.codProduto}" class="btn btn-danger btn-sm remover-produto">Remover</a>
+                              </td>
+                              </tr>
+                          </c:forEach>
+                      </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${sessionScope.carrinho}" var="produtoCarrinho" varStatus="loop">
+                            <tr>
+                                <th scope="row">${produtoCarrinho.produto.codProduto}</th>
+                                <td>${produtoCarrinho.produto.nomeProduto}</td>
+                                <td>R$ ${produtoCarrinho.produto.vlrVendaProduto}</td>
+                                <td>
+                                   <form action="/atualizarQuantidade" method="post">
+                                       <input type="hidden" name="produtoId" value="${produtoCarrinho.produto.codProduto}">
+                                       <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary" ${produtoCarrinho.quantidadeComprada eq 1 ? 'disabled' : ''}>
+                                           <i class="fas fa-minus"></i>
+                                       </button>
+                                       <span>${produtoCarrinho.quantidadeComprada}</span> <!-- Mostra a quantidade atual -->
+                                       <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">
+                                           <i class="fas fa-plus"></i>
+                                       </button>
+                                   </form>
+                                    </form>
+                                </td>
+                                <td>R$ ${produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada}</td>
+                                <td>
+                                   <a href="/removerProdutoDoCarrinho?produtoId=${produtoCarrinho.produto.codProduto}" class="btn btn-danger btn-sm remover-produto">Remover</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+
+                  </c:choose>
                 </tbody>
             </table>
         </div>
         <div class="col-md-4">
-            <div class="card">
 
-                   <div class="card">
-                       <h5 class="card-title">Resumo do Pedido</h5>
-                       <div class="card-body">
-                           <p class="card-text">Total de itens: ${fn:length(sessionScope.carrinho)}</p>
-                           <c:set var="totalPrice" value="0" />
-                           <c:forEach items="${sessionScope.carrinho}" var="produto">
-                               <c:set var="totalPrice" value="${totalPrice + produto.vlrVendaProduto}" />
-                           </c:forEach>
-                           <p class="card-text">Total a pagar: R$ ${totalPrice}</p>
-                           <div class="form-group">
-                               <label for="frete">Selecionar Frete:</label>
-                               <select class="form-control" id="frete" name="frete">
-                                   <option value="normal">Entrega Normal - R$ 15,00</option>
-                                   <option value="expresso">Entrega Expressa - R$ 30,00</option>
-                                   <option value="urgente">Entrega Urgente - R$ 150,00</option>
-                               </select>
-                           </div>
-                           <a href="/pagamento" class="btn btn-primary btn-block">Pagamento</a>
-                       </div>
-                   </div>
+                  <div class="card">
+                      <h5 class="card-title">Resumo do Pedido</h5>
+                      <div class="card-body">
+                          <p class="card-text">Total de itens: ${fn:length(sessionScope.carrinho)}</p>
+                          <c:set var="subtotal" value="0" />
+                          <c:forEach items="${sessionScope.carrinho}" var="produtoCarrinho">
+                              <c:set var="subtotal" value="${subtotal + (produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada)}" />
+                          </c:forEach>
+                          <p class="card-text">Subtotal: R$ ${subtotal}</p> <!-- Adicione esta linha para exibir o subtotal -->
+                          <div class="form-group">
+                             <form action="/pagamento" method="GET"> <!-- Formulário para enviar frete selecionado -->
+                                        <div class="form-group">
+                                            <label for="frete">Selecionar Frete:</label>
+                                            <select class="form-control" id="frete" name="frete">
+                                                <option value="Entrega Normal - R$ 15,00">Entrega Normal - R$ 15,00</option>
+                                                <option value="Entrega Expressa - R$ 30,00">Entrega Expressa - R$ 30,00</option>
+                                                <option value="Entrega Urgente - R$ 150,00">Entrega Urgente - R$ 150,00</option>
+                                            </select>
+                                        </div>
+                                            <input type="hidden" name="subtotal" value="${subtotal}"> <!-- Campo oculto para enviar o subtotal -->
+
+<c:choose>
+    <c:when test="${empty sessionScope.carrinho}">
+        <button type="submit" class="btn btn-primary btn-block" disabled>Pagamento</button>
+    </c:when>
+    <c:otherwise>
+        <button type="submit" class="btn btn-primary btn-block">Pagamento</button>
+    </c:otherwise>
+</c:choose>
+                                    </form>
+                      </div>
+                  </div>
 
         </div>
     </div>
@@ -137,4 +180,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
+
 </html>

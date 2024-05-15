@@ -3,7 +3,7 @@
 <%@ page import="br.com.adega.Model.Imagem" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
