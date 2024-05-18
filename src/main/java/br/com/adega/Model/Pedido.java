@@ -1,22 +1,34 @@
 package br.com.adega.Model;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 public class Pedido {
     private int idCliente;
-    private int produtoId;
     private int idEndereco;
+    private String subTotal;
+    private int quantidadeDeItens;
+    private String frete;
+    private Date dataPedido;
     private String tipoPagamento;
     private String statusPagamento;
+
 
     public Pedido() {
     }
 
-    public Pedido(int idCliente, int produtoId, int idEndereco, String tipoPagamento, String statusPagamento) {
+    public Pedido(int idCliente, int idEndereco, String subTotal,int quantidadeDeItens, String frete, Date dataPedido, String tipoPagamento, String statusPagamento) {
         this.idCliente = idCliente;
-        this.produtoId = produtoId;
         this.idEndereco = idEndereco;
+        this.subTotal = subTotal;
+        this.quantidadeDeItens = quantidadeDeItens;
+        this.frete = frete;
+        this.dataPedido = dataPedido;
         this.tipoPagamento = tipoPagamento;
         this.statusPagamento = statusPagamento;
     }
+
+
 
     public int getIdCliente() {
         return idCliente;
@@ -26,13 +38,19 @@ public class Pedido {
         this.idCliente = idCliente;
     }
 
-    public int getProdutoId() {
-        return produtoId;
-    }
+    public String getSubTotal() {return subTotal;}
 
-    public void setProdutoId(int produtoId) {
-        this.produtoId = produtoId;
-    }
+    public void setSubTotal(String subTotal) {this.subTotal = subTotal;}
+
+    public int getQuantidadeDeItens() {return quantidadeDeItens;}
+
+    public void setQuantidadeDeItens(int quantidadeDeItens) {this.quantidadeDeItens = quantidadeDeItens;}
+
+    public String getFrete() {return frete;}
+
+    public void setFrete(String frete) {this.frete = frete;}
+
+    public void setDataPedido(Date dataPedido) {this.dataPedido = dataPedido;}
 
     public int getIdEndereco() {
         return idEndereco;

@@ -42,9 +42,10 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Data do Pedido</th>
+                    <th scope="col">Quantidade de Itens</th>
                     <th scope="col">Total</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Ação</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -52,6 +53,7 @@
                     <tr>
                         <td>${pedido.id}</td>
                         <td>${pedido.data}</td>
+                        <td>${pedido.subTotal}</td>
                         <td>R$ ${pedido.total}</td>
                         <td>${pedido.status}</td>
                         <td><a href="/detalhesPedido?id=${pedido.id}" class="btn btn-primary">Detalhes</a></td>

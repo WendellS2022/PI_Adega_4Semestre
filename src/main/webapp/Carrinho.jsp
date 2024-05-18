@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+              <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -142,8 +142,12 @@
                   <div class="card">
                       <h5 class="card-title">Resumo do Pedido</h5>
                       <div class="card-body">
-                          <p class="card-text">Total de itens: ${fn:length(sessionScope.carrinho)}</p>
-                          <c:set var="subtotal" value="0" />
+<c:set var="totalItensComprados" value="0" />
+<c:forEach var="produtoCarrinho" items="${sessionScope.carrinho}">
+    <c:set var="totalItensComprados" value="${totalItensComprados + produtoCarrinho.quantidadeComprada}" />
+ </c:forEach>
+ <p class="card-text">Total de itens comprados: ${totalItensComprados}</p>
+            <c:set var="subtotal" value="0" />
                           <c:forEach items="${sessionScope.carrinho}" var="produtoCarrinho">
                               <c:set var="subtotal" value="${subtotal + (produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada)}" />
                           </c:forEach>
@@ -159,7 +163,7 @@
                                             </select>
                                         </div>
                                             <input type="hidden" name="subtotal" value="${subtotal}"> <!-- Campo oculto para enviar o subtotal -->
-
+                                            <input type="hidden" name="totalItensComprados" value="${totalItensComprados}"> <!-- Campo oculto para enviar o subtotal -->
 <c:choose>
     <c:when test="${empty sessionScope.carrinho}">
         <button type="submit" class="btn btn-primary btn-block" disabled>Pagamento</button>

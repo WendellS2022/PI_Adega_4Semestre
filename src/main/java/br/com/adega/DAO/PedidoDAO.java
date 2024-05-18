@@ -24,7 +24,7 @@ public class PedidoDAO {
             pedidoStatement = connection.prepareStatement(sqlInsertPedido);
 
             // Obtém os valores do pedido
-            int pedidoId = pedido.getProdutoId();
+            //int pedidoId = pedido.getProdutoId();
             int idCliente = pedido.getIdCliente();
             int idEndereco = pedido.getIdEndereco();
             String tipoPagamento = pedido.getTipoPagamento();
