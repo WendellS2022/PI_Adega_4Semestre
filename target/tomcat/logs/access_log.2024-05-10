@@ -2356,6 +2356,7 @@
 0:0:0:0:0:0:0:1 - - [10/May/2024:18:40:03 -0300] "GET /Carrinho.jsp HTTP/1.1" 200 9894 http-bio-8080-exec-8 33
 0:0:0:0:0:0:0:1 - - [10/May/2024:18:40:10 -0300] "GET /pagamento?frete=Entrega+Normal+-+R%24+15%2C00&subtotal=393.36 HTTP/1.1" 200 7462 http-bio-8080-exec-9 4072
 0:0:0:0:0:0:0:1 - - [10/May/2024:18:55:48 -0300] "POST /finalizarCompra HTTP/1.1" 200 - http-bio-8080-exec-10 920584
+<<<<<<< HEAD
 0:0:0:0:0:0:0:1 - - [10/May/2024:18:58:19 -0300] "GET /login HTTP/1.1" 200 840 http-bio-8080-exec-1 3328
 0:0:0:0:0:0:0:1 - - [10/May/2024:18:58:24 -0300] "GET /TelaProdutos HTTP/1.1" 200 8591 http-bio-8080-exec-3 118
 0:0:0:0:0:0:0:1 - - [10/May/2024:18:58:30 -0300] "GET /login?cliente=true HTTP/1.1" 200 848 http-bio-8080-exec-5 2960
@@ -2699,3 +2700,5 @@
 0:0:0:0:0:0:0:1 - - [10/May/2024:19:40:34 -0300] "GET /console/table.js HTTP/1.1" 304 - http-bio-8080-exec-8 2
 0:0:0:0:0:0:0:1 - - [10/May/2024:21:26:38 -0300] "GET /login HTTP/1.1" 200 840 http-bio-8080-exec-10 15435
 0:0:0:0:0:0:0:1 - - [10/May/2024:21:26:38 -0300] "GET /TelaProdutos HTTP/1.1" 200 8591 http-bio-8080-exec-5 93
+=======
+>>>>>>> origin/feature/wendellNovo

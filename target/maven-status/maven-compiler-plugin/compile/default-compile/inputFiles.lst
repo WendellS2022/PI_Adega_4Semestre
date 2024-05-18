@@ -23,8 +23,6 @@ C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\IndicarEndereco.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\SetarImagemPrincipal.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\CarrinhoDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Carrinho.java
-C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\FinalizarCompra.java
-C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\ItemPedidoDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AlterarProduto.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\GerenciarImagens.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\VisualizarProduto.java
@@ -32,12 +30,9 @@ C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Usuario.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AtualizarQuantidade.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Autenticacao\AutenticacaoService.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ExcluirImagem.java
-C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Pedido.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Config\ConnectionPoolConfig.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AlterarUsuario.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\ClienteDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Cliente.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Endereco.java
-C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ListarPedidos.java
-C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\PedidoDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\DesativarEndereco.java
