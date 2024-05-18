@@ -40,9 +40,9 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Data do Pedido</th>
-                    <th scope="col">Qunatidade de itens</th>
+                    <th scope="col">Quantidade de itens</th>
                     <th scope="col">Total</th>
                     <th scope="col">Status</th>
                 </tr>
@@ -55,7 +55,7 @@
                         <td>${pedido.quantidadeDeItens}</td>
                         <td>R$ ${pedido.subTotal}</td>
                         <td>${pedido.statusPagamento}</td>
-                        <td><a href="/detalhesPedido?id=${pedido.pedidoId}" class="btn btn-primary">Detalhes</a></td>
+                        <td><a href="/detalhePedido?pedidoId=${pedido.pedidoId}" class="btn btn-primary">Detalhes</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

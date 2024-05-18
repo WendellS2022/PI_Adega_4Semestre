@@ -1,6 +1,0 @@
-0:0:0:0:0:0:0:1 - - [15/May/2024:00:02:41 -0300] "POST /finalizarCompra HTTP/1.1" 200 - http-bio-8080-exec-6 203245
-0:0:0:0:0:0:0:1 - - [15/May/2024:00:02:55 -0300] "GET /TelaProdutos?clienteLogado=wendellsousap@gmail.com HTTP/1.1" 200 9363 http-bio-8080-exec-1 380
-0:0:0:0:0:0:0:1 - - [15/May/2024:00:03:03 -0300] "GET /carrinho?clienteLogado=wendellsousap@gmail.com HTTP/1.1" 302 - http-bio-8080-exec-3 6900
-0:0:0:0:0:0:0:1 - - [15/May/2024:00:03:03 -0300] "GET /Carrinho.jsp HTTP/1.1" 200 8472 http-bio-8080-exec-4 40
-0:0:0:0:0:0:0:1 - - [15/May/2024:00:03:08 -0300] "GET /pagamento?frete=Entrega+Normal+-+R%24+15%2C00&subtotal=70.02&totalItensComprados=3 HTTP/1.1" 200 7593 http-bio-8080-exec-5 3194
-0:0:0:0:0:0:0:1 - - [15/May/2024:10:41:23 -0300] "POST /finalizarCompra HTTP/1.1" 200 - http-bio-8080-exec-6 38278730

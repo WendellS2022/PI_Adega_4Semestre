@@ -12,12 +12,40 @@
     background-color: #0070c9;
     padding: 20px 0;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #identificacao-site {
     color: white;
     display: flex;
     justify-content: center;
+}
+
+#botoes-header {
+    display: flex;
+    gap: 10px;
+}
+
+#btn-voltar, #btn-logout {
+    background-color: #0070c9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+#btn-voltar i, #btn-logout i {
+    margin-right: 5px;
+}
+
+#btn-voltar:hover, #btn-logout:hover {
+    background-color: #0056b3;
 }
 
 /* Estilização do Corpo do Site */
@@ -27,10 +55,10 @@ body {
 
 /* Estilização do Caixa da Lista de Produto */
 #area-lista-produto {
-     margin-top: 50px;
-     display: flex;
-     justify-content: center;
-     height: 100vh;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
 }
 
 #caixa-lista-produto {
@@ -73,7 +101,7 @@ body {
     border: none;
     border-radius: 5px;
     height: 30px;
-        }
+}
 
 #btn-cadastrar {
     color: white;
@@ -185,6 +213,6 @@ table, th, td {
 }
 
 .disabled {
-        opacity: 0.5;
-        pointer-events: none;
+    opacity: 0.5;
+    pointer-events: none;
 }

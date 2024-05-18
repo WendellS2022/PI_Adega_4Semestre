@@ -6,27 +6,42 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="ListarUsuario.css">
-    <title>Login</title>
+    <title>Lista de Usuários</title>
+    <!-- Incluindo a biblioteca Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
-<!-- Aqui fica o cabeçalho! -->
-<header id="cabecalho-site">
-    <h1 id="identificacao-site">e-Commerce e-Devs</h1>
-</header>
-
 <body>
-<input type="hidden" name="statusAtualizado" value="${statusAtualizado}">
+
+
+    </nav>
+a
+    <!-- Cabeçalho e botões de voltar e logout -->
+    <header id="cabecalho-site">
+        <h1 id="identificacao-site">e-Commerce e-Devs</h1>
+        <div id="botoes-header">
+            <button onclick="history.back()" id="btn-voltar">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </button>
+            <c:if test="${not empty usuarioLogado}">
+                <button onclick="window.location.href='/sair?email=${usuarioLogado}'" id="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </c:if>
+        </div>
+    </header>
+
+    <input type="hidden" name="statusAtualizado" value="${statusAtualizado}">
     <article id="area-lista-usuario">
         <section id="caixa-lista-usuario">
             <div id="cabecalho-lista-usuario">
                 <h2>Lista de Usuários</h2>
-           </div>
+            </div>
             <div id="info-selecoes">
-              <form action="/listar" method="GET">
-                  <input type="text" name="nome-pesquisa" placeholder="Nome do Usuário" id="nome-pesquisa">
-                  <button type="submit" id="btn-procurar">Procurar</button>
-              </form>
-                <form action="/cadastrar" method="Get">
+                <form action="/listar" method="GET">
+                    <input type="text" name="nome-pesquisa" placeholder="Nome do Usuário" id="nome-pesquisa">
+                    <button type="submit" id="btn-procurar">Procurar</button>
+                </form>
+                <form action="/cadastrar" method="GET">
                     <button type="submit" id="btn-cadastrar">Novo Usuário</button>
                 </form>
             </div>
@@ -42,73 +57,60 @@
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="itens" items="${usuarios}">
-                    <tr>
-                        <td value="${itens.usuarioId}">${itens.nome}</td>
-                        <td>${itens.email}</td>
-                        <td>${itens.grupo == 1 ? 'Administrador' : itens.grupo == 2 ? 'Estoquista' : ''}</td>
-                        <td>${itens.situacao ? 'Ativo' : 'Inativo'}</td>
-                        <td class="alterar-dados-usuario">
-                            <a href="/alterarUsuario?usuarioId=${itens.usuarioId}">Alterar</a>
-                        </td>
-                        <td class="alterar-situacao-usuario">
-                            <c:choose>
-                                <c:when test="${usuarioLogado == itens.email}">
-                                     <a href="#" onclick="return false;">${itens.situacao ? 'Inativar' : 'Ativar'}</a>
-                                 </c:when>
-                                <c:when test="${usuarioLogado && itens.grupo == 1}">
-                                    <!-- Remova esta linha -->
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="#" onclick="confirmarAlteracao(${itens.usuarioId})">${itens.situacao ? 'Inativar' : 'Ativar'}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                    </tr>
-                </c:forEach>
-                          </td>
-                      </tr>
+                    <c:forEach var="itens" items="${usuarios}">
+                        <tr>
+                            <td value="${itens.usuarioId}">${itens.nome}</td>
+                            <td>${itens.email}</td>
+                            <td>${itens.grupo == 1 ? 'Administrador' : itens.grupo == 2 ? 'Estoquista' : ''}</td>
+                            <td>${itens.situacao ? 'Ativo' : 'Inativo'}</td>
+                            <td class="alterar-dados-usuario">
+                                <a href="/alterarUsuario?usuarioId=${itens.usuarioId}">Alterar</a>
+                            </td>
+                            <td class="alterar-situacao-usuario">
+                                <c:choose>
+                                    <c:when test="${usuarioLogado == itens.email}">
+                                        <a href="#" onclick="return false;">${itens.situacao ? 'Inativar' : 'Ativar'}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="#" onclick="confirmarAlteracao(${itens.usuarioId})">${itens.situacao ? 'Inativar' : 'Ativar'}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </section>
     </article>
+
     <script>
-      function confirmarAlteracao(usuarioId) {
+        function confirmarAlteracao(usuarioId) {
+            var confirmacao = confirm(`Deseja realmente alterar o usuário?`);
+            if (confirmacao) {
+                var form = document.createElement('form');
+                form.method = 'POST'; // Usando POST para enviar o método PUT como um parâmetro
+                form.action = `/alterarUsuario`;
 
-          var confirmacao = confirm(`Deseja realmente alterar o usuário?`);
-          if (confirmacao) {
-              var form = document.createElement('form');
-              form.method = 'POST'; // Usando POST para enviar o método PUT como um parâmetro
-              form.action = `/alterarUsuario`;
+                var usuarioIdInput = document.createElement('input');
+                usuarioIdInput.type = 'hidden';
+                usuarioIdInput.name = 'usuarioId';
+                usuarioIdInput.value = usuarioId;
 
-              var usuarioIdInput = document.createElement('input');
-              usuarioIdInput.type = 'hidden';
-              usuarioIdInput.name = 'usuarioId';
-              usuarioIdInput.value = usuarioId;
+                var methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'PUT'; // Enviando o método PUT como um parâmetro na solicitação POST
 
+                form.appendChild(usuarioIdInput);
+                form.appendChild(methodInput);
+                document.body.appendChild(form);
+                form.submit();
 
-              var methodInput = document.createElement('input');
-              methodInput.type = 'hidden';
-              methodInput.name = '_method';
-              methodInput.value = 'PUT'; // Enviando o método PUT como um parâmetro na solicitação POST
-
-              form.appendChild(usuarioIdInput);
-              form.appendChild(methodInput);
-              document.body.appendChild(form);
-              form.submit();
-
-              setTimeout(function() {
-                                      window.location.href = "/listar";
-              }, 1000); // Redireciona após 1 segundos (1000 milissegundos)
-          }
-      }
-
-
+                setTimeout(function() {
+                    window.location.href = "/listar";
+                }, 1000); // Redireciona após 1 segundo (1000 milissegundos)
+            }
+        }
     </script>
 </body>
 </html>
-
-
-
-
-

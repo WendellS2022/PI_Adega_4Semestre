@@ -17,6 +17,16 @@
 <body>
     <header id="cabecalho-site">
         <h1 id="identificacao-site">e-Commerce e-Devs - Área de BackOffice</h1>
+        <div id="botoes-header">
+            <button onclick="history.back()" id="btn-voltar">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </button>
+            <c:if test="${not empty usuarioLogado}">
+                <button onclick="window.location.href='/sair?email=${usuarioLogado}'" id="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </c:if>
+        </div>
     </header>
 
     <article id="area-lista-produto">
@@ -75,7 +85,6 @@
                                             <form id="visualizarForm" action="/visualizarProduto" method="GET">
                                                 <input type="hidden" value="${produto.codProduto}">
                                                <a href="/visualizarProduto?codProduto=${produto.codProduto}&isBackOffice=${isBackOffice}">Visualizar</a>
-
                                             </form>
                                         </td>
                                     </c:when>
@@ -156,7 +165,6 @@
               }, 1000);
           }
       }
-
-</script>
+    </script>
 </body>
 </html>

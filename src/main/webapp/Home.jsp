@@ -24,7 +24,7 @@
         <button type="submit" id="produto">Listar produtos</button>
     </form>
     <% } else if (grupo == 2) { %>
-    <form action="/" method="get">
+    <form action="/listarPedidosBackOffice" method="get">
         <button type="submit" id="estoque">Listar pedidos</button>
     </form>
     <form action="/listarProdutos" method="get">

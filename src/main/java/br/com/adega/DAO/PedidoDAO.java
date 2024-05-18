@@ -1,7 +1,7 @@
 package br.com.adega.DAO;
 
 import br.com.adega.Config.ConnectionPoolConfig;
-import br.com.adega.Model.Pedido;
+import br.com.adega.Model.*;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -78,7 +78,8 @@ public class PedidoDAO {
     }
 
 
-    public static int obterUltimoPedidoId() {
+    public static List<ItemPedido> obterInformacoesDoPedidoPorIdCliente(int pedidoId) {
+        List<ItemPedido> itensPedido = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -87,19 +88,49 @@ public class PedidoDAO {
             connection = ConnectionPoolConfig.getConnection();
 
             // Query SQL para obter o último pedidoId
-            String sql = "SELECT MAX(PedidoId) AS UltimoPedidoId FROM Pedidos";
+            String sql = "SELECT  p.Subtotal, p.quantidadeDeItens, p.TipoPagamento, p.StatusPagamento, p.Frete, ip.ProdutoId, ip.Quantidade, ip.Valor, e.Cep, e.Logradouro, e.Numero, e.complemento, e.Bairro, e.Cidade, e.Uf, pd.ProdutoId, pd.Nome, pd.Descricao FROM Pedidos p \n" +
+                    "JOIN ItemPedido ip ON p.PedidoId = ip.PedidoId \n" +
+                    "JOIN Endereco e on  p.IdEndereco  = e.IdEndereco \n" +
+                    "JOIN Produtos pd on ip.ProdutoId = pd.ProdutoId\n" +
+                    "WHERE p.PedidoId = ?;";
             statement = connection.prepareStatement(sql);
-            resultSet = statement.executeQuery();
+            statement.setInt(1, pedidoId);
 
-            if (resultSet.next()) {
-                // Retorna o valor do último pedidoId
-                return resultSet.getInt("UltimoPedidoId");
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ItemPedido itemPedido = new ItemPedido();
+                Endereco endereco = new Endereco();
+
+                itemPedido.setPedidoId(pedidoId);
+                itemPedido.setSubTotal(resultSet.getBigDecimal("SubTotal"));
+                itemPedido.setQuantidadeComprada(resultSet.getInt("QuantidadeDeItens"));
+                itemPedido.setTipoPagamento(resultSet.getString("TipoPagamento"));
+                itemPedido.setStatusPagamento(resultSet.getString("StatusPagamento"));
+                itemPedido.setFrete(resultSet.getString("Frete"));
+
+                endereco.setCep(resultSet.getString("Cep"));
+                endereco.setLogradouro("Logradouro");
+                endereco.setComplemento("Complemento");
+                endereco.setBairro("Barirro");
+                endereco.setCidade("Cidade");
+                endereco.setUf("Uf");
+
+                itemPedido.setEndereco(endereco);
+
+
+                itemPedido.setProdutoId(String.valueOf(resultSet.getInt("ProdutoId")));
+                itemPedido.setNomeProduto(resultSet.getString("Nome"));
+                itemPedido.setPreco(resultSet.getBigDecimal("Valor"));
+                itemPedido.setDescricaoProduto(resultSet.getString("Descricao"));
+                itemPedido.setQuantidadeComprada(resultSet.getInt("Quantidade"));
+
+                itensPedido.add(itemPedido);
+
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Trata a exceção imprimindo o stack trace
+            e.printStackTrace();
         } finally {
-            // Fecha o statement, resultSet e a conexão
             if (resultSet != null) {
                 try {
                     resultSet.close();
@@ -123,13 +154,12 @@ public class PedidoDAO {
             }
         }
 
-        // Retorna -1 se não houver nenhum pedido na tabela
-        return 0;
+        return itensPedido;
     }
 
     public static List<Pedido> obterTodosOsPedidosPorIdCliente(int idCliente) {
         List<Pedido> pedidos = new ArrayList<>();
-        Pedido pedido = new Pedido();
+
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -148,20 +178,22 @@ public class PedidoDAO {
 
             // Itera sobre o resultado e adiciona cada pedido à lista de pedidos
             while (resultSet.next()) {
-                // Obtém os dados do pedido do resultado da query
+
+                Pedido pedido = new Pedido();
+
                 int pedidoId = resultSet.getInt("PedidoId");
                 LocalDate dataPedido = LocalDate.parse(resultSet.getString("DataPedido"));
                 int quantidadeDeItens = resultSet.getInt("QuantidadeDeItens");
                 BigDecimal subtotal = resultSet.getBigDecimal("SubTotal");
                 String statusPagamento = resultSet.getString("StatusPagamento");
 
-         pedido.setPedidoId(pedidoId);
-         pedido.setDataPedido(dataPedido);
-         pedido.setQuantidadeDeItens(quantidadeDeItens);
-         pedido.setSubTotal(String.valueOf(subtotal));
-         pedido.setStatusPagamento(statusPagamento);
+                pedido.setPedidoId(pedidoId);
+                pedido.setDataPedido(dataPedido);
+                pedido.setQuantidadeDeItens(quantidadeDeItens);
+                pedido.setSubTotal(String.valueOf(subtotal));
+                pedido.setStatusPagamento(statusPagamento);
 
-         pedidos.add(pedido);
+                pedidos.add(pedido);
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Trata a exceção imprimindo o stack trace
@@ -194,6 +226,112 @@ public class PedidoDAO {
         return pedidos;
     }
 
+    public static List<Pedido> obterTodosOsPedidos() {
+        List<Pedido> pedidos = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Estabelece a conexão com o banco de dados
+            connection = ConnectionPoolConfig.getConnection();
+
+            // Prepara a query SQL para selecionar todos os pedidos de um cliente específico
+            String sql = "SELECT * FROM Pedidos";
+            statement = connection.prepareStatement(sql);
+
+
+            // Executa a query e obtém o resultado
+            resultSet = statement.executeQuery();
+
+            // Itera sobre o resultado e adiciona cada pedido à lista de pedidos
+            while (resultSet.next()) {
+
+                Pedido pedido = new Pedido();
+                // Obtém os dados do pedido do resultado da query
+                int pedidoId = resultSet.getInt("PedidoId");
+                int idCliente = resultSet.getInt("IdCliente");
+                LocalDate dataPedido = LocalDate.parse(resultSet.getString("DataPedido"));
+                int quantidadeDeItens = resultSet.getInt("QuantidadeDeItens");
+                BigDecimal subtotal = resultSet.getBigDecimal("SubTotal");
+                String statusPagamento = resultSet.getString("StatusPagamento");
+
+                pedido.setPedidoId(pedidoId);
+                pedido.setIdCliente(idCliente);
+                pedido.setDataPedido(dataPedido);
+                pedido.setQuantidadeDeItens(quantidadeDeItens);
+                pedido.setSubTotal(String.valueOf(subtotal));
+                pedido.setStatusPagamento(statusPagamento);
+
+                pedidos.add(pedido);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Trata a exceção imprimindo o stack trace
+        } finally {
+            // Fecha o statement, o resultSet e a conexão
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Retorna a lista de pedidos
+        return pedidos;
+    }
+
+    public static boolean atualizarStatusPedido(int pedidoId, String status) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = ConnectionPoolConfig.getConnection();
+            String sql = "UPDATE Pedidos SET StatusPagamento = ? WHERE PedidoId = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setInt(2, pedidoId);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
+
+
 
 

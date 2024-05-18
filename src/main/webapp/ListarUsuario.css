@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,12 +10,38 @@
     background-color: #0070c9;
     padding: 20px 0;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #identificacao-site {
     color: white;
     display: flex;
     justify-content: center;
+}
+
+#botoes-header {
+    display: flex;
+    gap: 10px;
+}
+
+#btn-voltar, #btn-logout {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+#btn-voltar i, #btn-logout i {
+    margin-right: 5px;
+}
+
+#btn-voltar:hover, #btn-logout:hover {
+    background-color: #0056b3;
 }
 
 /* Estilização do Corpo do Site! */
@@ -25,9 +51,9 @@ body {
 
 /* Estilização do Caixa da Lista de Usuário */
 #area-lista-usuario {
-     margin-top: 50px;
-     display: flex;
-     justify-content: center;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 #caixa-lista-usuario {
@@ -57,27 +83,15 @@ body {
 #nome-pesquisa {
     width: 500px;
     padding: 3px 0px 0px 5px;
-height: 30px;
+    height: 30px;
 }
 
-#btn-procurar {
+#btn-procurar, #btn-cadastrar {
     color: white;
     background-color: #0070c9;
     font-weight: bold;
     width: 100px;
     margin-left: 10px;
-    padding: 2px 0px 0px;
-    border: none;
-    border-radius: 5px;
-        height: 30px;
-}
-
-#btn-cadastrar {
-    color: white;
-    background-color: #0070c9;
-    font-weight: bold;
-    width: 100px;
-    margin-left: 200px;
     padding: 2px 0px 0px;
     border: none;
     border-radius: 5px;
@@ -135,10 +149,11 @@ table, th, td {
     width: 18%;
 }
 
-.alterar-dados-usuario {
+.alterar-dados-usuario,
+.alterar-situacao-usuario {
     font-weight: bold;
 }
 
-.alterar-situacao-usuario {
-    font-weight: bold;
+#botao-voltar {
+    margin-bottom: 10px;
 }

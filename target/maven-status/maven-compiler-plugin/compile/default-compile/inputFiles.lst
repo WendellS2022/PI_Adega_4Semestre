@@ -3,6 +3,7 @@ C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ListarProdutos.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Produto.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\CadastrarUsuario.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ListarEndereco.java
+C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\ItemPedido.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\CadastrarCliente.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\CadastrarEndereco.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ListarUsuario.java
@@ -10,6 +11,7 @@ C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\TelaDeProdutos.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Carrinho.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Sair.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\TelaPagamento.java
+C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AtualizarStatusPedido.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\Home.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\ProdutoDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AlterarCliente.java
@@ -28,6 +30,7 @@ C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\ItemPedidoDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AlterarProduto.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\GerenciarImagens.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\VisualizarProduto.java
+C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\DetalhePedido.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Usuario.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AtualizarQuantidade.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Autenticacao\AutenticacaoService.java
@@ -38,6 +41,7 @@ C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\AlterarUsuario.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\ClienteDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Cliente.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Model\Endereco.java
+C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ListarPedidoBackOffice.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\ListarPedidos.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\DAO\PedidoDAO.java
 C:\PI_Adega_4Semestre\src\main\java\br\com\adega\Servlet\DesativarEndereco.java
