@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="br.com.adega.Model.Produto" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="br.com.adega.Model.Imagem" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
@@ -21,17 +22,28 @@
     <div class="container">
       <!-- Logo -->
 
+<c:choose>
+    <c:when test="${isBackOffice == true}">
+        <a class="navbar-brand h-100%" href="/listarProdutos">
+                <img src="LOGO1.png" alt="Logo" height="300">
+              </a>
+    </c:when>
+    <c:otherwise>
+        <a class="navbar-brand h-100%" href="/telaProdutos?clienteLogado=${clienteLogado}">
+                <img src="LOGO1.png" alt="Logo" height="300">
+              </a>
+        </li>
+    </c:otherwise>
+</c:choose>
 
-      <a class="navbar-brand h-100%" href="/TelaProdutos">
-        <img src="LOGO1.png" alt="Logo" height="300">
-      </a>
+
 
 
 <body>
     <article id="area-vizualizacao">
         <section id="caixa-vizualizacao">
             <header id="cabecalho-vizualizacao">
-                <h2>Vizualização do Produto</h2>
+                <h2>Visualização do Produto</h2>
             </header>
 
             <div id="mensagem-erro" style="color: red;"></div>
@@ -69,6 +81,7 @@
                <div class="informacao-produto">
                    <input type="hidden" name="codProduto" value="${produto.codProduto}">
                    <input type="hidden" name="clienteLogado" value="${clienteLogado}">
+                   <input type="hidden" name="isBackOffice" value="${isBackOffice}">
 
                    <label for="nomeProduto" class="titulo-campo">Nome do Produto</label>
                    <textarea name="nomeProduto" id="nome-Produto" readonly>${produto != null ? produto.getNomeProduto() : ''}</textarea>
@@ -84,7 +97,22 @@
 
                    <!-- Botão Comprar dentro do loop for -->
 
-                       <button class="btn btn-primary" style="margin-top: 25px;" onclick="comprarProduto(${produto.codProduto})">Adicionar</button>
+<c:choose>
+    <c:when test="${isBackOffice == true}">
+        <!-- Lógica a ser executada quando isBackOffice for verdadeiro -->
+        <!-- Por enquanto deixado em branco, pois não há especificações na pergunta -->
+    </c:when>
+    <c:otherwise>
+        <li class="nav-item">
+            <form action="/carrinho" method="POST">
+                <input type="hidden" name="codProduto" value="157">
+                <input type="hidden" name="clienteLogado" value="${clienteLogado}">
+                <input type="hidden" name="isBackOffice" value="true">
+                <button class="btn btn-primary" style="margin-top: 25px;" type="submit">Adicionar</button>
+            </form>
+        </li>
+    </c:otherwise>
+</c:choose>
                    </form>
                </div>
 

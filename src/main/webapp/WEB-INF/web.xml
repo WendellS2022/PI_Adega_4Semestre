@@ -22,9 +22,18 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>TelaDeProdutos</servlet-name>
+    <servlet-class>br.com.adega.Servlet.TelaDeProdutos</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>TelaDeProdutos</servlet-name>
+    <url-pattern>/telaProdutos</url-pattern>
+  </servlet-mapping>
 
   <welcome-file-list>
-    <welcome-file>TelaLogin.jsp</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
 </web-app>

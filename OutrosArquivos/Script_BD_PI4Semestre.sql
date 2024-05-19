@@ -85,12 +85,12 @@ CREATE TABLE Pedidos (
 );
 
 CREATE TABLE ItemPedido (
-    ItemPedidoId INT PRIMARY KEY,
+    ItemPedidoId INT PRIMARY KEY AUTO_INCREMENT,
     PedidoId INT,
     ProdutoId INT,
     Quantidade INT,
     Valor DECIMAL(10, 2),
-    FOREIGN KEY (PedidoId) REFERENCES Pedidos(PedidoId)
-    foreign key (ProdutoId) references Produtos(ProdutoID),
+    FOREIGN KEY (PedidoId) REFERENCES Pedidos(PedidoId),
+    foreign key (ProdutoId) references Produtos(ProdutoID)
 
 );
