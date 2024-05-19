@@ -13,8 +13,11 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        /* Adicione seus estilos personalizados aqui */
-
+        /* Estilos personalizados */
+        .readonly-input {
+            background-color: #f8f9fa;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -60,7 +63,7 @@
 </nav>
 
 <div class="container mt-4">
-    <h1 class="mb-4">Resumo do carrinho</h1>
+    <h1 class="mb-4">Detalhes do Pedido</h1>
 
     <div class="row">
         <div class="col-md-8">
@@ -71,17 +74,15 @@
                         <th scope="col">Produto</th>
                         <th scope="col">Preço</th>
                         <th scope="col">Quantidade</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${sessionScope.carrinho}" var="produtoCarrinho" varStatus="loop">
+                    <c:forEach items="${itensPedido}" var="itemPedido" varStatus="loop">
                         <tr>
-                            <th scope="row">${produtoCarrinho.produto.codProduto}</th>
-                            <td>${produtoCarrinho.produto.nomeProduto}</td>
-                            <td>R$ ${produtoCarrinho.produto.vlrVendaProduto}</td>
-                            <td>${produtoCarrinho.quantidadeComprada}</td>
-
+                            <th>${itemPedido.produtoId}</th>
+                            <td>${itemPedido.nomeProduto}</td>
+                            <td>R$ ${itemPedido.preco}</td>
+                            <td>${itemPedido.quantidadeComprada}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -92,61 +93,40 @@
             <div class="card">
                 <h5 class="card-title">Resumo do Pedido</h5>
                 <!-- Informações do resumo do pedido -->
-              <div class="form-group">
-               <form action="/finalizarCompra" method="post">
-                   <input type="hidden" name="clienteLogado" value="${clienteLogado}">
-                   <div class="form-group">
-                       <label for="frete">Frete:</label>
-                       <p class="card-text">${frete}</p>
-                   </div>
-                     <input type="hidden" name="frete" value="${frete}">
-                            <div class="form-group">
-                                     <label for="${endereco}">Endereço:</label>
-                                     <p class="card-text">${endereco.logradouro}, ${endereco.numero}, ${endereco.bairro}, ${endereco.cidade}, ${endereco.uf}</p>
-                                     <a href="/Enderecos?email=${clienteLogado}" class="btn btn-primary btn-block btn-sm">Mudar Endereço</a>
-                                 </div>
-                   <div class="form-group">
-                       <label for="subtotal">Subtotal: R$ ${subtotal} + ${frete}</label>
-                   </div>
-                   <input type="hidden" name="subtotal" value="${subtotal}">
-                   <c:set var="totalItensComprados" value="0" />
-                   <c:forEach var="produtoCarrinho" items="${sessionScope.carrinho}">
-                       <c:set var="totalItensComprados" value="${totalItensComprados + produtoCarrinho.quantidadeComprada}" />
-                   </c:forEach>
-                   <input type="hidden" name="totalDeItens" value="${totalItensComprados}">
-                   <div class="form-group">
-                       <label for="pagamento">Selecionar Pagamento:</label>
-                       <select class="form-control" id="pagamento" name="pagamento">
-                           <option value="boleto">Boleto</option>
-                           <option value="cartao">Cartão</option>
-                       </select>
-                   </div>
+                <div class="form-group">
 
-                    <!-- Campos adicionais para pagamento com cartão -->
-                    <div id="camposCartao" style="display: none;">
+                        <input type="hidden" name="clienteLogado" value="${clienteLogado}">
                         <div class="form-group">
-                            <label for="numeroCartao">Número do Cartão:</label>
-                            <input type="text" class="form-control" id="numeroCartao" name="numeroCartao">
+                            <p class="card-text">Frete: R$ ${frete}</p>
+                        </div>
+                        <input type="hidden" name="frete" value="${frete}">
+                        <div class="form-group">
+                            <label for="endereco">Endereço:</label>
+                            <p class="card-text">${endereco.logradouro}, ${endereco.numero}, ${endereco.bairro}, ${endereco.cidade}, ${endereco.uf}</p>
                         </div>
                         <div class="form-group">
-                            <label for="codigoVerificador">Código Verificador:</label>
-                            <input type="text" class="form-control" id="codigoVerificador" name="codigoVerificador">
+                            <label for="subtotal">Subtotal: R$ ${subtotal}</label>
                         </div>
+                        <input type="hidden" name="subtotal" value="${subtotal}">
+                        <c:set var="totalItensComprados" value="0" />
+                        <c:forEach var="itemPedido" items="${itensPedido}">
+                            <c:set var="totalItensComprados" value="${totalItensComprados + itemPedido.quantidadeComprada}" />
+                        </c:forEach>
+                        <input type="hidden" name="totalDeItens" value="${totalItensComprados}">
+
                         <div class="form-group">
-                            <label for="nomeCompleto">Nome Completo:</label>
-                            <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto">
+                            <label for="statusPagamento">Status do Pagamento:</label>
+                            <p class="card-text">${statusPagamento}</p>
                         </div>
+                        <input type="hidden" name="statusPagamento" value="${statusPagamento}">
+
                         <div class="form-group">
-                            <label for="dataVencimento">Data de Vencimento:</label>
-                            <input type="text" class="form-control" id="dataVencimento" name="dataVencimento">
+                            <label for="tipoPagamento">Tipo de Pagamento:</label>
+                            <p class="card-text">${tipoPagamento}</p>
                         </div>
-                        <div class="form-group">
-                            <label for="quantidadeParcelas">Quantidade de Parcelas:</label>
-                            <input type="number" class="form-control" id="quantidadeParcelas" name="quantidadeParcelas">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Finalizar Compra</button>
-                </form>
+                        <input type="hidden" name="tipoPagamento" value="${tipoPagamento}">
+
+                </div>
             </div>
         </div>
     </div>
@@ -155,17 +135,5 @@
 <!-- Bootstrap JS e dependências opcionais -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    // Mostrar ou esconder campos adicionais
-    $(document).ready(function(){
-        $('#pagamento').change(function(){
-            if($(this).val() === 'cartao'){
-                $('#camposCartao').show();
-            }else{
-                $('#camposCartao').hide();
-            }
-        });
-    });
-</script>
 </body>
 </html>

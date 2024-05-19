@@ -317,25 +317,17 @@ public class CarrinhoDAO {
         return sucesso;
     }
 
-    public static boolean excluirCarrinhoPorIdCliente(int idCliente) {
+    public static void excluirCarrinhoPorIdCliente(int idCliente) {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = ConnectionPoolConfig.getConnection();
 
-            // Query SQL para excluir itens do carrinho por idCliente
+
             String sql = "DELETE FROM Carrinho WHERE IDCLIENTE = ?";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, idCliente);
-
-            // Executa a exclusão
-            int rowsAffected = statement.executeUpdate();
-
-            // Verifica se algum item foi excluído
-            if (rowsAffected > 0) {
-                return true; // Itens do carrinho excluídos com sucesso
-            }
 
         } catch (SQLException e) {
             e.printStackTrace(); // Trata a exceção imprimindo o stack trace
@@ -356,10 +348,6 @@ public class CarrinhoDAO {
                 }
             }
         }
-
-        return false;
     }
 }
-
-
 

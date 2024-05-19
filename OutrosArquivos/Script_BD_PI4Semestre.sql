@@ -61,11 +61,36 @@ create table Endereco (
 create table Carrinho (
     IdCarrinho int not null,
     ProdutoId int not null,
-    foreign key (ProdutoID) references Produtos(ProdutoID),
+    foreign key (ProdutoId) references Produtos(ProdutoID),
     IdCliente int,
     foreign key (IdCliente) references Clientes(IdCliente),
     Quantidade int,
     NomeProduto varchar(100),
     Descricao varchar(2000),
     Valor decimal(20, 2)
+);
+
+CREATE TABLE Pedidos (
+    PedidoId INT PRIMARY KEY AUTO_INCREMENT,
+    IdCliente INT NOT NULL,
+    IdEndereco INT NOT NULL,
+    SubTotal VARCHAR(50),
+    QuantidadeDeItens int,
+    TipoPagamento VARCHAR(50),
+    StatusPagamento VARCHAR(50),
+    Frete VARCHAR(50),
+    DataPedido DATE,
+    FOREIGN KEY (IdCliente) REFERENCES Clientes(IdCliente),
+    FOREIGN KEY (IdEndereco) REFERENCES Endereco(IdEndereco)
+);
+
+CREATE TABLE ItemPedido (
+    ItemPedidoId INT PRIMARY KEY,
+    PedidoId INT,
+    ProdutoId INT,
+    Quantidade INT,
+    Valor DECIMAL(10, 2),
+    FOREIGN KEY (PedidoId) REFERENCES Pedidos(PedidoId)
+    foreign key (ProdutoId) references Produtos(ProdutoID),
+
 );

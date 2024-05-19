@@ -1,15 +1,17 @@
 package br.com.adega.Model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Pedido {
+    private int pedidoId;
     private int idCliente;
     private int idEndereco;
     private String subTotal;
     private int quantidadeDeItens;
     private String frete;
-    private Date dataPedido;
+    private LocalDate dataPedido;
     private String tipoPagamento;
     private String statusPagamento;
 
@@ -17,7 +19,8 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(int idCliente, int idEndereco, String subTotal,int quantidadeDeItens, String frete, Date dataPedido, String tipoPagamento, String statusPagamento) {
+    public Pedido(int pedidoId,int idCliente, int idEndereco, String subTotal,int quantidadeDeItens, String frete, LocalDate dataPedido, String tipoPagamento, String statusPagamento) {
+        this.pedidoId = pedidoId;
         this.idCliente = idCliente;
         this.idEndereco = idEndereco;
         this.subTotal = subTotal;
@@ -28,7 +31,9 @@ public class Pedido {
         this.statusPagamento = statusPagamento;
     }
 
+    public int getPedidoId() {return pedidoId;}
 
+    public void setPedidoId(int pedidoId) {this.pedidoId = pedidoId;}
 
     public int getIdCliente() {
         return idCliente;
@@ -50,7 +55,9 @@ public class Pedido {
 
     public void setFrete(String frete) {this.frete = frete;}
 
-    public void setDataPedido(Date dataPedido) {this.dataPedido = dataPedido;}
+    public void setDataPedido(LocalDate dataPedido) {this.dataPedido = dataPedido;}
+
+    public LocalDate getDataPedido() {return dataPedido;}
 
     public int getIdEndereco() {
         return idEndereco;

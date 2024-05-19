@@ -20,21 +20,17 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand" href="/TelaProdutos?clienteLogado=${clienteLogado}">
+        <a class="navbar-brand" href="/home">
             <img src="LOGO1.png" alt="Logo" height="70">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-
-
-        </div>
     </div>
 </nav>
 
 <div class="container mt-4">
-    <h1 class="mb-4">Lista de Pedidos</h1>
+    <h1 class="mb-4">Gerenciar Pedidos</h1>
     <div class="row">
         <div class="col-md-12">
             <table class="table">
@@ -42,9 +38,10 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Data do Pedido</th>
-                    <th scope="col">Qunatidade de itens</th>
+                    <th scope="col">Quantidade de itens</th>
                     <th scope="col">Total</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Id Cliente</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,10 +51,19 @@
                         <td>${pedido.dataPedido}</td>
                         <td>${pedido.quantidadeDeItens}</td>
                         <td>R$ ${pedido.subTotal}</td>
-                        <td>${pedido.statusPagamento}</td>
-                        <td><a href="/detalhesPedido?pedidoId=${pedido.pedidoId}" class="btn btn-primary">Detalhes</a></td>
-                    </tr>
+                        <td>
+                            <select class="form-control" name="status">
+                                <option value="aguardando pagamento" ${pedido.statusPagamento == 'aguardando pagamento' ? 'selected' : ''}>Aguardando Pagamento</option>
+                                <option value="pagamento rejeitado" ${pedido.statusPagamento == 'pagamento rejeitado' ? 'selected' : ''}>Pagamento Rejeitado</option>
+                                <option value="pagamento com sucesso" ${pedido.statusPagamento == 'pagamento com sucesso' ? 'selected' : ''}>Pagamento com Sucesso</option>
+                                <option value="aguardando retirada" ${pedido.statusPagamento == 'aguardando retirada' ? 'selected' : ''}>Aguardando Retirada</option>
+                                <option value="em transito" ${pedido.statusPagamento == 'em transito' ? 'selected' : ''}>Em Trânsito</option>
+                                <option value="entregue" ${pedido.statusPagamento == 'entregue' ? 'selected' : ''}>Entregue</option>
+                            </select>
+                            <td>${pedido.idCliente}</td>
+
                 </c:forEach>
+
                 </tbody>
             </table>
         </div>

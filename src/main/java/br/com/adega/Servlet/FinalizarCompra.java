@@ -1,9 +1,6 @@
 package br.com.adega.Servlet;
 
-import br.com.adega.DAO.CarrinhoDAO;
-import br.com.adega.DAO.ClienteDAO;
-import br.com.adega.DAO.EnderecoDAO;
-import br.com.adega.DAO.PedidoDAO;
+import br.com.adega.DAO.*;
 import br.com.adega.Model.Carrinho;
 import br.com.adega.Model.Endereco;
 import br.com.adega.Model.Pedido;
@@ -25,7 +22,7 @@ public class FinalizarCompra  extends HttpServlet {
         String clienteLogado = request.getParameter("clienteLogado");
         HttpSession session = request.getSession(true);
         List<Carrinho> produtosCarrinho = new ArrayList<>();
-        Date dataAtual = new Date();
+
 
 
         int idCliente = ClienteDAO.buscarIdClienteEmail(clienteLogado);
@@ -35,25 +32,22 @@ public class FinalizarCompra  extends HttpServlet {
 
 
         Pedido pedido =new Pedido();
+
         pedido.setIdCliente(idCliente);
         pedido.setIdEndereco(enderecoPadrao.getIdEndereco());
         pedido.setSubTotal(request.getParameter("subtotal"));
         pedido.setQuantidadeDeItens(Integer.parseInt(request.getParameter("totalDeItens")));
         pedido.setFrete(request.getParameter("frete"));
-        pedido.setDataPedido(dataAtual);
         pedido.setTipoPagamento(request.getParameter("pagamento"));
         pedido.setStatusPagamento("Pendente");
 
-        //int  pedidoId = PedidoDAO.inserirPedido(pedido);
+        int  pedidoId = PedidoDAO.inserirPedido(pedido);
 
-//        List<Integer> idsProdutosCarrinho = new ArrayList<>();
-//        produtosCarrinho.forEach(produtoCarrinho -> idsProdutosCarrinho.add(produtoCarrinho.getProduto().getCodProduto()));
-
-//        boolean sucesso = PedidoDAO.inserirPedido(pedido, idsProdutosCarrinho);
-
-//        if(sucesso)
-//           CarrinhoDAO.excluirCarrinhoPorIdCliente(idCliente);
-
+        if(pedidoId != -1){
+            boolean sucesso = ItemPedidoDAO.inserirItemPedido(produtosCarrinho, pedidoId);
+            if(sucesso){
+                CarrinhoDAO.excluirCarrinhoPorIdCliente(idCliente);
+            }
+        }
     }
 }
-

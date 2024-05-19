@@ -9,6 +9,7 @@ br/com/adega/Servlet/CadastrarEndereco.class
 br/com/adega/Servlet/AlterarCliente.class
 br/com/adega/Servlet/VisualizarProduto.class
 br/com/adega/Servlet/FinalizarCompra.class
+br/com/adega/Servlet/ListarPedidoBackOffice.class
 br/com/adega/Servlet/Home.class
 br/com/adega/Servlet/ListarUsuario.class
 br/com/adega/DAO/ProdutoDAO.class
@@ -16,6 +17,7 @@ br/com/adega/Model/Usuario.class
 br/com/adega/Servlet/AtualizarQuantidade.class
 br/com/adega/Servlet/RemoverProdutoDoCarrinho.class
 br/com/adega/Servlet/TelaDeProdutos.class
+br/com/adega/Servlet/DetalhePedido.class
 br/com/adega/Config/ConnectionPoolConfig.class
 br/com/adega/Model/Pedido.class
 br/com/adega/Servlet/Login.class
@@ -36,7 +38,9 @@ br/com/adega/Servlet/AlterarEndereco.class
 br/com/adega/Servlet/GerenciarImagens.class
 br/com/adega/Servlet/ListarPedidos.class
 br/com/adega/Servlet/SetarImagemPrincipal.class
+br/com/adega/Model/ItemPedido.class
 br/com/adega/Servlet/ExcluirImagem.class
 br/com/adega/Servlet/ListarProdutos.class
 br/com/adega/DAO/CarrinhoDAO.class
 br/com/adega/Model/Carrinho.class
+br/com/adega/DAO/ItemPedidoDAO.class

@@ -18,6 +18,7 @@ public class VisualizarProduto extends HttpServlet {
         HttpSession session = request.getSession();
         String clienteLogado = request.getParameter("clienteLogado");
         int codProduto= Integer.parseInt(request.getParameter("codProduto"));
+        boolean backoffice = Boolean.parseBoolean((request.getParameter("isBackOffice")));
 
         Produto produto = ProdutoDAO.ObterProdutoPorId(codProduto);
 
@@ -28,6 +29,7 @@ public class VisualizarProduto extends HttpServlet {
             request.setAttribute("clienteLogado", clienteLogado);
             request.setAttribute("produto", produto);
             request.setAttribute("imagens", imagens);
+            request.setAttribute( "isBackOffice", backoffice);
 
         }
 
