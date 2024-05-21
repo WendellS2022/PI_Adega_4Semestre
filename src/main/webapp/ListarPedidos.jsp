@@ -27,8 +27,37 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
+ <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <%-- Verifica se o cliente está logado --%>
+                <c:if test="${empty clienteLogado}">
+                    <li class="nav-item">
+                        <form action="/login" method="get">
+                            <a class="nav-link mr-2" href="/login?cliente=true">Login</a>
+                        </form>
 
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/CadastrarCliente">Cadastre-se</a>
+                    </li>
+                </c:if>
 
+                <c:if test="${not empty clienteLogado}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i> ${clienteLogado}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/AlterarCliente?email=${clienteLogado}">Dados pessoais</a>
+                            <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
+                            <a class="dropdown-item" href="/sair?email=${clienteLogado}">Sair</a>
+
+                        </div>
+                    </li>
+                </c:if>
+            </ul>
+        </div>
+</div>
         </div>
     </div>
 </nav>
