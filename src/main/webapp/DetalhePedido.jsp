@@ -101,18 +101,13 @@
                         </div>
                         <input type="hidden" name="frete" value="${frete}">
                         <div class="form-group">
-                            <label for="endereco">Endereço:</label>
-                            <p class="card-text">${endereco.logradouro}, ${endereco.numero}, ${endereco.bairro}, ${endereco.cidade}, ${endereco.uf}</p>
+                            <label for="itemPedido.endereco">Endereço:</label>
+                            <p class="card-text">${itemPedido.endereco.logradouro}, ${itemPedido.endereco.numero}, ${itemPedido.endereco.bairro}, ${itemPedido.endereco.cidade}, ${itemPedido.endereco.uf}</p>
                         </div>
                         <div class="form-group">
                             <label for="subtotal">Subtotal: R$ ${subtotal}</label>
                         </div>
-                        <input type="hidden" name="subtotal" value="${subtotal}">
-                        <c:set var="totalItensComprados" value="0" />
-                        <c:forEach var="itemPedido" items="${itensPedido}">
-                            <c:set var="totalItensComprados" value="${totalItensComprados + itemPedido.quantidadeComprada}" />
-                        </c:forEach>
-                        <input type="hidden" name="totalDeItens" value="${totalItensComprados}">
+
 
                         <div class="form-group">
                             <label for="statusPagamento">Status do Pagamento:</label>

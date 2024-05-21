@@ -228,6 +228,7 @@ public class PedidoDAO {
 
     public static List<Pedido> obterTodosOsPedidos() {
         List<Pedido> pedidos = new ArrayList<>();
+
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -246,8 +247,9 @@ public class PedidoDAO {
 
             // Itera sobre o resultado e adiciona cada pedido à lista de pedidos
             while (resultSet.next()) {
-                // Obtém os dados do pedido do resultado da query
+
                 Pedido pedido = new Pedido();
+                // Obtém os dados do pedido do resultado da query
                 int pedidoId = resultSet.getInt("PedidoId");
                 int idCliente = resultSet.getInt("IdCliente");
                 LocalDate dataPedido = LocalDate.parse(resultSet.getString("DataPedido"));
@@ -295,4 +297,40 @@ public class PedidoDAO {
         return pedidos;
     }
 
+    public static boolean atualizarStatusPedido(int pedidoId, String status) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = ConnectionPoolConfig.getConnection();
+            String sql = "UPDATE Pedidos SET StatusPagamento = ? WHERE PedidoId = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setInt(2, pedidoId);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
+
+
+

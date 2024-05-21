@@ -15,14 +15,14 @@ import java.util.List;
 @WebServlet("/listarPedidosBackOffice")
 public class ListarPedidoBackOffice extends HttpServlet {
 
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-           List<Pedido> pedidos = new ArrayList<>();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Pedido> pedidos = new ArrayList<>();
 
-            pedidos = PedidoDAO.obterTodosOsPedidos();
+        pedidos = PedidoDAO.obterTodosOsPedidos();
 
-            request.setAttribute("pedidos", pedidos);
+        request.setAttribute("pedidos", pedidos);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarPedidosBackOffice.jsp");
-            dispatcher.forward(request, response);
-        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarPedidosBackOffice.jsp");
+        dispatcher.forward(request, response);
     }
+}

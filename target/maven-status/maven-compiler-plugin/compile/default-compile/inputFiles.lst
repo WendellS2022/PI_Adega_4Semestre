@@ -1,6 +1,5 @@
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Config/ConnectionPoolConfig.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/CadastrarUsuario.java
-/Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/ListarPedidoBackoffice.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/FinalizarCompra.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/DetalhePedido.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Model/Endereco.java
@@ -40,6 +39,8 @@
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/Login.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/AlterarUsuario.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/ListarEndereco.java
+/Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/AtualizarStatusPedido.java
+/Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/ListarPedidoBackOffice.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Servlet/CadastrarCliente.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Model/Cliente.java
 /Users/saloma/Downloads/PI_Adega_4Semestre/src/main/java/br/com/adega/Model/Carrinho.java

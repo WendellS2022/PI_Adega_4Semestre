@@ -32,6 +32,7 @@ br/com/adega/Servlet/IndicarEndereco.class
 br/com/adega/Servlet/AlterarUsuario.class
 br/com/adega/Autenticacao/AutenticacaoService.class
 br/com/adega/DAO/EnderecoDAO.class
+br/com/adega/Servlet/AtualizarStatusPedido.class
 br/com/adega/Servlet/CadastrarUsuario.class
 br/com/adega/Servlet/Sair.class
 br/com/adega/Servlet/AlterarEndereco.class
