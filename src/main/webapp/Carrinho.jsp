@@ -166,7 +166,7 @@
                                             <input type="hidden" name="totalItensComprados" value="${totalItensComprados}"> <!-- Campo oculto para enviar o subtotal -->
 <c:choose>
     <c:when test="${empty sessionScope.carrinho}">
-        <button type="submit" class="btn btn-primary btn-block" disabled>Pagamento</button>
+        <button type="submit" class="btn btn-primary btn-block" disabled>Continuar</button>
     </c:when>
     <c:otherwise>
         <button type="submit" class="btn btn-primary btn-block">Pagamento</button>

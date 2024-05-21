@@ -169,7 +169,8 @@ public class PedidoDAO {
             connection = ConnectionPoolConfig.getConnection();
 
             // Prepara a query SQL para selecionar todos os pedidos de um cliente específico
-            String sql = "SELECT * FROM Pedidos WHERE IdCliente = ?";
+            String sql = "SELECT * FROM Pedidos WHERE IdCliente = ? ORDER BY PedidoId DESC";
+
             statement = connection.prepareStatement(sql);
             statement.setInt(1, idCliente);
 

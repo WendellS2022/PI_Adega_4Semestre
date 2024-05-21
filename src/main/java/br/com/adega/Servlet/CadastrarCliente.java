@@ -45,7 +45,8 @@ public class CadastrarCliente extends HttpServlet {
 
 
         String clienteLogado = ClienteDAO.CadastrarCliente(cliente);
-        if(clienteLogado != null){
+        if (clienteLogado != null) {
+            session.getAttribute("carrinho");
 
             request.setAttribute("clienteLogado", clienteLogado);
             request.setAttribute("adicionar", false);
@@ -53,7 +54,7 @@ public class CadastrarCliente extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
             dispatcher.forward(request, response);
 
-        }else{
+        } else {
             request.setAttribute("mensagem", "O email já está sendo utilizado! .");
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarCliente.jsp");
@@ -62,6 +63,7 @@ public class CadastrarCliente extends HttpServlet {
 
 
     }
+
     public String limparCPF(String cpf) {
         cpf = cpf.replaceAll("[^0-9]", "");
         return cpf;

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,14 +15,27 @@
       <input type="email" name="email" placeholder="E-MAIL" required><br> <!-- Alterado para name="email" -->
       <input type="password" name="password" placeholder="SENHA" required><br> <!-- Alterado para name="password" -->
       <button type="submit" class="btn">Entrar</button>
-      <button type="button" class="btn" id="btn-cancelar" onclick="cancelarLogin('${isCliente}')">Cancelar</button>
+    <button type="button" class="btn" id="btn-cancelar" value="${isCliente}" onclick="cancelarLogin()">Cancelar</button>
+<c:choose>
+    <c:when test="${isBackOffice == true}">
+        <div class="nav-item">
+                    <form action="/CadastrarCliente" method="get">
+                          <a href="/CadastrarCliente">Cadastre-se</a>
+                    </form>
+                </div>
+    </c:when>
+    <c:otherwise>
+
+    </c:otherwise>
+</c:choose>
+
     <% String mensagem = request.getParameter("mensagem");
            if (mensagem != null) { %>
               <p><%= mensagem %></p>
         <% } %>
 </form>
 
-<script src="CancelarLogin.js">
+<script src="CancelarLogin.js"></script>
 
 </body>
 </html>
