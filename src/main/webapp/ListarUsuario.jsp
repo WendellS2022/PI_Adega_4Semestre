@@ -14,7 +14,7 @@
 
 
     </nav>
-a
+
     <!-- Cabeçalho e botões de voltar e logout -->
     <header id="cabecalho-site">
         <h1 id="identificacao-site">e-Commerce e-Devs</h1>

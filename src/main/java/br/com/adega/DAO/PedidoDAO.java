@@ -109,11 +109,11 @@ public class PedidoDAO {
                 itemPedido.setFrete(resultSet.getString("Frete"));
 
                 endereco.setCep(resultSet.getString("Cep"));
-                endereco.setLogradouro("Logradouro");
-                endereco.setComplemento("Complemento");
-                endereco.setBairro("Barirro");
-                endereco.setCidade("Cidade");
-                endereco.setUf("Uf");
+                endereco.setLogradouro(resultSet.getString("Logradouro"));
+                endereco.setComplemento(resultSet.getString("Complemento"));
+                endereco.setBairro(resultSet.getString("Bairro"));
+                endereco.setCidade(resultSet.getString("Cidade"));
+                endereco.setUf(resultSet.getString("Uf"));
 
                 itemPedido.setEndereco(endereco);
 

@@ -64,6 +64,11 @@
 
 <div class="container">
     <h1 class="my-4">Produtos Disponíveis</h1>
+     <form action="/TelaProdutos" method="GET">
+                            <input type="text" placeholder="Nome do Produto" id="nome-pesquisa" name="procurar">
+                            <button id="btn-procurar" type="submit">Procurar</button>
+                        </form>
+
     <div class="row">
         <!-- Iterar sobre a lista de produtos -->
         <c:forEach var="produto" items="${produtos}">

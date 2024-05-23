@@ -1,6 +1,9 @@
 package br.com.adega.Servlet;
 
 
+import br.com.adega.DAO.ClienteDAO;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,16 +22,25 @@ public class Sair extends HttpServlet {
 
         String clienteLogado = request.getParameter("email");
         HttpSession session = request.getSession(true);
-        session.setAttribute("clienteLogado", clienteLogado);
-        emailToSessionMap.put(clienteLogado, session);
+        // session.setAttribute("clienteLogado", clienteLogado);
+        // emailToSessionMap.put(clienteLogado, session);
 
-        if (clienteLogado != null && emailToSessionMap.containsKey(clienteLogado)) {
-            session = emailToSessionMap.get(clienteLogado);
+        if (clienteLogado != null) {
+            // session = emailToSessionMap.get(clienteLogado);
+            int verificador = ClienteDAO.buscarIdClienteEmail(clienteLogado);
+
             session.invalidate(); // Invalida a sessão existente
             emailToSessionMap.remove(clienteLogado);
+            clienteLogado = null;
 
-            // Redireciona para a página de login com o parâmetro cliente=true
-            response.sendRedirect(request.getContextPath() + "/TelaProdutos");
+
+            if (verificador > 1)// Redireciona para a página de login com o parâmetro cliente=true
+                response.sendRedirect(request.getContextPath() + "/TelaProdutos");
+            else {
+                request.setAttribute("isBackOffice", true);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+                dispatcher.forward(request, response);
+            }
         }
     }
 }

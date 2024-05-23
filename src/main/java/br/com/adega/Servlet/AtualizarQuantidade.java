@@ -4,6 +4,7 @@ import br.com.adega.DAO.CarrinhoDAO;
 import br.com.adega.DAO.ClienteDAO;
 import br.com.adega.Model.Carrinho;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +23,10 @@ public class AtualizarQuantidade extends HttpServlet {
         Carrinho produtoCarrinho = new Carrinho();
         List<Carrinho> produtosCarrinho = (List<Carrinho>) session.getAttribute("carrinho");
         String produtoId = request.getParameter("produtoId");
-        String acao = request.getParameter("action"); // ou request.getParameter("aumentar")
+        String acao = request.getParameter("buttonClicked");
         String clienteLogado = (String) session.getAttribute("clienteLogado");
+        String cep = request.getParameter("cep");
+
 
         try {
             if (clienteLogado != null && clienteLogado != "") {
@@ -45,7 +48,9 @@ public class AtualizarQuantidade extends HttpServlet {
 
                     session.setAttribute("clienteLogado", clienteLogado);
                     session.setAttribute("carrinho", produtosCarrinho);
-                    response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/Carrinho.jsp");
+                    dispatcher.forward(request, response);
+
 
                 }
 
@@ -62,7 +67,9 @@ public class AtualizarQuantidade extends HttpServlet {
                     }
                     session.setAttribute("clienteLogado", clienteLogado);
                     session.setAttribute("carrinho", produtosCarrinho);
-                    response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/Carrinho.jsp");
+                   dispatcher.forward(request, response);
+
 
                 } else if (acao.equals("increase")) {
 
@@ -74,14 +81,18 @@ public class AtualizarQuantidade extends HttpServlet {
                             break;
                         }
                     }
+                    session.setAttribute("CEP", cep);
                     session.setAttribute("clienteLogado", clienteLogado);
                     session.setAttribute("carrinho", produtosCarrinho);
-                    response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/Carrinho.jsp");
+                    dispatcher.forward(request, response);
+
                 }
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
             // Tratar a exceção adequadamente
         }
+
     }
 }

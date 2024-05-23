@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+              <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -49,6 +49,7 @@
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                                 <a class="dropdown-item" href="/AlterarCliente?email=${clienteLogado}">Dados pessoais</a>
                                                 <a class="dropdown-item" href="/Enderecos?email=${clienteLogado}">Endereços</a>
+                                                <a class="dropdown-item" href="/listarPedidos?email=${clienteLogado}">Meus pedidos</a>
 
 
 
@@ -152,37 +153,71 @@
                               <c:set var="subtotal" value="${subtotal + (produtoCarrinho.produto.vlrVendaProduto * produtoCarrinho.quantidadeComprada)}" />
                           </c:forEach>
                           <p class="card-text">Subtotal: R$ ${subtotal}</p> <!-- Adicione esta linha para exibir o subtotal -->
-                          <div class="form-group">
-                             <form action="/pagamento" method="GET"> <!-- Formulário para enviar frete selecionado -->
-                                        <div class="form-group">
-                                            <label for="frete">Selecionar Frete:</label>
-                                            <select class="form-control" id="frete" name="frete">
-                                                <option value="Entrega Normal - R$ 15,00">Entrega Normal - R$ 15,00</option>
-                                                <option value="Entrega Expressa - R$ 30,00">Entrega Expressa - R$ 30,00</option>
-                                                <option value="Entrega Urgente - R$ 150,00">Entrega Urgente - R$ 150,00</option>
-                                            </select>
-                                        </div>
-                                            <input type="hidden" name="subtotal" value="${subtotal}"> <!-- Campo oculto para enviar o subtotal -->
-                                            <input type="hidden" name="totalItensComprados" value="${totalItensComprados}"> <!-- Campo oculto para enviar o subtotal -->
-<c:choose>
-    <c:when test="${empty sessionScope.carrinho}">
-        <button type="submit" class="btn btn-primary btn-block" disabled>Continuar</button>
-    </c:when>
-    <c:otherwise>
-        <button type="submit" class="btn btn-primary btn-block">Pagamento</button>
-    </c:otherwise>
-</c:choose>
-                                    </form>
-                      </div>
-                  </div>
 
-        </div>
-    </div>
-</div>
+                           <form action="/pagamento" method="GET"> <!-- Formulário para enviar frete selecionado -->
+                               <label for="cep" class="titulo-campo">CEP:</label>
+                               <div class="input-group">
+                                   <input type="text" name="cep" id="cep" class="form-control" placeholder="CEP" maxlength="8">
+                               </div>
 
+                               <div class="form-group">
+                                   <label for="frete">Selecionar Frete:</label>
+                                   <select class="form-control" id="frete" name="frete">
+                                       <option value="">Selecione...</option>
+                                       <option value="Entrega Normal - R$ 15,00">Entrega Normal - R$ 15,00</option>
+                                       <option value="Entrega Expressa - R$ 30,00">Entrega Expressa - R$ 30,00</option>
+                                       <option value="Entrega Urgente - R$ 150,00">Entrega Urgente - R$ 150,00</option>
+                                   </select>
+                               </div>
+
+                               <input type="hidden" name="subtotal" value="${subtotal}">
+                               <input type="hidden" name="totalItensComprados" value="${totalItensComprados}">
+
+                               <c:choose>
+                                   <c:when test="${empty sessionScope.carrinho}">
+                                       <button type="submit" class="btn btn-primary btn-block" disabled>Continuar</button>
+                                   </c:when>
+                                   <c:otherwise>
+                                       <button type="submit" class="btn btn-primary btn-block">Pagamento</button>
+                                   </c:otherwise>
+                               </c:choose>
+                           </form>
 <!-- Bootstrap JS e dependências opcionais -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        // Ao inserir um valor no campo de CEP
+        $('#cep').on('input', function() {
+            var cep = $(this).val();
+
+            // Verificar se o CEP tem 8 dígitos
+            if (cep.length === 8) {
+                // Habilitar o dropdown de frete
+                $('#frete').prop('disabled', false);
+            } else {
+                // Desabilitar o dropdown de frete e o botão de continuar
+                $('#frete').prop('disabled', true);
+                $('button[type="submit"]').prop('disabled', true);
+            }
+        });
+
+        // Ao selecionar uma opção de frete
+        $('#frete').change(function() {
+            // Verificar se uma opção foi selecionada
+            if ($(this).val() !== '') {
+                // Habilitar o botão de continuar
+                $('button[type="submit"]').prop('disabled', false);
+            } else {
+                // Desabilitar o botão de continuar
+                $('button[type="submit"]').prop('disabled', true);
+            }
+        });
+    });
+</script>
+
 </body>
 
 

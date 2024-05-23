@@ -32,15 +32,23 @@ public class Login extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Usuario> usuarios;
-
+        String mensagem = null;
+        boolean reload = Boolean.parseBoolean(request.getParameter("reload"));
         boolean isCliente = Boolean.parseBoolean(request.getParameter("cliente"));
 
         if (isCliente) {
+            if (reload) {
+                mensagem = "Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.";
+                request.setAttribute("mensagem", mensagem);
+                request.setAttribute("isCliente", isCliente);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
+                dispatcher.forward(request, response);
+
+                return;
+            }
 
             request.setAttribute("isCliente", isCliente);
-
             RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
-
             dispatcher.forward(request, response);
 
             return;
@@ -52,23 +60,15 @@ public class Login extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/cadastrar");
             dispatcher.forward(request, response);
         } else {
-
+            request.setAttribute("isBackOffice", true);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/TelaLogin.jsp");
             dispatcher.forward(request, response);
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String clienteLogado = request.getParameter("clienteLogado");
-//        HttpSession session = request.getSession(true);
-//        session.setAttribute("clienteLogado", clienteLogado);
-//        emailToSessionMap.put(clienteLogado, session);
-//
-//        if (clienteLogado != null && !clienteLogado.trim().isEmpty() && emailToSessionMap.containsKey(clienteLogado)) {
-//            request.setAttribute("mensagem", "Você já está logado. Por favor, faça logout antes de tentar novamente!");
-//            return;
-//        }
-
+        HttpSession session = request.getSession();
+        String usuarioLogado = (String) session.getAttribute("usuarioLogado");
 
         String email = request.getParameter("email");
         String senha = request.getParameter("password");
@@ -78,14 +78,14 @@ public class Login extends HttpServlet {
             if (isCliente) {
                 autenticarCliente(email, senha, request, response);
             } else {
-                autenticarUsuario(email, senha, request, response);
+                autenticarUsuario(email, senha, usuarioLogado, request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("mensagem", "Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
+            String mensagem = "Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.";
+            enviarMensagemErro(request, response, mensagem);
         }
     }
-
 
     private void autenticarCliente(String email, String senha, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         AutenticacaoService autenticacaoService = new AutenticacaoService();
@@ -103,7 +103,7 @@ public class Login extends HttpServlet {
 
             int idCliente = ClienteDAO.buscarIdClienteEmail((String) session.getAttribute("clienteLogado"));
 
-            if(produtosCarrinho != null) {
+            if (produtosCarrinho != null) {
                 boolean login = true;
                 CarrinhoDAO.inserirProdutosCarrinho(produtosCarrinho, idCliente, login);
 
@@ -112,40 +112,54 @@ public class Login extends HttpServlet {
                 session.setAttribute("carrinho", produtosCarrinho);
             }
 
-            response.sendRedirect(request.getContextPath() + "/TelaProdutos?clienteLogado=" + email);
+            if (!response.isCommitted()) {
+                response.sendRedirect(request.getContextPath() + "/TelaProdutos?clienteLogado=" + email);
+            }
         } else {
-            request.setAttribute("mensagem", "Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
+            enviarMensagemErro(request, response, "Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
         }
     }
 
-    private void autenticarUsuario(String email, String senha, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void autenticarUsuario(String email, String senha, String usuarioLogado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         AutenticacaoService autenticacaoService = new AutenticacaoService();
         Usuario autenticacaoUsuario = autenticacaoService.autenticarUsuario(email, senha);
 
-        if (autenticacaoUsuario.getUsuarioId() > 0 && autenticacaoUsuario.isSituacao()) {
-            if (emailToSessionMap.containsKey(email)) {
-                request.setAttribute("mensagem", "Você já está logado. Por favor, faça logout antes de tentar novamente.");
-                return;
-            }
+        if (usuarioLogado != null) {
+            enviarMensagemErro(request, response, "Você já está logado. Por favor, faça logout antes de tentar novamente.");
+            return;
+        }
 
-            HttpSession session = request.getSession(true);
-            session.setAttribute("usuarioLogado", email);
-            emailToSessionMap.put(email, session);
-            request.setAttribute("grupo", autenticacaoUsuario.getGrupo());
+        HttpSession session = request.getSession(true);
+        session.setAttribute("usuarioLogado", email);
+        emailToSessionMap.put(email, session);
+        request.setAttribute("grupo", autenticacaoUsuario.getGrupo());
 
+        if (!response.isCommitted()) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("Home.jsp");
             dispatcher.forward(request, response);
         } else {
-            request.setAttribute("mensagem", "Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
+            enviarMensagemErro(request, response, "Credenciais inválidas. Por favor, verifique seu e-mail e senha e tente novamente.");
+        }
+
+    }
+
+    private void enviarMensagemErro(HttpServletRequest request, HttpServletResponse response, String mensagem) throws ServletException, IOException {
+        if (!response.isCommitted()) {
+            request.setAttribute("mensagem", mensagem);
+            forwardToLoginPage(request, response);
         }
     }
 
-    private void enviarMensagemErro(HttpServletResponse response, String mensagem) throws IOException {
-        String mensagemEncoded = URLEncoder.encode(mensagem, StandardCharsets.UTF_8.toString());
-        String redirectURL = "TelaLogin.jsp?mensagem=" + mensagemEncoded;
-        response.sendRedirect(redirectURL);
+    private void forwardToLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        boolean isCliente = Boolean.parseBoolean(request.getParameter("clienteLogado"));
+        if (!response.isCommitted()) {
+            if (isCliente) {
+                response.sendRedirect(request.getContextPath() + "/login?cliente=true&reload=true");
+            } else {
+                request.setAttribute("isBackOffice", true);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("TelaLogin.jsp");
+                dispatcher.forward(request, response);
+            }
+        }
     }
-
 }
-
-

@@ -40,11 +40,22 @@
 
                     <label for="cep" class="titulo-campo">CEP:</label>
                     <div class="input-group">
+
+                                            <c:choose>
+                        <c:when test="${empty cep}">
                         <input type="text" name="cep" id="cep" class="form-control" placeholder="CEP" maxlength="8">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" id="btn-buscar-cep">Buscar</button>
-                        </div>
-                    </div>
+                        </c:when>
+                        <c:otherwise>
+
+                                <input type="text" name="cep" id="cep" class="form-control" placeholder="CEP" maxlength="8"
+                                       value="${not empty cep ? cep : ''}">
+
+                        </c:otherwise>
+                    </c:choose>
+                    <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="btn-buscar-cep">Buscar</button>
+                                            </div>
+ </div>
 
                     <div class="form-group">
                         <label for="logradouro" class="titulo-campo">Logradouro:</label>
@@ -93,8 +104,5 @@
 <script src="APIViaCEP.js"></script>
 
 </body>
-<<<<<<< HEAD
 
-=======
->>>>>>> 0acb9d860622c37b2a65b7f1394e304e7058879a
 </html>

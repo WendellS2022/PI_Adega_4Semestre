@@ -23,8 +23,15 @@ public class TelaPagamento extends HttpServlet {
         HttpSession session = request.getSession(true);
         List<Carrinho> produtosCarrinho = new ArrayList<>();
         Endereco enderecoPadrao = new Endereco();
+        String cep = request.getParameter("cep");
 
         String clienteLogado = (String) session.getAttribute("clienteLogado");
+
+        if(cep!= null){
+
+            session.setAttribute("cep", cep);
+
+        }
 
         if (clienteLogado == null || clienteLogado.isEmpty()) {
             // Se o cliente não estiver logado, redirecione para a página de login
