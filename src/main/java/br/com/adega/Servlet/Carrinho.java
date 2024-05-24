@@ -5,6 +5,7 @@ import br.com.adega.DAO.ClienteDAO;
 import br.com.adega.DAO.ProdutoDAO;
 import br.com.adega.Model.Produto;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -60,7 +61,8 @@ public class Carrinho extends HttpServlet {
 
             session.setAttribute("carrinho", produtosCarrinho);
 
-            response.sendRedirect(request.getContextPath() + "/Carrinho.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/Carrinho.jsp");
+            dispatcher.forward(request, response);
         }
 
     }

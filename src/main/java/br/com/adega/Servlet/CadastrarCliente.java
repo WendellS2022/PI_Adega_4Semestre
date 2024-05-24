@@ -52,19 +52,18 @@ public class CadastrarCliente extends HttpServlet {
             request.setAttribute("adicionar", false);
 
             String cep = (String) session.getAttribute("cep");
-            if(cep != null || !cep.isEmpty()){
+            if (cep != null) {
                 request.setAttribute("cep", cep);
             }
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
-            dispatcher.forward(request, response);
-
         } else {
             request.setAttribute("mensagem", "O email já está sendo utilizado! .");
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarCliente.jsp");
             dispatcher.forward(request, response);
         }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/CadastrarEndereco.jsp");
+        dispatcher.forward(request, response);
 
 
     }

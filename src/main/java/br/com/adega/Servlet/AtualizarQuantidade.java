@@ -23,7 +23,7 @@ public class AtualizarQuantidade extends HttpServlet {
         Carrinho produtoCarrinho = new Carrinho();
         List<Carrinho> produtosCarrinho = (List<Carrinho>) session.getAttribute("carrinho");
         String produtoId = request.getParameter("produtoId");
-        String acao = request.getParameter("buttonClicked");
+        String acao = request.getParameter("action");
         String clienteLogado = (String) session.getAttribute("clienteLogado");
         String cep = request.getParameter("cep");
 

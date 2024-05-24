@@ -25,7 +25,7 @@ Situacao bit
 create table Imagens(
 ImagemID int primary key auto_increment,
 ProdutoId int not null,
-foreign key (ProdutoId) references Produtos(ProdutoID),
+FOREIGN KEY (ProdutoId) REFERENCES Produtos(ProdutoID) ON DELETE CASCADE,
 Diretorio varchar(100),
 Nome varchar(100),
 Qualificacao bit,

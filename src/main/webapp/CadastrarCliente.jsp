@@ -34,7 +34,7 @@
 
 <div class="container mt-5">
     <h1 class="my-4 text-center" >Cadastre-se</h1>
-       <div id="mensagem-erro" style="color: red;"></div>
+       <div class="my-4 text-center" id="mensagem-erro" style="color: red;"></div>
                 <%
                     String mensagem = (String) request.getAttribute("mensagem");
                     if (mensagem != null) {

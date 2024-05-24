@@ -143,7 +143,7 @@ public class CarrinhoDAO {
         List<Carrinho> produtosCarrinhoDaBase = obterProdutosCarrinhoPorIdCliente(idCliente);
         List<Carrinho> produtosNaoEncontrados = new ArrayList<>();
 
-        for (Iterator<Carrinho> iterator = produtosCarrinho.iterator(); iterator.hasNext();) {
+        for (Iterator<Carrinho> iterator = produtosCarrinho.iterator(); iterator.hasNext(); ) {
             Carrinho produtoASerVerificado = iterator.next();
 
             boolean encontrado = false;
@@ -324,10 +324,12 @@ public class CarrinhoDAO {
         try {
             connection = ConnectionPoolConfig.getConnection();
 
-
             String sql = "DELETE FROM Carrinho WHERE IDCLIENTE = ?";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, idCliente);
+
+            // Executa a operação de exclusão
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace(); // Trata a exceção imprimindo o stack trace
@@ -350,5 +352,6 @@ public class CarrinhoDAO {
         }
     }
 }
+
 
 

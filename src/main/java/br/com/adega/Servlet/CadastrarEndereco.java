@@ -84,7 +84,7 @@ public class CadastrarEndereco extends HttpServlet {
 
             request.setAttribute("isCliente", true);
 
-            response.sendRedirect(request.getContextPath() + "/TelaProdutos?clienteLogado=" + emailCliente);
+            response.sendRedirect(request.getContextPath() + "/login?cliente=true");
 
         } else {
             // Se o ID do cliente não foi encontrado, redirecione para uma página de erro ou trate de outra forma

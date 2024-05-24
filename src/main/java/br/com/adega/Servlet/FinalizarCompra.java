@@ -48,6 +48,8 @@ public class FinalizarCompra  extends HttpServlet {
             boolean sucesso = ItemPedidoDAO.inserirItemPedido(produtosCarrinho, pedidoId);
             if(sucesso){
               CarrinhoDAO.excluirCarrinhoPorIdCliente(idCliente);
+              session.removeAttribute("carrinho");
+              session.removeAttribute("cep");
             }
         }
         response.sendRedirect(request.getContextPath() + "/listarPedidos");
