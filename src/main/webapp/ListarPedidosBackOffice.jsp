@@ -33,41 +33,6 @@
     <h1 class="mb-4">Gerenciar Pedidos</h1>
     <div class="row">
         <div class="col-md-12">
-<<<<<<< HEAD
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Data do Pedido</th>
-                    <th scope="col">Quantidade de itens</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Id Cliente</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${pedidos}" var="pedido">
-                    <tr>
-                        <td>${pedido.pedidoId}</td>
-                        <td>${pedido.dataPedido}</td>
-                        <td>${pedido.quantidadeDeItens}</td>
-                        <td>R$ ${pedido.subTotal}</td>
-                        <td>
-                            <select class="form-control" name="status">
-                                <option value="aguardando pagamento" ${pedido.statusPagamento == 'aguardando pagamento' ? 'selected' : ''}>Aguardando Pagamento</option>
-                                <option value="pagamento rejeitado" ${pedido.statusPagamento == 'pagamento rejeitado' ? 'selected' : ''}>Pagamento Rejeitado</option>
-                                <option value="pagamento com sucesso" ${pedido.statusPagamento == 'pagamento com sucesso' ? 'selected' : ''}>Pagamento com Sucesso</option>
-                                <option value="aguardando retirada" ${pedido.statusPagamento == 'aguardando retirada' ? 'selected' : ''}>Aguardando Retirada</option>
-                                <option value="em transito" ${pedido.statusPagamento == 'em transito' ? 'selected' : ''}>Em Trânsito</option>
-                                <option value="entregue" ${pedido.statusPagamento == 'entregue' ? 'selected' : ''}>Entregue</option>
-                            </select>
-                            <td>${pedido.idCliente}</td>
-
-                </c:forEach>
-
-                </tbody>
-            </table>
-=======
           <table class="table">
               <thead>
                   <tr>
@@ -101,7 +66,6 @@
                   </c:forEach>
               </tbody>
           </table>
->>>>>>> 8022c751d65ca0472063393b1481e9ad09980b78
         </div>
     </div>
 </div>
@@ -109,9 +73,6 @@
 <!-- Bootstrap JS e dependências opcionais -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<<<<<<< HEAD
-=======
 <script src="ListarPedidosBackOffice.js"></script>
->>>>>>> 8022c751d65ca0472063393b1481e9ad09980b78
 </body>
 </html>

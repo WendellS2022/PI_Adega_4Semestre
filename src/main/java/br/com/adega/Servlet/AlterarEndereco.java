@@ -40,6 +40,9 @@ public class AlterarEndereco extends HttpServlet {
 
 
         if (idCliente != -1) {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+
             // Obtém os parâmetros do formulário
             String cep = request.getParameter("cep");
             String logradouro = request.getParameter("logradouro");

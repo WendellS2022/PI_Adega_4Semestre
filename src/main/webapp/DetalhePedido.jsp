@@ -101,11 +101,11 @@
                         </div>
                         <input type="hidden" name="frete" value="${frete}">
                         <div class="form-group">
-                            <label for="itemPedido.endereco">Endereço:</label>
-                            <p class="card-text">${itemPedido.endereco.logradouro}, ${itemPedido.endereco.numero}, ${itemPedido.endereco.bairro}, ${itemPedido.endereco.cidade}, ${itemPedido.endereco.uf}</p>
+                            <label for="endereco">Endereço:</label>
+                            <p class="card-text">${endereco.logradouro}, ${endereco.numero}, ${endereco.bairro}, ${endereco.cidade}, ${endereco.uf}</p>
                         </div>
                         <div class="form-group">
-                            <label for="subtotal">Subtotal: R$ ${subtotal}</label>
+                            <label for="subTotal">Subtotal: R$ ${subTotal}</label>
                         </div>
 
 

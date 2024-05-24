@@ -44,6 +44,8 @@ public class CadastrarEndereco extends HttpServlet {
 
         if (idCliente != -1) {
             // Obtém os parâmetros do formulário
+            request.setCharacterEncoding("UTF-8");
+
             String cep = request.getParameter("cep");
             String logradouro = request.getParameter("logradouro");
             String numero = request.getParameter("numero");

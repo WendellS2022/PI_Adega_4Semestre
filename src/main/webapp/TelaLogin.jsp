@@ -18,21 +18,33 @@
     <button type="button" class="btn" id="btn-cancelar" value="${isCliente}" onclick="cancelarLogin()">Cancelar</button>
 <c:choose>
     <c:when test="${isBackOffice == true}">
-        <div class="nav-item">
-                    <form action="/CadastrarCliente" method="get">
-                          <a href="/CadastrarCliente">Cadastre-se</a>
-                    </form>
-                </div>
+     <%          String mensagem = (String) request.getAttribute("mensagem");
+                                        if (mensagem != null) {
+                                        %>
+                                            <p style="color:red;"><%= mensagem %></p>
+                                        <%
+                                        }
+                                        %>
+                        </form>
+                    </div>
     </c:when>
     <c:otherwise>
-
+<div class="nav-item">
+                        <form action="/CadastrarCliente" method="get">
+                              <a href="/CadastrarCliente">Cadastre-se</a>
+                              <%          String mensagem = (String) request.getAttribute("mensagem");
+                                        if (mensagem != null) {
+                                        %>
+                                            <p style="color:red;"><%= mensagem %></p>
+                                        <%
+                                        }
+                                        %>
+                        </form>
+                    </div>
     </c:otherwise>
 </c:choose>
 
-    <% String mensagem = request.getParameter("mensagem");
-           if (mensagem != null) { %>
-              <p><%= mensagem %></p>
-        <% } %>
+
 </form>
 
 <script src="CancelarLogin.js"></script>
