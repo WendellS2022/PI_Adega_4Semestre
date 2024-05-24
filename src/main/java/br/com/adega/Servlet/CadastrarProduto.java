@@ -25,7 +25,7 @@ public class CadastrarProduto extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String codProduto = request.getParameter("id");
+        String codProduto = request.getParameter("codProduto");
 
         Produto produto = new Produto();
         try {
@@ -54,6 +54,7 @@ public class CadastrarProduto extends HttpServlet {
                 produtoId = ProdutoDAO.AdicionarProdutoRetornandoCodigo(produto);
 
                 if (produtoId != 0) {
+                    produto.setCodProduto(produtoId);
                     request.setAttribute("mensagem", "Produto adicionado com sucesso!");
                     request.setAttribute("produto", produto);
 

@@ -102,7 +102,7 @@ public class PedidoDAO {
                 Endereco endereco = new Endereco();
 
                 itemPedido.setPedidoId(pedidoId);
-                itemPedido.setSubTotal(resultSet.getBigDecimal("SubTotal"));
+                itemPedido.setSubTotal(String.valueOf(resultSet.getBigDecimal("SubTotal")));
                 itemPedido.setQuantidadeComprada(resultSet.getInt("QuantidadeDeItens"));
                 itemPedido.setTipoPagamento(resultSet.getString("TipoPagamento"));
                 itemPedido.setStatusPagamento(resultSet.getString("StatusPagamento"));
@@ -186,10 +186,12 @@ public class PedidoDAO {
                 LocalDate dataPedido = LocalDate.parse(resultSet.getString("DataPedido"));
                 int quantidadeDeItens = resultSet.getInt("QuantidadeDeItens");
                 BigDecimal subtotal = resultSet.getBigDecimal("SubTotal");
+                String frete = resultSet.getString("frete");
                 String statusPagamento = resultSet.getString("StatusPagamento");
 
                 pedido.setPedidoId(pedidoId);
                 pedido.setDataPedido(dataPedido);
+                pedido.setFrete(frete);
                 pedido.setQuantidadeDeItens(quantidadeDeItens);
                 pedido.setSubTotal(String.valueOf(subtotal));
                 pedido.setStatusPagamento(statusPagamento);
@@ -239,7 +241,7 @@ public class PedidoDAO {
             connection = ConnectionPoolConfig.getConnection();
 
             // Prepara a query SQL para selecionar todos os pedidos de um cliente específico
-            String sql = "SELECT * FROM Pedidos";
+            String sql = "SELECT * FROM Pedidos ORDER BY PedidoId DESC";
             statement = connection.prepareStatement(sql);
 
 

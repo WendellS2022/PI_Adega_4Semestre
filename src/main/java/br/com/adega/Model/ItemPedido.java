@@ -10,7 +10,7 @@ public class ItemPedido {
     private int quantidadeComprada;
     private String frete;
     private Endereco endereco;
-    private BigDecimal subTotal;
+    private String subTotal;
     private String statusPagamento;
     private String tipoPagamento;
     private String descricaoProduto;
@@ -18,7 +18,7 @@ public class ItemPedido {
     public ItemPedido() {
     }
 
-    public ItemPedido(int pedidoId, String produtoId, String nomeProduto, BigDecimal preco, int quantidadeComprada, String frete, Endereco endereco, BigDecimal subTotal, String statusPagamento, String tipoPagamento, String descricaoProduto) {
+    public ItemPedido(int pedidoId, String produtoId, String nomeProduto, BigDecimal preco, int quantidadeComprada, String frete, Endereco endereco, String subTotal, String statusPagamento, String tipoPagamento, String descricaoProduto) {
         this.pedidoId = pedidoId;
         this.produtoId = produtoId;
         this.nomeProduto = nomeProduto;
@@ -61,9 +61,9 @@ public class ItemPedido {
 
     public void setEndereco(Endereco endereco) {this.endereco = endereco;}
 
-    public BigDecimal getSubTotal() {return subTotal;}
+    public String getSubTotal() {return subTotal;}
 
-    public void setSubTotal(BigDecimal subTotal) {this.subTotal = subTotal;}
+    public void setSubTotal(String subTotal) {this.subTotal = subTotal;}
 
     public String getStatusPagamento() {return statusPagamento;}
 
